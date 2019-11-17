@@ -5,7 +5,8 @@
 #define ADC1_NUM_CHANNELS   1
 #define ADC1_BUF_DEPTH      1
 
-
+int znach = 1;
+int cnt = 0;
 
 static const SerialConfig sdcfg = {
     .speed  = 9600,
@@ -35,6 +36,10 @@ static void adccallback(ADCDriver *adcp, adcsample_t *buffer, size_t n)
   (void)buffer;
   (void)n;
 
+  adcsample_t result = adc_buffer[0];
+  //result = 65529;
+  znach = (int16_t) result;
+  cnt++;
 
 
 }
@@ -44,6 +49,8 @@ static void adcerrorcallback(ADCDriver *adcp, adcerror_t err) {
 
   (void)adcp;
   (void)err;
+
+
 }
 
 static const ADCConversionGroup adcgrpcfg1 = {
@@ -84,10 +91,8 @@ int main(void)
     while (true)
     {
 
-    adcsample_t result = adc_buffer[1];
-    //result = 65529;
-    int znach = (int16_t) result;
-    chprintf(((BaseSequentialStream *)&SD2), "Znach: %d\n\r", znach );
+
+    chprintf(((BaseSequentialStream *)&SD2), "Znach: %d\n\r cnt: %d \r", znach, cnt );
     chThdSleepMilliseconds(100);
     }
 }
