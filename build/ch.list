@@ -1,0 +1,4916 @@
+
+build/ch.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+080001c0 <Reset_Handler>:
+ 80001c0:	b672      	cpsid	i
+ 80001c2:	4826      	ldr	r0, [pc, #152]	; (800025c <endfiniloop+0x6>)
+ 80001c4:	f380 8809 	msr	PSP, r0
+ 80001c8:	4825      	ldr	r0, [pc, #148]	; (8000260 <endfiniloop+0xa>)
+ 80001ca:	f64e 5108 	movw	r1, #60680	; 0xed08
+ 80001ce:	f2ce 0100 	movt	r1, #57344	; 0xe000
+ 80001d2:	6008      	str	r0, [r1, #0]
+ 80001d4:	2002      	movs	r0, #2
+ 80001d6:	f380 8814 	msr	CONTROL, r0
+ 80001da:	f3bf 8f6f 	isb	sy
+ 80001de:	f000 febf 	bl	8000f60 <__core_init>
+ 80001e2:	f001 fc05 	bl	80019f0 <__early_init>
+ 80001e6:	f04f 3055 	mov.w	r0, #1431655765	; 0x55555555
+ 80001ea:	491e      	ldr	r1, [pc, #120]	; (8000264 <endfiniloop+0xe>)
+ 80001ec:	4a1e      	ldr	r2, [pc, #120]	; (8000268 <endfiniloop+0x12>)
+
+080001ee <msloop>:
+ 80001ee:	4291      	cmp	r1, r2
+ 80001f0:	bf3c      	itt	cc
+ 80001f2:	f841 0b04 	strcc.w	r0, [r1], #4
+ 80001f6:	e7fa      	bcc.n	80001ee <msloop>
+ 80001f8:	491c      	ldr	r1, [pc, #112]	; (800026c <endfiniloop+0x16>)
+ 80001fa:	4a18      	ldr	r2, [pc, #96]	; (800025c <endfiniloop+0x6>)
+
+080001fc <psloop>:
+ 80001fc:	4291      	cmp	r1, r2
+ 80001fe:	bf3c      	itt	cc
+ 8000200:	f841 0b04 	strcc.w	r0, [r1], #4
+ 8000204:	e7fa      	bcc.n	80001fc <psloop>
+ 8000206:	491a      	ldr	r1, [pc, #104]	; (8000270 <endfiniloop+0x1a>)
+ 8000208:	4a1a      	ldr	r2, [pc, #104]	; (8000274 <endfiniloop+0x1e>)
+ 800020a:	4b1b      	ldr	r3, [pc, #108]	; (8000278 <endfiniloop+0x22>)
+
+0800020c <dloop>:
+ 800020c:	429a      	cmp	r2, r3
+ 800020e:	bf3e      	ittt	cc
+ 8000210:	f851 0b04 	ldrcc.w	r0, [r1], #4
+ 8000214:	f842 0b04 	strcc.w	r0, [r2], #4
+ 8000218:	e7f8      	bcc.n	800020c <dloop>
+ 800021a:	2000      	movs	r0, #0
+ 800021c:	4917      	ldr	r1, [pc, #92]	; (800027c <endfiniloop+0x26>)
+ 800021e:	4a18      	ldr	r2, [pc, #96]	; (8000280 <endfiniloop+0x2a>)
+
+08000220 <bloop>:
+ 8000220:	4291      	cmp	r1, r2
+ 8000222:	bf3c      	itt	cc
+ 8000224:	f841 0b04 	strcc.w	r0, [r1], #4
+ 8000228:	e7fa      	bcc.n	8000220 <bloop>
+ 800022a:	f000 fe59 	bl	8000ee0 <__init_ram_areas>
+ 800022e:	f000 fe8f 	bl	8000f50 <__late_init>
+ 8000232:	4c14      	ldr	r4, [pc, #80]	; (8000284 <endfiniloop+0x2e>)
+ 8000234:	4d14      	ldr	r5, [pc, #80]	; (8000288 <endfiniloop+0x32>)
+
+08000236 <initloop>:
+ 8000236:	42ac      	cmp	r4, r5
+ 8000238:	da03      	bge.n	8000242 <endinitloop>
+ 800023a:	f854 1b04 	ldr.w	r1, [r4], #4
+ 800023e:	4788      	blx	r1
+ 8000240:	e7f9      	b.n	8000236 <initloop>
+
+08000242 <endinitloop>:
+ 8000242:	f000 fffd 	bl	8001240 <main>
+ 8000246:	4c11      	ldr	r4, [pc, #68]	; (800028c <endfiniloop+0x36>)
+ 8000248:	4d11      	ldr	r5, [pc, #68]	; (8000290 <endfiniloop+0x3a>)
+
+0800024a <finiloop>:
+ 800024a:	42ac      	cmp	r4, r5
+ 800024c:	da03      	bge.n	8000256 <endfiniloop>
+ 800024e:	f854 1b04 	ldr.w	r1, [r4], #4
+ 8000252:	4788      	blx	r1
+ 8000254:	e7f9      	b.n	800024a <finiloop>
+
+08000256 <endfiniloop>:
+ 8000256:	f000 be73 	b.w	8000f40 <__default_exit>
+ 800025a:	0000      	.short	0x0000
+ 800025c:	20000800 	.word	0x20000800
+ 8000260:	08000000 	.word	0x08000000
+ 8000264:	20000000 	.word	0x20000000
+ 8000268:	20000400 	.word	0x20000400
+ 800026c:	20000400 	.word	0x20000400
+ 8000270:	0800213c 	.word	0x0800213c
+ 8000274:	20000800 	.word	0x20000800
+ 8000278:	20000800 	.word	0x20000800
+ 800027c:	20000800 	.word	0x20000800
+ 8000280:	20000ac0 	.word	0x20000ac0
+ 8000284:	080001c0 	.word	0x080001c0
+ 8000288:	080001c0 	.word	0x080001c0
+ 800028c:	080001c0 	.word	0x080001c0
+ 8000290:	080001c0 	.word	0x080001c0
+
+08000294 <_port_switch>:
+ 8000294:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 8000298:	f8c1 d00c 	str.w	sp, [r1, #12]
+ 800029c:	68c3      	ldr	r3, [r0, #12]
+ 800029e:	469d      	mov	sp, r3
+ 80002a0:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+
+080002a4 <_port_thread_start>:
+ 80002a4:	2300      	movs	r3, #0
+ 80002a6:	f383 8811 	msr	BASEPRI, r3
+ 80002aa:	4628      	mov	r0, r5
+ 80002ac:	47a0      	blx	r4
+ 80002ae:	2000      	movs	r0, #0
+ 80002b0:	f000 fde6 	bl	8000e80 <chThdExit>
+
+080002b4 <_port_switch_from_isr>:
+ 80002b4:	f000 facc 	bl	8000850 <chSchDoReschedule>
+
+080002b8 <_port_exit_from_isr>:
+ 80002b8:	df00      	svc	0
+ 80002ba:	e7fe      	b.n	80002ba <_port_exit_from_isr+0x2>
+ 80002bc:	0000      	movs	r0, r0
+	...
+
+080002c0 <SVC_Handler>:
+ * @details The SVC vector is used for exception mode re-entering after a
+ *          context switch.
+ * @note    The PendSV vector is only used in advanced kernel mode.
+ */
+/*lint -save -e9075 [8.4] All symbols are invoked from asm context.*/
+void SVC_Handler(void) {
+ 80002c0:	b480      	push	{r7}
+ 80002c2:	af00      	add	r7, sp, #0
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
+{
+  register uint32_t result;
+
+  __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+ 80002c4:	f3ef 8309 	mrs	r3, PSP
+  /* The port_extctx structure is pointed by the PSP register.*/
+  ctxp = (struct port_extctx *)__get_PSP();
+
+  /* Discarding the current exception context and positioning the stack to
+     point to the real one.*/
+  ctxp++;
+ 80002c8:	3320      	adds	r3, #32
+  \details Assigns the given value to the Process Stack Pointer (PSP).
+  \param [in]    topOfProcStack  Process Stack Pointer value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+{
+  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+ 80002ca:	f383 8809 	msr	PSP, r3
+  \details Assigns the given value to the Base Priority register.
+  \param [in]    basePri  Base Priority value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(uint32_t value)
+{
+  __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
+ 80002ce:	2300      	movs	r3, #0
+ 80002d0:	f383 8811 	msr	BASEPRI, r3
+  /* Restoring real position of the original stack frame.*/
+  __set_PSP((uint32_t)ctxp);
+
+  /* Restoring the normal interrupts status.*/
+  port_unlock_from_isr();
+}
+ 80002d4:	46bd      	mov	sp, r7
+ 80002d6:	bc80      	pop	{r7}
+ 80002d8:	4770      	bx	lr
+ 80002da:	bf00      	nop
+ 80002dc:	0000      	movs	r0, r0
+	...
+
+080002e0 <chCoreAllocAligned>:
+ * @return              A pointer to the allocated memory block.
+ * @retval NULL         allocation failed, core memory exhausted.
+ *
+ * @api
+ */
+void *chCoreAllocAligned(size_t size, unsigned align) {
+ 80002e0:	b470      	push	{r4, r5, r6}
+ 80002e2:	2320      	movs	r3, #32
+ 80002e4:	f383 8811 	msr	BASEPRI, r3
+  p = (uint8_t *)MEM_ALIGN_NEXT(nextmem, align);
+ 80002e8:	4e0b      	ldr	r6, [pc, #44]	; (8000318 <chCoreAllocAligned+0x38>)
+  if (((size_t)endmem - (size_t)p) < size) {
+ 80002ea:	4a0c      	ldr	r2, [pc, #48]	; (800031c <chCoreAllocAligned+0x3c>)
+  p = (uint8_t *)MEM_ALIGN_NEXT(nextmem, align);
+ 80002ec:	6833      	ldr	r3, [r6, #0]
+  if (((size_t)endmem - (size_t)p) < size) {
+ 80002ee:	6815      	ldr	r5, [r2, #0]
+  p = (uint8_t *)MEM_ALIGN_NEXT(nextmem, align);
+ 80002f0:	3b01      	subs	r3, #1
+  size = MEM_ALIGN_NEXT(size, align);
+ 80002f2:	424c      	negs	r4, r1
+  p = (uint8_t *)MEM_ALIGN_NEXT(nextmem, align);
+ 80002f4:	440b      	add	r3, r1
+  size = MEM_ALIGN_NEXT(size, align);
+ 80002f6:	1e4a      	subs	r2, r1, #1
+ 80002f8:	1811      	adds	r1, r2, r0
+  p = (uint8_t *)MEM_ALIGN_NEXT(nextmem, align);
+ 80002fa:	ea03 0004 	and.w	r0, r3, r4
+  size = MEM_ALIGN_NEXT(size, align);
+ 80002fe:	4021      	ands	r1, r4
+  if (((size_t)endmem - (size_t)p) < size) {
+ 8000300:	1a2b      	subs	r3, r5, r0
+ 8000302:	4299      	cmp	r1, r3
+  nextmem = p + size;
+ 8000304:	bf9a      	itte	ls
+ 8000306:	1809      	addls	r1, r1, r0
+ 8000308:	6031      	strls	r1, [r6, #0]
+    return NULL;
+ 800030a:	2000      	movhi	r0, #0
+ 800030c:	2300      	movs	r3, #0
+ 800030e:	f383 8811 	msr	BASEPRI, r3
+  chSysLock();
+  p = chCoreAllocAlignedI(size, align);
+  chSysUnlock();
+
+  return p;
+}
+ 8000312:	bc70      	pop	{r4, r5, r6}
+ 8000314:	4770      	bx	lr
+ 8000316:	bf00      	nop
+ 8000318:	20000a40 	.word	0x20000a40
+ 800031c:	20000a3c 	.word	0x20000a3c
+
+08000320 <wakeup>:
+ 8000320:	2320      	movs	r3, #32
+ 8000322:	f383 8811 	msr	BASEPRI, r3
+ */
+static void wakeup(void *p) {
+  thread_t *tp = (thread_t *)p;
+
+  chSysLockFromISR();
+  switch (tp->state) {
+ 8000326:	f890 3020 	ldrb.w	r3, [r0, #32]
+ 800032a:	2b07      	cmp	r3, #7
+ 800032c:	d80e      	bhi.n	800034c <wakeup+0x2c>
+ 800032e:	e8df f003 	tbb	[pc, r3]
+ 8000332:	0d28      	.short	0x0d28
+ 8000334:	0408240d 	.word	0x0408240d
+ 8000338:	080d      	.short	0x080d
+  case CH_STATE_SUSPENDED:
+    *tp->u.wttrp = NULL;
+    break;
+#if CH_CFG_USE_SEMAPHORES == TRUE
+  case CH_STATE_WTSEM:
+    chSemFastSignalI(tp->u.wtsemp);
+ 800033a:	6a42      	ldr	r2, [r0, #36]	; 0x24
+ */
+static inline void chSemFastSignalI(semaphore_t *sp) {
+
+  chDbgCheckClassI();
+
+  sp->cnt++;
+ 800033c:	6893      	ldr	r3, [r2, #8]
+ 800033e:	3301      	adds	r3, #1
+ 8000340:	6093      	str	r3, [r2, #8]
+  return tp;
+}
+
+static inline thread_t *queue_dequeue(thread_t *tp) {
+
+  tp->queue.prev->queue.next = tp->queue.next;
+ 8000342:	e890 000c 	ldmia.w	r0, {r2, r3}
+ 8000346:	601a      	str	r2, [r3, #0]
+  tp->queue.next->queue.prev = tp->queue.prev;
+ 8000348:	6802      	ldr	r2, [r0, #0]
+ 800034a:	6053      	str	r3, [r2, #4]
+static void wakeup(void *p) {
+ 800034c:	b410      	push	{r4}
+  tp->state = CH_STATE_READY;
+ 800034e:	2200      	movs	r2, #0
+    break;
+  default:
+    /* Any other state, nothing to do.*/
+    break;
+  }
+  tp->u.rdymsg = MSG_TIMEOUT;
+ 8000350:	f04f 34ff 	mov.w	r4, #4294967295
+ 8000354:	6881      	ldr	r1, [r0, #8]
+  cp = (thread_t *)&ch.rlist.queue;
+ 8000356:	4b0d      	ldr	r3, [pc, #52]	; (800038c <wakeup+0x6c>)
+  tp->u.rdymsg = MSG_TIMEOUT;
+ 8000358:	6244      	str	r4, [r0, #36]	; 0x24
+  tp->state = CH_STATE_READY;
+ 800035a:	f880 2020 	strb.w	r2, [r0, #32]
+    cp = cp->queue.next;
+ 800035e:	681b      	ldr	r3, [r3, #0]
+  } while (cp->prio >= tp->prio);
+ 8000360:	689a      	ldr	r2, [r3, #8]
+ 8000362:	428a      	cmp	r2, r1
+ 8000364:	d2fb      	bcs.n	800035e <wakeup+0x3e>
+  tp->queue.prev             = cp->queue.prev;
+ 8000366:	685a      	ldr	r2, [r3, #4]
+ 8000368:	6042      	str	r2, [r0, #4]
+  tp->queue.next             = cp;
+ 800036a:	6003      	str	r3, [r0, #0]
+ 800036c:	2100      	movs	r1, #0
+  tp->queue.prev->queue.next = tp;
+ 800036e:	6010      	str	r0, [r2, #0]
+  cp->queue.prev             = tp;
+ 8000370:	6058      	str	r0, [r3, #4]
+ 8000372:	f381 8811 	msr	BASEPRI, r1
+  (void) chSchReadyI(tp);
+  chSysUnlockFromISR();
+}
+ 8000376:	bc10      	pop	{r4}
+ 8000378:	4770      	bx	lr
+    *tp->u.wttrp = NULL;
+ 800037a:	6a43      	ldr	r3, [r0, #36]	; 0x24
+ 800037c:	2200      	movs	r2, #0
+ 800037e:	601a      	str	r2, [r3, #0]
+ 8000380:	e7e4      	b.n	800034c <wakeup+0x2c>
+ 8000382:	2300      	movs	r3, #0
+ 8000384:	f383 8811 	msr	BASEPRI, r3
+ 8000388:	4770      	bx	lr
+ 800038a:	bf00      	nop
+ 800038c:	20000848 	.word	0x20000848
+
+08000390 <_idle_thread.lto_priv.45>:
+ *          that this thread is executed only if there are no other ready
+ *          threads in the system.
+ *
+ * @param[in] p         the thread parameter, unused in this scenario
+ */
+static void _idle_thread(void *p) {
+ 8000390:	e7fe      	b.n	8000390 <_idle_thread.lto_priv.45>
+ 8000392:	bf00      	nop
+	...
+
+080003a0 <chSchGoSleepS>:
+  thread_t *otp = currp;
+ 80003a0:	4b08      	ldr	r3, [pc, #32]	; (80003c4 <chSchGoSleepS+0x24>)
+ 80003a2:	6999      	ldr	r1, [r3, #24]
+  thread_t *tp = tqp->next;
+ 80003a4:	681a      	ldr	r2, [r3, #0]
+void chSchGoSleepS(tstate_t newstate) {
+ 80003a6:	b410      	push	{r4}
+  otp->state = newstate;
+ 80003a8:	f881 0020 	strb.w	r0, [r1, #32]
+  tqp->next             = tp->queue.next;
+ 80003ac:	6810      	ldr	r0, [r2, #0]
+ 80003ae:	6018      	str	r0, [r3, #0]
+  currp->state = CH_STATE_CURRENT;
+ 80003b0:	2401      	movs	r4, #1
+  tqp->next->queue.prev = (thread_t *)tqp;
+ 80003b2:	6043      	str	r3, [r0, #4]
+ 80003b4:	f882 4020 	strb.w	r4, [r2, #32]
+  chSysSwitch(currp, otp);
+ 80003b8:	4610      	mov	r0, r2
+}
+ 80003ba:	bc10      	pop	{r4}
+  currp = queue_fifo_remove(&ch.rlist.queue);
+ 80003bc:	619a      	str	r2, [r3, #24]
+  chSysSwitch(currp, otp);
+ 80003be:	f7ff bf69 	b.w	8000294 <_port_switch>
+ 80003c2:	bf00      	nop
+ 80003c4:	20000848 	.word	0x20000848
+	...
+
+080003d0 <_pal_lld_setgroupmode>:
+ *
+ * @notapi
+ */
+void _pal_lld_setgroupmode(ioportid_t port,
+                           ioportmask_t mask,
+                           iomode_t mode) {
+ 80003d0:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+
+  uint32_t moder   = (mode & PAL_STM32_MODE_MASK) >> 0;
+ 80003d4:	f002 0a03 	and.w	sl, r2, #3
+  uint32_t otyper  = (mode & PAL_STM32_OTYPE_MASK) >> 2;
+ 80003d8:	f3c2 0880 	ubfx	r8, r2, #2, #1
+  uint32_t ospeedr = (mode & PAL_STM32_OSPEED_MASK) >> 3;
+ 80003dc:	f3c2 0cc1 	ubfx	ip, r2, #3, #2
+  uint32_t pupdr   = (mode & PAL_STM32_PUPDR_MASK) >> 5;
+ 80003e0:	f3c2 1e41 	ubfx	lr, r2, #5, #2
+  uint32_t moder   = (mode & PAL_STM32_MODE_MASK) >> 0;
+ 80003e4:	46d1      	mov	r9, sl
+  uint32_t altr    = (mode & PAL_STM32_ALTERNATE_MASK) >> 7;
+ 80003e6:	f3c2 12c3 	ubfx	r2, r2, #7, #4
+  uint32_t bit     = 0;
+ 80003ea:	2700      	movs	r7, #0
+      uint32_t altrmask, m1, m2, m4;
+
+      altrmask = altr << ((bit & 7) * 4);
+      m1 = 1 << bit;
+      m2 = 3 << (bit * 2);
+      m4 = 15 << ((bit & 7) * 4);
+ 80003ec:	f04f 0b0f 	mov.w	fp, #15
+ 80003f0:	e00f      	b.n	8000412 <_pal_lld_setgroupmode+0x42>
+      else {
+        /* If going into a non-alternate mode then the mode is switched
+           before setting the alternate mode in order to avoid glitches.*/
+        port->MODER   = (port->MODER & ~m2) | moder;
+        if (bit < 8)
+          port->AFRL = (port->AFRL & ~m4) | altrmask;
+ 80003f2:	6a03      	ldr	r3, [r0, #32]
+ 80003f4:	ea23 0404 	bic.w	r4, r3, r4
+ 80003f8:	4325      	orrs	r5, r4
+ 80003fa:	6205      	str	r5, [r0, #32]
+        else
+          port->AFRH = (port->AFRH & ~m4) | altrmask;
+      }
+    }
+    mask >>= 1;
+    if (!mask)
+ 80003fc:	0849      	lsrs	r1, r1, #1
+ 80003fe:	d039      	beq.n	8000474 <_pal_lld_setgroupmode+0xa4>
+      return;
+    otyper <<= 1;
+ 8000400:	ea4f 0848 	mov.w	r8, r8, lsl #1
+    ospeedr <<= 2;
+ 8000404:	ea4f 0c8c 	mov.w	ip, ip, lsl #2
+    pupdr <<= 2;
+ 8000408:	ea4f 0e8e 	mov.w	lr, lr, lsl #2
+    moder <<= 2;
+ 800040c:	ea4f 0989 	mov.w	r9, r9, lsl #2
+    bit++;
+ 8000410:	3701      	adds	r7, #1
+    if ((mask & 1) != 0) {
+ 8000412:	07cb      	lsls	r3, r1, #31
+ 8000414:	d5f2      	bpl.n	80003fc <_pal_lld_setgroupmode+0x2c>
+      port->OTYPER  = (port->OTYPER & ~m1) | otyper;
+ 8000416:	6843      	ldr	r3, [r0, #4]
+      m1 = 1 << bit;
+ 8000418:	2401      	movs	r4, #1
+ 800041a:	40bc      	lsls	r4, r7
+      port->OTYPER  = (port->OTYPER & ~m1) | otyper;
+ 800041c:	ea23 0304 	bic.w	r3, r3, r4
+ 8000420:	ea43 0308 	orr.w	r3, r3, r8
+ 8000424:	6043      	str	r3, [r0, #4]
+      m2 = 3 << (bit * 2);
+ 8000426:	2503      	movs	r5, #3
+ 8000428:	007b      	lsls	r3, r7, #1
+      port->OSPEEDR = (port->OSPEEDR & ~m2) | ospeedr;
+ 800042a:	6884      	ldr	r4, [r0, #8]
+      m2 = 3 << (bit * 2);
+ 800042c:	fa05 f303 	lsl.w	r3, r5, r3
+      port->OSPEEDR = (port->OSPEEDR & ~m2) | ospeedr;
+ 8000430:	43db      	mvns	r3, r3
+ 8000432:	401c      	ands	r4, r3
+ 8000434:	ea44 040c 	orr.w	r4, r4, ip
+ 8000438:	6084      	str	r4, [r0, #8]
+      port->PUPDR   = (port->PUPDR & ~m2) | pupdr;
+ 800043a:	68c5      	ldr	r5, [r0, #12]
+      altrmask = altr << ((bit & 7) * 4);
+ 800043c:	f007 0407 	and.w	r4, r7, #7
+      port->PUPDR   = (port->PUPDR & ~m2) | pupdr;
+ 8000440:	401d      	ands	r5, r3
+ 8000442:	ea45 050e 	orr.w	r5, r5, lr
+      altrmask = altr << ((bit & 7) * 4);
+ 8000446:	00a4      	lsls	r4, r4, #2
+      if ((mode & PAL_STM32_MODE_MASK) == PAL_STM32_MODE_ALTERNATE) {
+ 8000448:	f1ba 0f02 	cmp.w	sl, #2
+      port->PUPDR   = (port->PUPDR & ~m2) | pupdr;
+ 800044c:	60c5      	str	r5, [r0, #12]
+      altrmask = altr << ((bit & 7) * 4);
+ 800044e:	fa02 f504 	lsl.w	r5, r2, r4
+      m4 = 15 << ((bit & 7) * 4);
+ 8000452:	fa0b f404 	lsl.w	r4, fp, r4
+      if ((mode & PAL_STM32_MODE_MASK) == PAL_STM32_MODE_ALTERNATE) {
+ 8000456:	d00f      	beq.n	8000478 <_pal_lld_setgroupmode+0xa8>
+        port->MODER   = (port->MODER & ~m2) | moder;
+ 8000458:	6806      	ldr	r6, [r0, #0]
+ 800045a:	4033      	ands	r3, r6
+ 800045c:	ea43 0309 	orr.w	r3, r3, r9
+        if (bit < 8)
+ 8000460:	2f07      	cmp	r7, #7
+        port->MODER   = (port->MODER & ~m2) | moder;
+ 8000462:	6003      	str	r3, [r0, #0]
+        if (bit < 8)
+ 8000464:	d9c5      	bls.n	80003f2 <_pal_lld_setgroupmode+0x22>
+          port->AFRH = (port->AFRH & ~m4) | altrmask;
+ 8000466:	6a43      	ldr	r3, [r0, #36]	; 0x24
+ 8000468:	ea23 0404 	bic.w	r4, r3, r4
+ 800046c:	4325      	orrs	r5, r4
+    if (!mask)
+ 800046e:	0849      	lsrs	r1, r1, #1
+          port->AFRH = (port->AFRH & ~m4) | altrmask;
+ 8000470:	6245      	str	r5, [r0, #36]	; 0x24
+    if (!mask)
+ 8000472:	d1c5      	bne.n	8000400 <_pal_lld_setgroupmode+0x30>
+ 8000474:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+        if (bit < 8)
+ 8000478:	2f07      	cmp	r7, #7
+ 800047a:	d80a      	bhi.n	8000492 <_pal_lld_setgroupmode+0xc2>
+          port->AFRL = (port->AFRL & ~m4) | altrmask;
+ 800047c:	6a06      	ldr	r6, [r0, #32]
+ 800047e:	ea26 0404 	bic.w	r4, r6, r4
+ 8000482:	4325      	orrs	r5, r4
+ 8000484:	6205      	str	r5, [r0, #32]
+        port->MODER   = (port->MODER & ~m2) | moder;
+ 8000486:	6804      	ldr	r4, [r0, #0]
+ 8000488:	4023      	ands	r3, r4
+ 800048a:	ea43 0309 	orr.w	r3, r3, r9
+ 800048e:	6003      	str	r3, [r0, #0]
+ 8000490:	e7b4      	b.n	80003fc <_pal_lld_setgroupmode+0x2c>
+          port->AFRH = (port->AFRH & ~m4) | altrmask;
+ 8000492:	6a46      	ldr	r6, [r0, #36]	; 0x24
+ 8000494:	ea26 0404 	bic.w	r4, r6, r4
+ 8000498:	4325      	orrs	r5, r4
+ 800049a:	6245      	str	r5, [r0, #36]	; 0x24
+ 800049c:	e7f3      	b.n	8000486 <_pal_lld_setgroupmode+0xb6>
+ 800049e:	bf00      	nop
+
+080004a0 <_port_irq_epilogue>:
+ 80004a0:	2320      	movs	r3, #32
+ 80004a2:	f383 8811 	msr	BASEPRI, r3
+ * @brief   Exception exit redirection to _port_switch_from_isr().
+ */
+void _port_irq_epilogue(void) {
+
+  port_lock_from_isr();
+  if ((SCB->ICSR & SCB_ICSR_RETTOBASE_Msk) != 0U) {
+ 80004a6:	4b11      	ldr	r3, [pc, #68]	; (80004ec <_port_irq_epilogue+0x4c>)
+ 80004a8:	685b      	ldr	r3, [r3, #4]
+ 80004aa:	f413 6300 	ands.w	r3, r3, #2048	; 0x800
+ 80004ae:	d102      	bne.n	80004b6 <_port_irq_epilogue+0x16>
+ 80004b0:	f383 8811 	msr	BASEPRI, r3
+ 80004b4:	4770      	bx	lr
+void _port_irq_epilogue(void) {
+ 80004b6:	b480      	push	{r7}
+ 80004b8:	af00      	add	r7, sp, #0
+  __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+ 80004ba:	f3ef 8309 	mrs	r3, PSP
+    /* Adding an artificial exception return context, there is no need to
+       populate it fully.*/
+    ctxp--;
+
+    /* Setting up a fake XPSR register value.*/
+    ctxp->xpsr = (regarm_t)0x01000000;
+ 80004be:	f04f 7280 	mov.w	r2, #16777216	; 0x1000000
+ 80004c2:	f843 2c04 	str.w	r2, [r3, #-4]
+    ctxp--;
+ 80004c6:	f1a3 0220 	sub.w	r2, r3, #32
+  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+ 80004ca:	f382 8809 	msr	PSP, r2
+ * @retval false        if preemption is not required.
+ *
+ * @special
+ */
+bool chSchIsPreemptionRequired(void) {
+  tprio_t p1 = firstprio(&ch.rlist.queue);
+ 80004ce:	4a08      	ldr	r2, [pc, #32]	; (80004f0 <_port_irq_epilogue+0x50>)
+ 80004d0:	6811      	ldr	r1, [r2, #0]
+  tprio_t p2 = currp->prio;
+ 80004d2:	6992      	ldr	r2, [r2, #24]
+    /* Writing back the modified PSP value.*/
+    __set_PSP((uint32_t)ctxp);
+
+    /* The exit sequence is different depending on if a preemption is
+       required or not.*/
+    if (chSchIsPreemptionRequired()) {
+ 80004d4:	6889      	ldr	r1, [r1, #8]
+ 80004d6:	6892      	ldr	r2, [r2, #8]
+ 80004d8:	4291      	cmp	r1, r2
+      /* Preemption is required we need to enforce a context switch.*/
+      ctxp->pc = (regarm_t)_port_switch_from_isr;
+ 80004da:	bf8c      	ite	hi
+ 80004dc:	4a05      	ldrhi	r2, [pc, #20]	; (80004f4 <_port_irq_epilogue+0x54>)
+    }
+    else {
+      /* Preemption not required, we just need to exit the exception
+         atomically.*/
+      ctxp->pc = (regarm_t)_port_exit_from_isr;
+ 80004de:	4a06      	ldrls	r2, [pc, #24]	; (80004f8 <_port_irq_epilogue+0x58>)
+ 80004e0:	f843 2c08 	str.w	r2, [r3, #-8]
+    /* Note, returning without unlocking is intentional, this is done in
+       order to keep the rest of the context switch atomic.*/
+    return;
+  }
+  port_unlock_from_isr();
+}
+ 80004e4:	46bd      	mov	sp, r7
+ 80004e6:	bc80      	pop	{r7}
+ 80004e8:	4770      	bx	lr
+ 80004ea:	bf00      	nop
+ 80004ec:	e000ed00 	.word	0xe000ed00
+ 80004f0:	20000848 	.word	0x20000848
+ 80004f4:	080002b5 	.word	0x080002b5
+ 80004f8:	080002b8 	.word	0x080002b8
+ 80004fc:	00000000 	.word	0x00000000
+
+08000500 <Vector158>:
+OSAL_IRQ_HANDLER(STM32_DMA2_CH7_HANDLER) {
+  uint32_t flags;
+
+  OSAL_IRQ_PROLOGUE();
+
+  flags = (DMA2->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000500:	4b08      	ldr	r3, [pc, #32]	; (8000524 <Vector158+0x24>)
+  DMA2->HIFCR = flags << 22U;
+  if (dma_isr_redir[15].dma_func)
+ 8000502:	4809      	ldr	r0, [pc, #36]	; (8000528 <Vector158+0x28>)
+  flags = (DMA2->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000504:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[15].dma_func)
+ 8000506:	6f82      	ldr	r2, [r0, #120]	; 0x78
+  flags = (DMA2->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000508:	0d89      	lsrs	r1, r1, #22
+ 800050a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH7_HANDLER) {
+ 800050e:	b510      	push	{r4, lr}
+  DMA2->HIFCR = flags << 22U;
+ 8000510:	058c      	lsls	r4, r1, #22
+ 8000512:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[15].dma_func)
+ 8000514:	b10a      	cbz	r2, 800051a <Vector158+0x1a>
+    dma_isr_redir[15].dma_func(dma_isr_redir[15].dma_param, flags);
+ 8000516:	6fc0      	ldr	r0, [r0, #124]	; 0x7c
+ 8000518:	4790      	blx	r2
+
+  OSAL_IRQ_EPILOGUE();
+}
+ 800051a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800051e:	f7ff bfbf 	b.w	80004a0 <_port_irq_epilogue>
+ 8000522:	bf00      	nop
+ 8000524:	40026400 	.word	0x40026400
+ 8000528:	200009b8 	.word	0x200009b8
+ 800052c:	00000000 	.word	0x00000000
+
+08000530 <Vector154>:
+  flags = (DMA2->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000530:	4b08      	ldr	r3, [pc, #32]	; (8000554 <Vector154+0x24>)
+  if (dma_isr_redir[14].dma_func)
+ 8000532:	4809      	ldr	r0, [pc, #36]	; (8000558 <Vector154+0x28>)
+  flags = (DMA2->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000534:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[14].dma_func)
+ 8000536:	6f02      	ldr	r2, [r0, #112]	; 0x70
+  flags = (DMA2->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000538:	0c09      	lsrs	r1, r1, #16
+ 800053a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH6_HANDLER) {
+ 800053e:	b510      	push	{r4, lr}
+  DMA2->HIFCR = flags << 16U;
+ 8000540:	040c      	lsls	r4, r1, #16
+ 8000542:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[14].dma_func)
+ 8000544:	b10a      	cbz	r2, 800054a <Vector154+0x1a>
+    dma_isr_redir[14].dma_func(dma_isr_redir[14].dma_param, flags);
+ 8000546:	6f40      	ldr	r0, [r0, #116]	; 0x74
+ 8000548:	4790      	blx	r2
+}
+ 800054a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800054e:	f7ff bfa7 	b.w	80004a0 <_port_irq_epilogue>
+ 8000552:	bf00      	nop
+ 8000554:	40026400 	.word	0x40026400
+ 8000558:	200009b8 	.word	0x200009b8
+ 800055c:	00000000 	.word	0x00000000
+
+08000560 <Vector150>:
+  flags = (DMA2->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000560:	4b08      	ldr	r3, [pc, #32]	; (8000584 <Vector150+0x24>)
+  if (dma_isr_redir[13].dma_func)
+ 8000562:	4809      	ldr	r0, [pc, #36]	; (8000588 <Vector150+0x28>)
+  flags = (DMA2->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000564:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[13].dma_func)
+ 8000566:	6e82      	ldr	r2, [r0, #104]	; 0x68
+  flags = (DMA2->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000568:	0989      	lsrs	r1, r1, #6
+ 800056a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH5_HANDLER) {
+ 800056e:	b510      	push	{r4, lr}
+  DMA2->HIFCR = flags << 6U;
+ 8000570:	018c      	lsls	r4, r1, #6
+ 8000572:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[13].dma_func)
+ 8000574:	b10a      	cbz	r2, 800057a <Vector150+0x1a>
+    dma_isr_redir[13].dma_func(dma_isr_redir[13].dma_param, flags);
+ 8000576:	6ec0      	ldr	r0, [r0, #108]	; 0x6c
+ 8000578:	4790      	blx	r2
+}
+ 800057a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800057e:	f7ff bf8f 	b.w	80004a0 <_port_irq_epilogue>
+ 8000582:	bf00      	nop
+ 8000584:	40026400 	.word	0x40026400
+ 8000588:	200009b8 	.word	0x200009b8
+ 800058c:	00000000 	.word	0x00000000
+
+08000590 <Vector130>:
+OSAL_IRQ_HANDLER(STM32_DMA2_CH4_HANDLER) {
+ 8000590:	b508      	push	{r3, lr}
+  flags = (DMA2->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000592:	4b07      	ldr	r3, [pc, #28]	; (80005b0 <Vector130+0x20>)
+  if (dma_isr_redir[12].dma_func)
+ 8000594:	4807      	ldr	r0, [pc, #28]	; (80005b4 <Vector130+0x24>)
+  flags = (DMA2->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000596:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[12].dma_func)
+ 8000598:	6e02      	ldr	r2, [r0, #96]	; 0x60
+  flags = (DMA2->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 800059a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+  DMA2->HIFCR = flags << 0U;
+ 800059e:	60d9      	str	r1, [r3, #12]
+  if (dma_isr_redir[12].dma_func)
+ 80005a0:	b10a      	cbz	r2, 80005a6 <Vector130+0x16>
+    dma_isr_redir[12].dma_func(dma_isr_redir[12].dma_param, flags);
+ 80005a2:	6e40      	ldr	r0, [r0, #100]	; 0x64
+ 80005a4:	4790      	blx	r2
+}
+ 80005a6:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80005aa:	f7ff bf79 	b.w	80004a0 <_port_irq_epilogue>
+ 80005ae:	bf00      	nop
+ 80005b0:	40026400 	.word	0x40026400
+ 80005b4:	200009b8 	.word	0x200009b8
+	...
+
+080005c0 <Vector12C>:
+  flags = (DMA2->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 80005c0:	4b08      	ldr	r3, [pc, #32]	; (80005e4 <Vector12C+0x24>)
+  if (dma_isr_redir[11].dma_func)
+ 80005c2:	4809      	ldr	r0, [pc, #36]	; (80005e8 <Vector12C+0x28>)
+  flags = (DMA2->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 80005c4:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[11].dma_func)
+ 80005c6:	6d82      	ldr	r2, [r0, #88]	; 0x58
+  flags = (DMA2->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 80005c8:	0d89      	lsrs	r1, r1, #22
+ 80005ca:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH3_HANDLER) {
+ 80005ce:	b510      	push	{r4, lr}
+  DMA2->LIFCR = flags << 22U;
+ 80005d0:	058c      	lsls	r4, r1, #22
+ 80005d2:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[11].dma_func)
+ 80005d4:	b10a      	cbz	r2, 80005da <Vector12C+0x1a>
+    dma_isr_redir[11].dma_func(dma_isr_redir[11].dma_param, flags);
+ 80005d6:	6dc0      	ldr	r0, [r0, #92]	; 0x5c
+ 80005d8:	4790      	blx	r2
+}
+ 80005da:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80005de:	f7ff bf5f 	b.w	80004a0 <_port_irq_epilogue>
+ 80005e2:	bf00      	nop
+ 80005e4:	40026400 	.word	0x40026400
+ 80005e8:	200009b8 	.word	0x200009b8
+ 80005ec:	00000000 	.word	0x00000000
+
+080005f0 <Vector128>:
+  flags = (DMA2->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80005f0:	4b08      	ldr	r3, [pc, #32]	; (8000614 <Vector128+0x24>)
+  if (dma_isr_redir[10].dma_func)
+ 80005f2:	4809      	ldr	r0, [pc, #36]	; (8000618 <Vector128+0x28>)
+  flags = (DMA2->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80005f4:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[10].dma_func)
+ 80005f6:	6d02      	ldr	r2, [r0, #80]	; 0x50
+  flags = (DMA2->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80005f8:	0c09      	lsrs	r1, r1, #16
+ 80005fa:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH2_HANDLER) {
+ 80005fe:	b510      	push	{r4, lr}
+  DMA2->LIFCR = flags << 16U;
+ 8000600:	040c      	lsls	r4, r1, #16
+ 8000602:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[10].dma_func)
+ 8000604:	b10a      	cbz	r2, 800060a <Vector128+0x1a>
+    dma_isr_redir[10].dma_func(dma_isr_redir[10].dma_param, flags);
+ 8000606:	6d40      	ldr	r0, [r0, #84]	; 0x54
+ 8000608:	4790      	blx	r2
+}
+ 800060a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800060e:	f7ff bf47 	b.w	80004a0 <_port_irq_epilogue>
+ 8000612:	bf00      	nop
+ 8000614:	40026400 	.word	0x40026400
+ 8000618:	200009b8 	.word	0x200009b8
+ 800061c:	00000000 	.word	0x00000000
+
+08000620 <Vector124>:
+  flags = (DMA2->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000620:	4b08      	ldr	r3, [pc, #32]	; (8000644 <Vector124+0x24>)
+  if (dma_isr_redir[9].dma_func)
+ 8000622:	4809      	ldr	r0, [pc, #36]	; (8000648 <Vector124+0x28>)
+  flags = (DMA2->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000624:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[9].dma_func)
+ 8000626:	6c82      	ldr	r2, [r0, #72]	; 0x48
+  flags = (DMA2->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 8000628:	0989      	lsrs	r1, r1, #6
+ 800062a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA2_CH1_HANDLER) {
+ 800062e:	b510      	push	{r4, lr}
+  DMA2->LIFCR = flags << 6U;
+ 8000630:	018c      	lsls	r4, r1, #6
+ 8000632:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[9].dma_func)
+ 8000634:	b10a      	cbz	r2, 800063a <Vector124+0x1a>
+    dma_isr_redir[9].dma_func(dma_isr_redir[9].dma_param, flags);
+ 8000636:	6cc0      	ldr	r0, [r0, #76]	; 0x4c
+ 8000638:	4790      	blx	r2
+}
+ 800063a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800063e:	f7ff bf2f 	b.w	80004a0 <_port_irq_epilogue>
+ 8000642:	bf00      	nop
+ 8000644:	40026400 	.word	0x40026400
+ 8000648:	200009b8 	.word	0x200009b8
+ 800064c:	00000000 	.word	0x00000000
+
+08000650 <Vector120>:
+OSAL_IRQ_HANDLER(STM32_DMA2_CH0_HANDLER) {
+ 8000650:	b508      	push	{r3, lr}
+  flags = (DMA2->LISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000652:	4b07      	ldr	r3, [pc, #28]	; (8000670 <Vector120+0x20>)
+  if (dma_isr_redir[8].dma_func)
+ 8000654:	4807      	ldr	r0, [pc, #28]	; (8000674 <Vector120+0x24>)
+  flags = (DMA2->LISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000656:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[8].dma_func)
+ 8000658:	6c02      	ldr	r2, [r0, #64]	; 0x40
+  flags = (DMA2->LISR >> 0U) & STM32_DMA_ISR_MASK;
+ 800065a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+  DMA2->LIFCR = flags << 0U;
+ 800065e:	6099      	str	r1, [r3, #8]
+  if (dma_isr_redir[8].dma_func)
+ 8000660:	b10a      	cbz	r2, 8000666 <Vector120+0x16>
+    dma_isr_redir[8].dma_func(dma_isr_redir[8].dma_param, flags);
+ 8000662:	6c40      	ldr	r0, [r0, #68]	; 0x44
+ 8000664:	4790      	blx	r2
+}
+ 8000666:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800066a:	f7ff bf19 	b.w	80004a0 <_port_irq_epilogue>
+ 800066e:	bf00      	nop
+ 8000670:	40026400 	.word	0x40026400
+ 8000674:	200009b8 	.word	0x200009b8
+	...
+
+08000680 <VectorFC>:
+  flags = (DMA1->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000680:	4b08      	ldr	r3, [pc, #32]	; (80006a4 <VectorFC+0x24>)
+  if (dma_isr_redir[7].dma_func)
+ 8000682:	4809      	ldr	r0, [pc, #36]	; (80006a8 <VectorFC+0x28>)
+  flags = (DMA1->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000684:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[7].dma_func)
+ 8000686:	6b82      	ldr	r2, [r0, #56]	; 0x38
+  flags = (DMA1->HISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000688:	0d89      	lsrs	r1, r1, #22
+ 800068a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER) {
+ 800068e:	b510      	push	{r4, lr}
+  DMA1->HIFCR = flags << 22U;
+ 8000690:	058c      	lsls	r4, r1, #22
+ 8000692:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[7].dma_func)
+ 8000694:	b10a      	cbz	r2, 800069a <VectorFC+0x1a>
+    dma_isr_redir[7].dma_func(dma_isr_redir[7].dma_param, flags);
+ 8000696:	6bc0      	ldr	r0, [r0, #60]	; 0x3c
+ 8000698:	4790      	blx	r2
+}
+ 800069a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800069e:	f7ff beff 	b.w	80004a0 <_port_irq_epilogue>
+ 80006a2:	bf00      	nop
+ 80006a4:	40026000 	.word	0x40026000
+ 80006a8:	200009b8 	.word	0x200009b8
+ 80006ac:	00000000 	.word	0x00000000
+
+080006b0 <Vector84>:
+  flags = (DMA1->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80006b0:	4b08      	ldr	r3, [pc, #32]	; (80006d4 <Vector84+0x24>)
+  if (dma_isr_redir[6].dma_func)
+ 80006b2:	4809      	ldr	r0, [pc, #36]	; (80006d8 <Vector84+0x28>)
+  flags = (DMA1->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80006b4:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[6].dma_func)
+ 80006b6:	6b02      	ldr	r2, [r0, #48]	; 0x30
+  flags = (DMA1->HISR >> 16U) & STM32_DMA_ISR_MASK;
+ 80006b8:	0c09      	lsrs	r1, r1, #16
+ 80006ba:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER) {
+ 80006be:	b510      	push	{r4, lr}
+  DMA1->HIFCR = flags << 16U;
+ 80006c0:	040c      	lsls	r4, r1, #16
+ 80006c2:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[6].dma_func)
+ 80006c4:	b10a      	cbz	r2, 80006ca <Vector84+0x1a>
+    dma_isr_redir[6].dma_func(dma_isr_redir[6].dma_param, flags);
+ 80006c6:	6b40      	ldr	r0, [r0, #52]	; 0x34
+ 80006c8:	4790      	blx	r2
+}
+ 80006ca:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80006ce:	f7ff bee7 	b.w	80004a0 <_port_irq_epilogue>
+ 80006d2:	bf00      	nop
+ 80006d4:	40026000 	.word	0x40026000
+ 80006d8:	200009b8 	.word	0x200009b8
+ 80006dc:	00000000 	.word	0x00000000
+
+080006e0 <Vector80>:
+  flags = (DMA1->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80006e0:	4b08      	ldr	r3, [pc, #32]	; (8000704 <Vector80+0x24>)
+  if (dma_isr_redir[5].dma_func)
+ 80006e2:	4809      	ldr	r0, [pc, #36]	; (8000708 <Vector80+0x28>)
+  flags = (DMA1->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80006e4:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[5].dma_func)
+ 80006e6:	6a82      	ldr	r2, [r0, #40]	; 0x28
+  flags = (DMA1->HISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80006e8:	0989      	lsrs	r1, r1, #6
+ 80006ea:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER) {
+ 80006ee:	b510      	push	{r4, lr}
+  DMA1->HIFCR = flags << 6U;
+ 80006f0:	018c      	lsls	r4, r1, #6
+ 80006f2:	60dc      	str	r4, [r3, #12]
+  if (dma_isr_redir[5].dma_func)
+ 80006f4:	b10a      	cbz	r2, 80006fa <Vector80+0x1a>
+    dma_isr_redir[5].dma_func(dma_isr_redir[5].dma_param, flags);
+ 80006f6:	6ac0      	ldr	r0, [r0, #44]	; 0x2c
+ 80006f8:	4790      	blx	r2
+}
+ 80006fa:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80006fe:	f7ff becf 	b.w	80004a0 <_port_irq_epilogue>
+ 8000702:	bf00      	nop
+ 8000704:	40026000 	.word	0x40026000
+ 8000708:	200009b8 	.word	0x200009b8
+ 800070c:	00000000 	.word	0x00000000
+
+08000710 <Vector7C>:
+OSAL_IRQ_HANDLER(STM32_DMA1_CH4_HANDLER) {
+ 8000710:	b508      	push	{r3, lr}
+  flags = (DMA1->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000712:	4b07      	ldr	r3, [pc, #28]	; (8000730 <Vector7C+0x20>)
+  if (dma_isr_redir[4].dma_func)
+ 8000714:	4807      	ldr	r0, [pc, #28]	; (8000734 <Vector7C+0x24>)
+  flags = (DMA1->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 8000716:	6859      	ldr	r1, [r3, #4]
+  if (dma_isr_redir[4].dma_func)
+ 8000718:	6a02      	ldr	r2, [r0, #32]
+  flags = (DMA1->HISR >> 0U) & STM32_DMA_ISR_MASK;
+ 800071a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+  DMA1->HIFCR = flags << 0U;
+ 800071e:	60d9      	str	r1, [r3, #12]
+  if (dma_isr_redir[4].dma_func)
+ 8000720:	b10a      	cbz	r2, 8000726 <Vector7C+0x16>
+    dma_isr_redir[4].dma_func(dma_isr_redir[4].dma_param, flags);
+ 8000722:	6a40      	ldr	r0, [r0, #36]	; 0x24
+ 8000724:	4790      	blx	r2
+}
+ 8000726:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800072a:	f7ff beb9 	b.w	80004a0 <_port_irq_epilogue>
+ 800072e:	bf00      	nop
+ 8000730:	40026000 	.word	0x40026000
+ 8000734:	200009b8 	.word	0x200009b8
+	...
+
+08000740 <Vector78>:
+  flags = (DMA1->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000740:	4b08      	ldr	r3, [pc, #32]	; (8000764 <Vector78+0x24>)
+  if (dma_isr_redir[3].dma_func)
+ 8000742:	4809      	ldr	r0, [pc, #36]	; (8000768 <Vector78+0x28>)
+  flags = (DMA1->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000744:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[3].dma_func)
+ 8000746:	6982      	ldr	r2, [r0, #24]
+  flags = (DMA1->LISR >> 22U) & STM32_DMA_ISR_MASK;
+ 8000748:	0d89      	lsrs	r1, r1, #22
+ 800074a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER) {
+ 800074e:	b510      	push	{r4, lr}
+  DMA1->LIFCR = flags << 22U;
+ 8000750:	058c      	lsls	r4, r1, #22
+ 8000752:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[3].dma_func)
+ 8000754:	b10a      	cbz	r2, 800075a <Vector78+0x1a>
+    dma_isr_redir[3].dma_func(dma_isr_redir[3].dma_param, flags);
+ 8000756:	69c0      	ldr	r0, [r0, #28]
+ 8000758:	4790      	blx	r2
+}
+ 800075a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800075e:	f7ff be9f 	b.w	80004a0 <_port_irq_epilogue>
+ 8000762:	bf00      	nop
+ 8000764:	40026000 	.word	0x40026000
+ 8000768:	200009b8 	.word	0x200009b8
+ 800076c:	00000000 	.word	0x00000000
+
+08000770 <Vector74>:
+  flags = (DMA1->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000770:	4b08      	ldr	r3, [pc, #32]	; (8000794 <Vector74+0x24>)
+  if (dma_isr_redir[2].dma_func)
+ 8000772:	4809      	ldr	r0, [pc, #36]	; (8000798 <Vector74+0x28>)
+  flags = (DMA1->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000774:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[2].dma_func)
+ 8000776:	6902      	ldr	r2, [r0, #16]
+  flags = (DMA1->LISR >> 16U) & STM32_DMA_ISR_MASK;
+ 8000778:	0c09      	lsrs	r1, r1, #16
+ 800077a:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) {
+ 800077e:	b510      	push	{r4, lr}
+  DMA1->LIFCR = flags << 16U;
+ 8000780:	040c      	lsls	r4, r1, #16
+ 8000782:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[2].dma_func)
+ 8000784:	b10a      	cbz	r2, 800078a <Vector74+0x1a>
+    dma_isr_redir[2].dma_func(dma_isr_redir[2].dma_param, flags);
+ 8000786:	6940      	ldr	r0, [r0, #20]
+ 8000788:	4790      	blx	r2
+}
+ 800078a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800078e:	f7ff be87 	b.w	80004a0 <_port_irq_epilogue>
+ 8000792:	bf00      	nop
+ 8000794:	40026000 	.word	0x40026000
+ 8000798:	200009b8 	.word	0x200009b8
+ 800079c:	00000000 	.word	0x00000000
+
+080007a0 <Vector70>:
+  flags = (DMA1->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80007a0:	4b08      	ldr	r3, [pc, #32]	; (80007c4 <Vector70+0x24>)
+  if (dma_isr_redir[1].dma_func)
+ 80007a2:	4809      	ldr	r0, [pc, #36]	; (80007c8 <Vector70+0x28>)
+  flags = (DMA1->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80007a4:	6819      	ldr	r1, [r3, #0]
+  if (dma_isr_redir[1].dma_func)
+ 80007a6:	6882      	ldr	r2, [r0, #8]
+  flags = (DMA1->LISR >> 6U) & STM32_DMA_ISR_MASK;
+ 80007a8:	0989      	lsrs	r1, r1, #6
+ 80007aa:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+OSAL_IRQ_HANDLER(STM32_DMA1_CH1_HANDLER) {
+ 80007ae:	b510      	push	{r4, lr}
+  DMA1->LIFCR = flags << 6U;
+ 80007b0:	018c      	lsls	r4, r1, #6
+ 80007b2:	609c      	str	r4, [r3, #8]
+  if (dma_isr_redir[1].dma_func)
+ 80007b4:	b10a      	cbz	r2, 80007ba <Vector70+0x1a>
+    dma_isr_redir[1].dma_func(dma_isr_redir[1].dma_param, flags);
+ 80007b6:	68c0      	ldr	r0, [r0, #12]
+ 80007b8:	4790      	blx	r2
+}
+ 80007ba:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80007be:	f7ff be6f 	b.w	80004a0 <_port_irq_epilogue>
+ 80007c2:	bf00      	nop
+ 80007c4:	40026000 	.word	0x40026000
+ 80007c8:	200009b8 	.word	0x200009b8
+ 80007cc:	00000000 	.word	0x00000000
+
+080007d0 <Vector6C>:
+OSAL_IRQ_HANDLER(STM32_DMA1_CH0_HANDLER) {
+ 80007d0:	b508      	push	{r3, lr}
+  flags = (DMA1->LISR >> 0U) & STM32_DMA_ISR_MASK;
+ 80007d2:	4b07      	ldr	r3, [pc, #28]	; (80007f0 <Vector6C+0x20>)
+  if (dma_isr_redir[0].dma_func)
+ 80007d4:	4a07      	ldr	r2, [pc, #28]	; (80007f4 <Vector6C+0x24>)
+  flags = (DMA1->LISR >> 0U) & STM32_DMA_ISR_MASK;
+ 80007d6:	6819      	ldr	r1, [r3, #0]
+ 80007d8:	f001 013d 	and.w	r1, r1, #61	; 0x3d
+  DMA1->LIFCR = flags << 0U;
+ 80007dc:	6099      	str	r1, [r3, #8]
+  if (dma_isr_redir[0].dma_func)
+ 80007de:	6813      	ldr	r3, [r2, #0]
+ 80007e0:	b10b      	cbz	r3, 80007e6 <Vector6C+0x16>
+    dma_isr_redir[0].dma_func(dma_isr_redir[0].dma_param, flags);
+ 80007e2:	6850      	ldr	r0, [r2, #4]
+ 80007e4:	4798      	blx	r3
+}
+ 80007e6:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+  OSAL_IRQ_EPILOGUE();
+ 80007ea:	f7ff be59 	b.w	80004a0 <_port_irq_epilogue>
+ 80007ee:	bf00      	nop
+ 80007f0:	40026000 	.word	0x40026000
+ 80007f4:	200009b8 	.word	0x200009b8
+	...
+
+08000800 <chTMStopMeasurementX>:
+ *
+ * @return              The realtime counter value.
+ */
+static inline rtcnt_t port_rt_get_counter_value(void) {
+
+  return DWT->CYCCNT;
+ 8000800:	4b0e      	ldr	r3, [pc, #56]	; (800083c <chTMStopMeasurementX+0x3c>)
+ *
+ * @xclass
+ */
+NOINLINE void chTMStopMeasurementX(time_measurement_t *tmp) {
+
+  tm_stop(tmp, chSysGetRealtimeCounterX(), ch.tm.offset);
+ 8000802:	4a0f      	ldr	r2, [pc, #60]	; (8000840 <chTMStopMeasurementX+0x40>)
+ 8000804:	685b      	ldr	r3, [r3, #4]
+  tmp->n++;
+ 8000806:	68c1      	ldr	r1, [r0, #12]
+NOINLINE void chTMStopMeasurementX(time_measurement_t *tmp) {
+ 8000808:	b4f0      	push	{r4, r5, r6, r7}
+  tmp->last = (now - tmp->last) - offset;
+ 800080a:	6887      	ldr	r7, [r0, #8]
+  tm_stop(tmp, chSysGetRealtimeCounterX(), ch.tm.offset);
+ 800080c:	6f56      	ldr	r6, [r2, #116]	; 0x74
+  if (tmp->last > tmp->worst) {
+ 800080e:	6842      	ldr	r2, [r0, #4]
+  tmp->cumulative += (rttime_t)tmp->last;
+ 8000810:	e9d0 4504 	ldrd	r4, r5, [r0, #16]
+  tmp->last = (now - tmp->last) - offset;
+ 8000814:	1bdb      	subs	r3, r3, r7
+ 8000816:	1b9b      	subs	r3, r3, r6
+  tmp->cumulative += (rttime_t)tmp->last;
+ 8000818:	18e4      	adds	r4, r4, r3
+ 800081a:	f145 0500 	adc.w	r5, r5, #0
+  if (tmp->last > tmp->worst) {
+ 800081e:	4293      	cmp	r3, r2
+  if (tmp->last < tmp->best) {
+ 8000820:	6802      	ldr	r2, [r0, #0]
+    tmp->worst = tmp->last;
+ 8000822:	bf88      	it	hi
+ 8000824:	6043      	strhi	r3, [r0, #4]
+  tmp->n++;
+ 8000826:	3101      	adds	r1, #1
+  if (tmp->last < tmp->best) {
+ 8000828:	4293      	cmp	r3, r2
+  tmp->cumulative += (rttime_t)tmp->last;
+ 800082a:	e9c0 4504 	strd	r4, r5, [r0, #16]
+  tmp->n++;
+ 800082e:	60c1      	str	r1, [r0, #12]
+  tmp->last = (now - tmp->last) - offset;
+ 8000830:	6083      	str	r3, [r0, #8]
+    tmp->best = tmp->last;
+ 8000832:	bf38      	it	cc
+ 8000834:	6003      	strcc	r3, [r0, #0]
+}
+ 8000836:	bcf0      	pop	{r4, r5, r6, r7}
+ 8000838:	4770      	bx	lr
+ 800083a:	bf00      	nop
+ 800083c:	e0001000 	.word	0xe0001000
+ 8000840:	20000848 	.word	0x20000848
+	...
+
+08000850 <chSchDoReschedule>:
+ *          itself or from within the port layer.
+ *
+ * @special
+ */
+void chSchDoReschedule(void) {
+  thread_t *otp = currp;
+ 8000850:	4a0e      	ldr	r2, [pc, #56]	; (800088c <chSchDoReschedule+0x3c>)
+  thread_t *tp = tqp->next;
+ 8000852:	6810      	ldr	r0, [r2, #0]
+  tqp->next             = tp->queue.next;
+ 8000854:	6803      	ldr	r3, [r0, #0]
+void chSchDoReschedule(void) {
+ 8000856:	b430      	push	{r4, r5}
+
+  /* Picks the first thread from the ready queue and makes it current.*/
+  currp = queue_fifo_remove(&ch.rlist.queue);
+  currp->state = CH_STATE_CURRENT;
+ 8000858:	2101      	movs	r1, #1
+  thread_t *otp = currp;
+ 800085a:	6994      	ldr	r4, [r2, #24]
+  tqp->next->queue.prev = (thread_t *)tqp;
+ 800085c:	605a      	str	r2, [r3, #4]
+  tp->state = CH_STATE_READY;
+ 800085e:	2500      	movs	r5, #0
+  currp->state = CH_STATE_CURRENT;
+ 8000860:	f880 1020 	strb.w	r1, [r0, #32]
+
+  /* Handling idle-leave hook.*/
+  if (otp->prio == IDLEPRIO) {
+ 8000864:	68a1      	ldr	r1, [r4, #8]
+  tqp->next             = tp->queue.next;
+ 8000866:	6013      	str	r3, [r2, #0]
+  currp = queue_fifo_remove(&ch.rlist.queue);
+ 8000868:	6190      	str	r0, [r2, #24]
+  tp->state = CH_STATE_READY;
+ 800086a:	f884 5020 	strb.w	r5, [r4, #32]
+ 800086e:	e000      	b.n	8000872 <chSchDoReschedule+0x22>
+ 8000870:	681b      	ldr	r3, [r3, #0]
+  } while (cp->prio > tp->prio);
+ 8000872:	689a      	ldr	r2, [r3, #8]
+ 8000874:	4291      	cmp	r1, r2
+ 8000876:	d3fb      	bcc.n	8000870 <chSchDoReschedule+0x20>
+  tp->queue.prev             = cp->queue.prev;
+ 8000878:	685a      	ldr	r2, [r3, #4]
+ 800087a:	6062      	str	r2, [r4, #4]
+  tp->queue.next             = cp;
+ 800087c:	6023      	str	r3, [r4, #0]
+     ahead of its peers.*/
+  otp = chSchReadyAheadI(otp);
+#endif /* !(CH_CFG_TIME_QUANTUM > 0) */
+
+  /* Swap operation as tail call.*/
+  chSysSwitch(currp, otp);
+ 800087e:	4621      	mov	r1, r4
+  tp->queue.prev->queue.next = tp;
+ 8000880:	6014      	str	r4, [r2, #0]
+  cp->queue.prev             = tp;
+ 8000882:	605c      	str	r4, [r3, #4]
+}
+ 8000884:	bc30      	pop	{r4, r5}
+  chSysSwitch(currp, otp);
+ 8000886:	f7ff bd05 	b.w	8000294 <_port_switch>
+ 800088a:	bf00      	nop
+ 800088c:	20000848 	.word	0x20000848
+
+08000890 <chSchGoSleepTimeoutS>:
+msg_t chSchGoSleepTimeoutS(tstate_t newstate, systime_t time) {
+ 8000890:	b5f0      	push	{r4, r5, r6, r7, lr}
+  if (TIME_INFINITE != time) {
+ 8000892:	1c4b      	adds	r3, r1, #1
+msg_t chSchGoSleepTimeoutS(tstate_t newstate, systime_t time) {
+ 8000894:	b087      	sub	sp, #28
+  if (TIME_INFINITE != time) {
+ 8000896:	d04c      	beq.n	8000932 <chSchGoSleepTimeoutS+0xa2>
+    chVTDoSetI(&vt, time, wakeup, currp);
+ 8000898:	4c40      	ldr	r4, [pc, #256]	; (800099c <chSchGoSleepTimeoutS+0x10c>)
+    if (delay < (systime_t)CH_CFG_ST_TIMEDELTA) {
+      delay = (systime_t)CH_CFG_ST_TIMEDELTA;
+    }
+
+    /* Special case where the timers list is empty.*/
+    if (&ch.vtlist == (virtual_timers_list_t *)ch.vtlist.next) {
+ 800089a:	4625      	mov	r5, r4
+  vtp->par = par;
+ 800089c:	69a3      	ldr	r3, [r4, #24]
+ 800089e:	9305      	str	r3, [sp, #20]
+    if (&ch.vtlist == (virtual_timers_list_t *)ch.vtlist.next) {
+ 80008a0:	f855 3f1c 	ldr.w	r3, [r5, #28]!
+ 80008a4:	2902      	cmp	r1, #2
+ *
+ * @notapi
+ */
+static inline systime_t st_lld_get_counter(void) {
+
+  return (systime_t)STM32_ST_TIM->CNT;
+ 80008a6:	f04f 4e80 	mov.w	lr, #1073741824	; 0x40000000
+ 80008aa:	4607      	mov	r7, r0
+ 80008ac:	bf38      	it	cc
+ 80008ae:	2102      	movcc	r1, #2
+  vtp->func = vtfunc;
+ 80008b0:	483b      	ldr	r0, [pc, #236]	; (80009a0 <chSchGoSleepTimeoutS+0x110>)
+ 80008b2:	f8de 2024 	ldr.w	r2, [lr, #36]	; 0x24
+ 80008b6:	9004      	str	r0, [sp, #16]
+    if (&ch.vtlist == (virtual_timers_list_t *)ch.vtlist.next) {
+ 80008b8:	42ab      	cmp	r3, r5
+ 80008ba:	d05a      	beq.n	8000972 <chSchGoSleepTimeoutS+0xe2>
+    /* Pointer to the first element in the delta list, which is non-empty.*/
+    p = ch.vtlist.next;
+
+    /* Delay as delta from 'lasttime'. Note, it can overflow and the value
+       becomes lower than 'now'.*/
+    delta = now - ch.vtlist.lasttime + delay;
+ 80008bc:	6aa0      	ldr	r0, [r4, #40]	; 0x28
+ 80008be:	1a12      	subs	r2, r2, r0
+
+    if (delta < now - ch.vtlist.lasttime) {
+ 80008c0:	1889      	adds	r1, r1, r2
+      /* Scenario where a very large delay excedeed the numeric range, it
+         requires a special handling. We need to skip the first element and
+         adjust the delta to wrap back in the previous numeric range.*/
+      delta -= p->delta;
+ 80008c2:	689a      	ldr	r2, [r3, #8]
+    if (delta < now - ch.vtlist.lasttime) {
+ 80008c4:	d231      	bcs.n	800092a <chSchGoSleepTimeoutS+0x9a>
+      p = p->next;
+    }
+    else if (delta < p->delta) {
+ 80008c6:	4291      	cmp	r1, r2
+     /* A small delay that will become the first element in the delta list
+        and next deadline.*/
+      port_timer_set_alarm(ch.vtlist.lasttime + delta);
+ 80008c8:	bf3c      	itt	cc
+ 80008ca:	1840      	addcc	r0, r0, r1
+ *
+ * @notapi
+ */
+static inline void st_lld_set_alarm(systime_t time) {
+
+  STM32_ST_TIM->CCR[0] = (uint32_t)time;
+ 80008cc:	f8ce 0034 	strcc.w	r0, [lr, #52]	; 0x34
+  p = ch.vtlist.next;
+#endif /* CH_CFG_ST_TIMEDELTA == 0 */
+
+  /* The delta list is scanned in order to find the correct position for
+     this timer. */
+  while (p->delta < delta) {
+ 80008d0:	4291      	cmp	r1, r2
+ 80008d2:	d904      	bls.n	80008de <chSchGoSleepTimeoutS+0x4e>
+    delta -= p->delta;
+    p = p->next;
+ 80008d4:	681b      	ldr	r3, [r3, #0]
+    delta -= p->delta;
+ 80008d6:	1a89      	subs	r1, r1, r2
+  while (p->delta < delta) {
+ 80008d8:	689a      	ldr	r2, [r3, #8]
+ 80008da:	428a      	cmp	r2, r1
+ 80008dc:	d3fa      	bcc.n	80008d4 <chSchGoSleepTimeoutS+0x44>
+  }
+
+  /* The timer is inserted in the delta list.*/
+  vtp->next = p;
+  vtp->prev = vtp->next->prev;
+ 80008de:	685a      	ldr	r2, [r3, #4]
+ 80008e0:	9202      	str	r2, [sp, #8]
+  vtp->prev->next = vtp;
+ 80008e2:	ae01      	add	r6, sp, #4
+  vtp->next = p;
+ 80008e4:	9301      	str	r3, [sp, #4]
+  vtp->prev->next = vtp;
+ 80008e6:	6016      	str	r6, [r2, #0]
+  p->prev = vtp;
+ 80008e8:	605e      	str	r6, [r3, #4]
+  vtp->delta = delta
+ 80008ea:	9103      	str	r1, [sp, #12]
+
+  /* Special case when the timer is in last position in the list, the
+     value in the header must be restored.*/;
+  p->delta -= delta;
+ 80008ec:	689a      	ldr	r2, [r3, #8]
+ 80008ee:	1a51      	subs	r1, r2, r1
+  ch.vtlist.delta = (systime_t)-1;
+ 80008f0:	f04f 32ff 	mov.w	r2, #4294967295
+  p->delta -= delta;
+ 80008f4:	6099      	str	r1, [r3, #8]
+  ch.vtlist.delta = (systime_t)-1;
+ 80008f6:	6262      	str	r2, [r4, #36]	; 0x24
+    chSchGoSleepS(newstate);
+ 80008f8:	4638      	mov	r0, r7
+ 80008fa:	f7ff fd51 	bl	80003a0 <chSchGoSleepS>
+    if (chVTIsArmedI(&vt)) {
+ 80008fe:	9b04      	ldr	r3, [sp, #16]
+ 8000900:	b17b      	cbz	r3, 8000922 <chSchGoSleepTimeoutS+0x92>
+#else /* CH_CFG_ST_TIMEDELTA > 0 */
+  systime_t nowdelta, delta;
+
+  /* If the timer is not the first of the list then it is simply unlinked
+     else the operation is more complex.*/
+  if (ch.vtlist.next != vtp) {
+ 8000902:	69e3      	ldr	r3, [r4, #28]
+ 8000904:	42b3      	cmp	r3, r6
+ 8000906:	d01b      	beq.n	8000940 <chSchGoSleepTimeoutS+0xb0>
+    /* Removing the element from the delta list.*/
+    vtp->prev->next = vtp->next;
+ 8000908:	9a02      	ldr	r2, [sp, #8]
+ 800090a:	9b01      	ldr	r3, [sp, #4]
+ 800090c:	6013      	str	r3, [r2, #0]
+    vtp->next->prev = vtp->prev;
+ 800090e:	9b01      	ldr	r3, [sp, #4]
+    vtp->func = NULL;
+ 8000910:	2100      	movs	r1, #0
+
+    /* Adding delta to the next element, if it is not the last one.*/
+    if (&ch.vtlist != (virtual_timers_list_t *)vtp->next)
+ 8000912:	42ab      	cmp	r3, r5
+    vtp->next->prev = vtp->prev;
+ 8000914:	605a      	str	r2, [r3, #4]
+    vtp->func = NULL;
+ 8000916:	9104      	str	r1, [sp, #16]
+    if (&ch.vtlist != (virtual_timers_list_t *)vtp->next)
+ 8000918:	d003      	beq.n	8000922 <chSchGoSleepTimeoutS+0x92>
+      vtp->next->delta += vtp->delta;
+ 800091a:	689a      	ldr	r2, [r3, #8]
+ 800091c:	9903      	ldr	r1, [sp, #12]
+ 800091e:	440a      	add	r2, r1
+ 8000920:	609a      	str	r2, [r3, #8]
+  return currp->u.rdymsg;
+ 8000922:	69a3      	ldr	r3, [r4, #24]
+}
+ 8000924:	6a58      	ldr	r0, [r3, #36]	; 0x24
+ 8000926:	b007      	add	sp, #28
+ 8000928:	bdf0      	pop	{r4, r5, r6, r7, pc}
+      p = p->next;
+ 800092a:	681b      	ldr	r3, [r3, #0]
+      delta -= p->delta;
+ 800092c:	1a89      	subs	r1, r1, r2
+ 800092e:	689a      	ldr	r2, [r3, #8]
+ 8000930:	e7ce      	b.n	80008d0 <chSchGoSleepTimeoutS+0x40>
+ 8000932:	4c1a      	ldr	r4, [pc, #104]	; (800099c <chSchGoSleepTimeoutS+0x10c>)
+    chSchGoSleepS(newstate);
+ 8000934:	f7ff fd34 	bl	80003a0 <chSchGoSleepS>
+  return currp->u.rdymsg;
+ 8000938:	69a3      	ldr	r3, [r4, #24]
+}
+ 800093a:	6a58      	ldr	r0, [r3, #36]	; 0x24
+ 800093c:	b007      	add	sp, #28
+ 800093e:	bdf0      	pop	{r4, r5, r6, r7, pc}
+
+    return;
+  }
+
+  /* Removing the first timer from the list.*/
+  ch.vtlist.next = vtp->next;
+ 8000940:	9a01      	ldr	r2, [sp, #4]
+ 8000942:	61e2      	str	r2, [r4, #28]
+  ch.vtlist.next->prev = (virtual_timer_t *)&ch.vtlist;
+  vtp->func = NULL;
+ 8000944:	2300      	movs	r3, #0
+
+  /* If the list become empty then the alarm timer is stopped and done.*/
+  if (&ch.vtlist == (virtual_timers_list_t *)ch.vtlist.next) {
+ 8000946:	42aa      	cmp	r2, r5
+  ch.vtlist.next->prev = (virtual_timer_t *)&ch.vtlist;
+ 8000948:	6055      	str	r5, [r2, #4]
+  vtp->func = NULL;
+ 800094a:	9304      	str	r3, [sp, #16]
+  if (&ch.vtlist == (virtual_timers_list_t *)ch.vtlist.next) {
+ 800094c:	d022      	beq.n	8000994 <chSchGoSleepTimeoutS+0x104>
+
+    return;
+  }
+
+  /* The delta of the removed timer is added to the new first timer.*/
+  ch.vtlist.next->delta += vtp->delta;
+ 800094e:	6893      	ldr	r3, [r2, #8]
+ 8000950:	9803      	ldr	r0, [sp, #12]
+/*  if (ch.vtlist.next->delta == 0) {
+    return;
+  }*/
+
+  /* Distance in ticks between the last alarm event and current time.*/
+  nowdelta = chVTGetSystemTimeX() - ch.vtlist.lasttime;
+ 8000952:	6aa1      	ldr	r1, [r4, #40]	; 0x28
+  ch.vtlist.next->delta += vtp->delta;
+ 8000954:	4403      	add	r3, r0
+  return (systime_t)STM32_ST_TIM->CNT;
+ 8000956:	f04f 4580 	mov.w	r5, #1073741824	; 0x40000000
+ 800095a:	6093      	str	r3, [r2, #8]
+ 800095c:	6a68      	ldr	r0, [r5, #36]	; 0x24
+  nowdelta = chVTGetSystemTimeX() - ch.vtlist.lasttime;
+ 800095e:	1a42      	subs	r2, r0, r1
+
+  /* If the current time surpassed the time of the next element in list
+     then the event interrupt is already pending, just return.*/
+  if (nowdelta >= ch.vtlist.next->delta) {
+ 8000960:	4293      	cmp	r3, r2
+ 8000962:	d9de      	bls.n	8000922 <chSchGoSleepTimeoutS+0x92>
+    return;
+  }
+
+  /* Distance from the next scheduled event and now.*/
+  delta = ch.vtlist.next->delta - nowdelta;
+ 8000964:	1a9b      	subs	r3, r3, r2
+     ticks from now.*/
+  if (delta < (systime_t)CH_CFG_ST_TIMEDELTA) {
+    delta = (systime_t)CH_CFG_ST_TIMEDELTA;
+  }
+
+  port_timer_set_alarm(ch.vtlist.lasttime + nowdelta + delta);
+ 8000966:	2b02      	cmp	r3, #2
+ 8000968:	bf2c      	ite	cs
+ 800096a:	18c3      	addcs	r3, r0, r3
+ 800096c:	1c83      	addcc	r3, r0, #2
+  STM32_ST_TIM->CCR[0] = (uint32_t)time;
+ 800096e:	636b      	str	r3, [r5, #52]	; 0x34
+ 8000970:	e7d7      	b.n	8000922 <chSchGoSleepTimeoutS+0x92>
+      ch.vtlist.lasttime = now;
+ 8000972:	62a2      	str	r2, [r4, #40]	; 0x28
+      port_timer_start_alarm(ch.vtlist.lasttime + delay);
+ 8000974:	1888      	adds	r0, r1, r2
+      ch.vtlist.next = vtp;
+ 8000976:	ae01      	add	r6, sp, #4
+  STM32_ST_TIM->SR     = 0;
+ 8000978:	2200      	movs	r2, #0
+  STM32_ST_TIM->DIER   = STM32_TIM_DIER_CC1IE;
+ 800097a:	2302      	movs	r3, #2
+      vtp->next = (virtual_timer_t *)&ch.vtlist;
+ 800097c:	9501      	str	r5, [sp, #4]
+      vtp->prev = (virtual_timer_t *)&ch.vtlist;
+ 800097e:	9502      	str	r5, [sp, #8]
+      vtp->delta = delay;
+ 8000980:	9103      	str	r1, [sp, #12]
+      ch.vtlist.next = vtp;
+ 8000982:	61e6      	str	r6, [r4, #28]
+      ch.vtlist.prev = vtp;
+ 8000984:	6226      	str	r6, [r4, #32]
+  STM32_ST_TIM->CCR[0] = (uint32_t)time;
+ 8000986:	f8ce 0034 	str.w	r0, [lr, #52]	; 0x34
+  STM32_ST_TIM->SR     = 0;
+ 800098a:	f8ce 2010 	str.w	r2, [lr, #16]
+  STM32_ST_TIM->DIER   = STM32_TIM_DIER_CC1IE;
+ 800098e:	f8ce 300c 	str.w	r3, [lr, #12]
+ 8000992:	e7b1      	b.n	80008f8 <chSchGoSleepTimeoutS+0x68>
+  STM32_ST_TIM->DIER = 0;
+ 8000994:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+ 8000998:	60d3      	str	r3, [r2, #12]
+ 800099a:	e7c2      	b.n	8000922 <chSchGoSleepTimeoutS+0x92>
+ 800099c:	20000848 	.word	0x20000848
+ 80009a0:	08000321 	.word	0x08000321
+	...
+
+080009b0 <chThdEnqueueTimeoutS>:
+ *
+ * @sclass
+ */
+msg_t chThdEnqueueTimeoutS(threads_queue_t *tqp, systime_t timeout) {
+
+  if (TIME_IMMEDIATE == timeout) {
+ 80009b0:	b161      	cbz	r1, 80009cc <chThdEnqueueTimeoutS+0x1c>
+    return MSG_TIMEOUT;
+  }
+
+  queue_insert(currp, tqp);
+ 80009b2:	4b08      	ldr	r3, [pc, #32]	; (80009d4 <chThdEnqueueTimeoutS+0x24>)
+msg_t chThdEnqueueTimeoutS(threads_queue_t *tqp, systime_t timeout) {
+ 80009b4:	b410      	push	{r4}
+ 80009b6:	4602      	mov	r2, r0
+  tp->queue.prev             = tqp->prev;
+ 80009b8:	6844      	ldr	r4, [r0, #4]
+  queue_insert(currp, tqp);
+ 80009ba:	699b      	ldr	r3, [r3, #24]
+
+  return chSchGoSleepTimeoutS(CH_STATE_QUEUED, timeout);
+ 80009bc:	2004      	movs	r0, #4
+ 80009be:	e883 0014 	stmia.w	r3, {r2, r4}
+  tp->queue.prev->queue.next = tp;
+ 80009c2:	6023      	str	r3, [r4, #0]
+  tqp->prev                  = tp;
+ 80009c4:	6053      	str	r3, [r2, #4]
+}
+ 80009c6:	bc10      	pop	{r4}
+  return chSchGoSleepTimeoutS(CH_STATE_QUEUED, timeout);
+ 80009c8:	f7ff bf62 	b.w	8000890 <chSchGoSleepTimeoutS>
+}
+ 80009cc:	f04f 30ff 	mov.w	r0, #4294967295
+ 80009d0:	4770      	bx	lr
+ 80009d2:	bf00      	nop
+ 80009d4:	20000848 	.word	0x20000848
+	...
+
+080009e0 <oqWriteTimeout>:
+ * @return              The number of bytes effectively transferred.
+ *
+ * @api
+ */
+size_t oqWriteTimeout(output_queue_t *oqp, const uint8_t *bp,
+                      size_t n, systime_t timeout) {
+ 80009e0:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 80009e4:	4699      	mov	r9, r3
+ 80009e6:	b083      	sub	sp, #12
+ 80009e8:	4604      	mov	r4, r0
+ 80009ea:	460d      	mov	r5, r1
+ 80009ec:	4616      	mov	r6, r2
+  systime_t deadline;
+  qnotify_t nfy = oqp->q_notify;
+ 80009ee:	f8d0 801c 	ldr.w	r8, [r0, #28]
+  __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
+ 80009f2:	2320      	movs	r3, #32
+ 80009f4:	f383 8811 	msr	BASEPRI, r3
+  return (systime_t)STM32_ST_TIM->CNT;
+ 80009f8:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+  size_t w = 0;
+ 80009fc:	2700      	movs	r7, #0
+ 80009fe:	6a52      	ldr	r2, [r2, #36]	; 0x24
+ 8000a00:	9300      	str	r3, [sp, #0]
+  osalSysLock();
+
+  /* Time deadline for the whole operation, note the result is invalid
+     when timeout is TIME_INFINITE or TIME_IMMEDIATE but in that case
+     the deadline is not used.*/
+  deadline = osalOsGetSystemTimeX() + timeout;
+ 8000a02:	eb09 0302 	add.w	r3, r9, r2
+ 8000a06:	9301      	str	r3, [sp, #4]
+    msg_t msg;
+
+    while (oqIsFullI(oqp)) {
+      /* TIME_INFINITE and TIME_IMMEDIATE are handled differently, no
+         deadline.*/
+      if ((timeout == TIME_INFINITE) || (timeout == TIME_IMMEDIATE)) {
+ 8000a08:	f109 3bff 	add.w	fp, r9, #4294967295
+ 8000a0c:	46ba      	mov	sl, r7
+    while (oqIsFullI(oqp)) {
+ 8000a0e:	68a3      	ldr	r3, [r4, #8]
+ 8000a10:	b1fb      	cbz	r3, 8000a52 <oqWriteTimeout+0x72>
+      }
+    }
+
+    /* Putting the character into the queue.*/
+    oqp->q_counter--;
+    *oqp->q_wrptr++ = *bp++;
+ 8000a12:	6962      	ldr	r2, [r4, #20]
+    oqp->q_counter--;
+ 8000a14:	68a3      	ldr	r3, [r4, #8]
+    *oqp->q_wrptr++ = *bp++;
+ 8000a16:	1c51      	adds	r1, r2, #1
+    oqp->q_counter--;
+ 8000a18:	3b01      	subs	r3, #1
+    *oqp->q_wrptr++ = *bp++;
+ 8000a1a:	6161      	str	r1, [r4, #20]
+    oqp->q_counter--;
+ 8000a1c:	60a3      	str	r3, [r4, #8]
+    *oqp->q_wrptr++ = *bp++;
+ 8000a1e:	782b      	ldrb	r3, [r5, #0]
+ 8000a20:	7013      	strb	r3, [r2, #0]
+    if (oqp->q_wrptr >= oqp->q_top) {
+ 8000a22:	6923      	ldr	r3, [r4, #16]
+ 8000a24:	6962      	ldr	r2, [r4, #20]
+ 8000a26:	429a      	cmp	r2, r3
+      oqp->q_wrptr = oqp->q_buffer;
+ 8000a28:	bf24      	itt	cs
+ 8000a2a:	68e3      	ldrcs	r3, [r4, #12]
+ 8000a2c:	6163      	strcs	r3, [r4, #20]
+    *oqp->q_wrptr++ = *bp++;
+ 8000a2e:	3501      	adds	r5, #1
+    }
+
+    /* Inform the low side that the queue has at least one character available.*/
+    if (nfy != NULL) {
+ 8000a30:	f1b8 0f00 	cmp.w	r8, #0
+ 8000a34:	d001      	beq.n	8000a3a <oqWriteTimeout+0x5a>
+      nfy(oqp);
+ 8000a36:	4620      	mov	r0, r4
+ 8000a38:	47c0      	blx	r8
+ 8000a3a:	f38a 8811 	msr	BASEPRI, sl
+
+    /* Giving a preemption chance in a controlled point.*/
+    osalSysUnlock();
+
+    w++;
+    if (--n == 0U) {
+ 8000a3e:	3e01      	subs	r6, #1
+    w++;
+ 8000a40:	f107 0701 	add.w	r7, r7, #1
+    if (--n == 0U) {
+ 8000a44:	d017      	beq.n	8000a76 <oqWriteTimeout+0x96>
+ 8000a46:	9b00      	ldr	r3, [sp, #0]
+ 8000a48:	f383 8811 	msr	BASEPRI, r3
+    while (oqIsFullI(oqp)) {
+ 8000a4c:	68a3      	ldr	r3, [r4, #8]
+ 8000a4e:	2b00      	cmp	r3, #0
+ 8000a50:	d1df      	bne.n	8000a12 <oqWriteTimeout+0x32>
+      if ((timeout == TIME_INFINITE) || (timeout == TIME_IMMEDIATE)) {
+ 8000a52:	f11b 0f03 	cmn.w	fp, #3
+ 8000a56:	d812      	bhi.n	8000a7e <oqWriteTimeout+0x9e>
+ 8000a58:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+ 8000a5c:	6a51      	ldr	r1, [r2, #36]	; 0x24
+        systime_t next_timeout = deadline - osalOsGetSystemTimeX();
+ 8000a5e:	9a01      	ldr	r2, [sp, #4]
+ 8000a60:	1a51      	subs	r1, r2, r1
+        if (next_timeout > timeout) {
+ 8000a62:	4589      	cmp	r9, r1
+ 8000a64:	d305      	bcc.n	8000a72 <oqWriteTimeout+0x92>
+ * @sclass
+ */
+static inline msg_t osalThreadEnqueueTimeoutS(threads_queue_t *tqp,
+                                              systime_t time) {
+
+  return chThdEnqueueTimeoutS(tqp, time);
+ 8000a66:	4620      	mov	r0, r4
+ 8000a68:	f7ff ffa2 	bl	80009b0 <chThdEnqueueTimeoutS>
+      if (msg != MSG_OK) {
+ 8000a6c:	2800      	cmp	r0, #0
+ 8000a6e:	d0ce      	beq.n	8000a0e <oqWriteTimeout+0x2e>
+ 8000a70:	2300      	movs	r3, #0
+ 8000a72:	f383 8811 	msr	BASEPRI, r3
+      return w;
+    }
+
+    osalSysLock();
+  }
+}
+ 8000a76:	4638      	mov	r0, r7
+ 8000a78:	b003      	add	sp, #12
+ 8000a7a:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 8000a7e:	4649      	mov	r1, r9
+ 8000a80:	4620      	mov	r0, r4
+ 8000a82:	f7ff ff95 	bl	80009b0 <chThdEnqueueTimeoutS>
+      if (msg != MSG_OK) {
+ 8000a86:	2800      	cmp	r0, #0
+ 8000a88:	d0c1      	beq.n	8000a0e <oqWriteTimeout+0x2e>
+ 8000a8a:	e7f1      	b.n	8000a70 <oqWriteTimeout+0x90>
+ 8000a8c:	0000      	movs	r0, r0
+	...
+
+08000a90 <_writet.lto_priv.43>:
+  return iqGetTimeout(&((SerialDriver *)ip)->iqueue, timeout);
+}
+
+static size_t _writet(void *ip, const uint8_t *bp, size_t n, systime_t timeout) {
+
+  return oqWriteTimeout(&((SerialDriver *)ip)->oqueue, bp, n, timeout);
+ 8000a90:	3030      	adds	r0, #48	; 0x30
+ 8000a92:	f7ff bfa5 	b.w	80009e0 <oqWriteTimeout>
+ 8000a96:	bf00      	nop
+	...
+
+08000aa0 <_write.lto_priv.37>:
+  return oqWriteTimeout(&((SerialDriver *)ip)->oqueue, bp,
+ 8000aa0:	3030      	adds	r0, #48	; 0x30
+ 8000aa2:	f04f 33ff 	mov.w	r3, #4294967295
+ 8000aa6:	f7ff bf9b 	b.w	80009e0 <oqWriteTimeout>
+ 8000aaa:	bf00      	nop
+ 8000aac:	0000      	movs	r0, r0
+	...
+
+08000ab0 <oqPutTimeout>:
+msg_t oqPutTimeout(output_queue_t *oqp, uint8_t b, systime_t timeout) {
+ 8000ab0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000ab2:	4604      	mov	r4, r0
+ 8000ab4:	460f      	mov	r7, r1
+ 8000ab6:	4616      	mov	r6, r2
+ 8000ab8:	2320      	movs	r3, #32
+ 8000aba:	f383 8811 	msr	BASEPRI, r3
+ 8000abe:	e003      	b.n	8000ac8 <oqPutTimeout+0x18>
+ 8000ac0:	f7ff ff76 	bl	80009b0 <chThdEnqueueTimeoutS>
+    if (msg < MSG_OK) {
+ 8000ac4:	2800      	cmp	r0, #0
+ 8000ac6:	db19      	blt.n	8000afc <oqPutTimeout+0x4c>
+  while (oqIsFullI(oqp)) {
+ 8000ac8:	68a5      	ldr	r5, [r4, #8]
+ 8000aca:	4631      	mov	r1, r6
+ 8000acc:	4620      	mov	r0, r4
+ 8000ace:	2d00      	cmp	r5, #0
+ 8000ad0:	d0f6      	beq.n	8000ac0 <oqPutTimeout+0x10>
+  *oqp->q_wrptr++ = b;
+ 8000ad2:	6962      	ldr	r2, [r4, #20]
+  oqp->q_counter--;
+ 8000ad4:	68a3      	ldr	r3, [r4, #8]
+  *oqp->q_wrptr++ = b;
+ 8000ad6:	1c51      	adds	r1, r2, #1
+  oqp->q_counter--;
+ 8000ad8:	3b01      	subs	r3, #1
+  *oqp->q_wrptr++ = b;
+ 8000ada:	6161      	str	r1, [r4, #20]
+  oqp->q_counter--;
+ 8000adc:	60a3      	str	r3, [r4, #8]
+  *oqp->q_wrptr++ = b;
+ 8000ade:	7017      	strb	r7, [r2, #0]
+  if (oqp->q_wrptr >= oqp->q_top) {
+ 8000ae0:	6923      	ldr	r3, [r4, #16]
+ 8000ae2:	6962      	ldr	r2, [r4, #20]
+ 8000ae4:	429a      	cmp	r2, r3
+    oqp->q_wrptr = oqp->q_buffer;
+ 8000ae6:	bf24      	itt	cs
+ 8000ae8:	68e3      	ldrcs	r3, [r4, #12]
+ 8000aea:	6163      	strcs	r3, [r4, #20]
+  if (oqp->q_notify != NULL) {
+ 8000aec:	69e3      	ldr	r3, [r4, #28]
+ 8000aee:	b10b      	cbz	r3, 8000af4 <oqPutTimeout+0x44>
+    oqp->q_notify(oqp);
+ 8000af0:	4620      	mov	r0, r4
+ 8000af2:	4798      	blx	r3
+ 8000af4:	2000      	movs	r0, #0
+ 8000af6:	f380 8811 	msr	BASEPRI, r0
+}
+ 8000afa:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 8000afc:	f385 8811 	msr	BASEPRI, r5
+ 8000b00:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 8000b02:	bf00      	nop
+	...
+
+08000b10 <_putt.lto_priv.41>:
+  return oqPutTimeout(&((SerialDriver *)ip)->oqueue, b, timeout);
+ 8000b10:	3030      	adds	r0, #48	; 0x30
+ 8000b12:	f7ff bfcd 	b.w	8000ab0 <oqPutTimeout>
+ 8000b16:	bf00      	nop
+	...
+
+08000b20 <_put.lto_priv.39>:
+  return oqPutTimeout(&((SerialDriver *)ip)->oqueue, b, TIME_INFINITE);
+ 8000b20:	3030      	adds	r0, #48	; 0x30
+ 8000b22:	f04f 32ff 	mov.w	r2, #4294967295
+ 8000b26:	f7ff bfc3 	b.w	8000ab0 <oqPutTimeout>
+ 8000b2a:	bf00      	nop
+ 8000b2c:	0000      	movs	r0, r0
+	...
+
+08000b30 <iqReadTimeout>:
+                     size_t n, systime_t timeout) {
+ 8000b30:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 8000b34:	4699      	mov	r9, r3
+ 8000b36:	b083      	sub	sp, #12
+ 8000b38:	4604      	mov	r4, r0
+ 8000b3a:	460d      	mov	r5, r1
+ 8000b3c:	4616      	mov	r6, r2
+  qnotify_t nfy = iqp->q_notify;
+ 8000b3e:	f8d0 801c 	ldr.w	r8, [r0, #28]
+ 8000b42:	2320      	movs	r3, #32
+ 8000b44:	f383 8811 	msr	BASEPRI, r3
+ 8000b48:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+  size_t r = 0;
+ 8000b4c:	2700      	movs	r7, #0
+ 8000b4e:	6a52      	ldr	r2, [r2, #36]	; 0x24
+ 8000b50:	9300      	str	r3, [sp, #0]
+  deadline = osalOsGetSystemTimeX() + timeout;
+ 8000b52:	eb09 0302 	add.w	r3, r9, r2
+ 8000b56:	9301      	str	r3, [sp, #4]
+      if ((timeout == TIME_INFINITE) || (timeout == TIME_IMMEDIATE)) {
+ 8000b58:	f109 3bff 	add.w	fp, r9, #4294967295
+ 8000b5c:	46ba      	mov	sl, r7
+    while (iqIsEmptyI(iqp)) {
+ 8000b5e:	68a3      	ldr	r3, [r4, #8]
+ 8000b60:	b1fb      	cbz	r3, 8000ba2 <iqReadTimeout+0x72>
+    *bp++ = *iqp->q_rdptr++;
+ 8000b62:	69a2      	ldr	r2, [r4, #24]
+    iqp->q_counter--;
+ 8000b64:	68a3      	ldr	r3, [r4, #8]
+    *bp++ = *iqp->q_rdptr++;
+ 8000b66:	1c51      	adds	r1, r2, #1
+    iqp->q_counter--;
+ 8000b68:	3b01      	subs	r3, #1
+    *bp++ = *iqp->q_rdptr++;
+ 8000b6a:	61a1      	str	r1, [r4, #24]
+    iqp->q_counter--;
+ 8000b6c:	60a3      	str	r3, [r4, #8]
+    *bp++ = *iqp->q_rdptr++;
+ 8000b6e:	7813      	ldrb	r3, [r2, #0]
+ 8000b70:	702b      	strb	r3, [r5, #0]
+    if (iqp->q_rdptr >= iqp->q_top) {
+ 8000b72:	6923      	ldr	r3, [r4, #16]
+ 8000b74:	69a2      	ldr	r2, [r4, #24]
+ 8000b76:	429a      	cmp	r2, r3
+      iqp->q_rdptr = iqp->q_buffer;
+ 8000b78:	bf24      	itt	cs
+ 8000b7a:	68e3      	ldrcs	r3, [r4, #12]
+ 8000b7c:	61a3      	strcs	r3, [r4, #24]
+    *bp++ = *iqp->q_rdptr++;
+ 8000b7e:	3501      	adds	r5, #1
+    if (nfy != NULL) {
+ 8000b80:	f1b8 0f00 	cmp.w	r8, #0
+ 8000b84:	d001      	beq.n	8000b8a <iqReadTimeout+0x5a>
+      nfy(iqp);
+ 8000b86:	4620      	mov	r0, r4
+ 8000b88:	47c0      	blx	r8
+ 8000b8a:	f38a 8811 	msr	BASEPRI, sl
+    if (--n == 0U) {
+ 8000b8e:	3e01      	subs	r6, #1
+    r++;
+ 8000b90:	f107 0701 	add.w	r7, r7, #1
+    if (--n == 0U) {
+ 8000b94:	d017      	beq.n	8000bc6 <iqReadTimeout+0x96>
+ 8000b96:	9b00      	ldr	r3, [sp, #0]
+ 8000b98:	f383 8811 	msr	BASEPRI, r3
+    while (iqIsEmptyI(iqp)) {
+ 8000b9c:	68a3      	ldr	r3, [r4, #8]
+ 8000b9e:	2b00      	cmp	r3, #0
+ 8000ba0:	d1df      	bne.n	8000b62 <iqReadTimeout+0x32>
+      if ((timeout == TIME_INFINITE) || (timeout == TIME_IMMEDIATE)) {
+ 8000ba2:	f11b 0f03 	cmn.w	fp, #3
+ 8000ba6:	d812      	bhi.n	8000bce <iqReadTimeout+0x9e>
+ 8000ba8:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+ 8000bac:	6a51      	ldr	r1, [r2, #36]	; 0x24
+        systime_t next_timeout = deadline - osalOsGetSystemTimeX();
+ 8000bae:	9a01      	ldr	r2, [sp, #4]
+ 8000bb0:	1a51      	subs	r1, r2, r1
+        if (next_timeout > timeout) {
+ 8000bb2:	4589      	cmp	r9, r1
+ 8000bb4:	d305      	bcc.n	8000bc2 <iqReadTimeout+0x92>
+ 8000bb6:	4620      	mov	r0, r4
+ 8000bb8:	f7ff fefa 	bl	80009b0 <chThdEnqueueTimeoutS>
+      if (msg != MSG_OK) {
+ 8000bbc:	2800      	cmp	r0, #0
+ 8000bbe:	d0ce      	beq.n	8000b5e <iqReadTimeout+0x2e>
+ 8000bc0:	2300      	movs	r3, #0
+ 8000bc2:	f383 8811 	msr	BASEPRI, r3
+}
+ 8000bc6:	4638      	mov	r0, r7
+ 8000bc8:	b003      	add	sp, #12
+ 8000bca:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 8000bce:	4649      	mov	r1, r9
+ 8000bd0:	4620      	mov	r0, r4
+ 8000bd2:	f7ff feed 	bl	80009b0 <chThdEnqueueTimeoutS>
+      if (msg != MSG_OK) {
+ 8000bd6:	2800      	cmp	r0, #0
+ 8000bd8:	d0c1      	beq.n	8000b5e <iqReadTimeout+0x2e>
+ 8000bda:	e7f1      	b.n	8000bc0 <iqReadTimeout+0x90>
+ 8000bdc:	0000      	movs	r0, r0
+	...
+
+08000be0 <_readt.lto_priv.44>:
+}
+
+static size_t _readt(void *ip, uint8_t *bp, size_t n, systime_t timeout) {
+
+  return iqReadTimeout(&((SerialDriver *)ip)->iqueue, bp, n, timeout);
+ 8000be0:	300c      	adds	r0, #12
+ 8000be2:	f7ff bfa5 	b.w	8000b30 <iqReadTimeout>
+ 8000be6:	bf00      	nop
+	...
+
+08000bf0 <_read.lto_priv.38>:
+  return iqReadTimeout(&((SerialDriver *)ip)->iqueue, bp,
+ 8000bf0:	300c      	adds	r0, #12
+ 8000bf2:	f04f 33ff 	mov.w	r3, #4294967295
+ 8000bf6:	f7ff bf9b 	b.w	8000b30 <iqReadTimeout>
+ 8000bfa:	bf00      	nop
+ 8000bfc:	0000      	movs	r0, r0
+	...
+
+08000c00 <iqGetTimeout>:
+msg_t iqGetTimeout(input_queue_t *iqp, systime_t timeout) {
+ 8000c00:	b570      	push	{r4, r5, r6, lr}
+ 8000c02:	2320      	movs	r3, #32
+ 8000c04:	4604      	mov	r4, r0
+ 8000c06:	460e      	mov	r6, r1
+ 8000c08:	f383 8811 	msr	BASEPRI, r3
+ 8000c0c:	e003      	b.n	8000c16 <iqGetTimeout+0x16>
+ 8000c0e:	f7ff fecf 	bl	80009b0 <chThdEnqueueTimeoutS>
+    if (msg < MSG_OK) {
+ 8000c12:	2800      	cmp	r0, #0
+ 8000c14:	db1a      	blt.n	8000c4c <iqGetTimeout+0x4c>
+  while (iqIsEmptyI(iqp)) {
+ 8000c16:	68a5      	ldr	r5, [r4, #8]
+ 8000c18:	4631      	mov	r1, r6
+ 8000c1a:	4620      	mov	r0, r4
+ 8000c1c:	2d00      	cmp	r5, #0
+ 8000c1e:	d0f6      	beq.n	8000c0e <iqGetTimeout+0xe>
+  b = *iqp->q_rdptr++;
+ 8000c20:	69a1      	ldr	r1, [r4, #24]
+  iqp->q_counter--;
+ 8000c22:	68a3      	ldr	r3, [r4, #8]
+  if (iqp->q_rdptr >= iqp->q_top) {
+ 8000c24:	6920      	ldr	r0, [r4, #16]
+  b = *iqp->q_rdptr++;
+ 8000c26:	1c4a      	adds	r2, r1, #1
+  iqp->q_counter--;
+ 8000c28:	3b01      	subs	r3, #1
+  if (iqp->q_rdptr >= iqp->q_top) {
+ 8000c2a:	4282      	cmp	r2, r0
+  iqp->q_counter--;
+ 8000c2c:	60a3      	str	r3, [r4, #8]
+  b = *iqp->q_rdptr++;
+ 8000c2e:	61a2      	str	r2, [r4, #24]
+    iqp->q_rdptr = iqp->q_buffer;
+ 8000c30:	bf28      	it	cs
+ 8000c32:	68e3      	ldrcs	r3, [r4, #12]
+  b = *iqp->q_rdptr++;
+ 8000c34:	780d      	ldrb	r5, [r1, #0]
+    iqp->q_rdptr = iqp->q_buffer;
+ 8000c36:	bf28      	it	cs
+ 8000c38:	61a3      	strcs	r3, [r4, #24]
+  if (iqp->q_notify != NULL) {
+ 8000c3a:	69e3      	ldr	r3, [r4, #28]
+ 8000c3c:	b10b      	cbz	r3, 8000c42 <iqGetTimeout+0x42>
+    iqp->q_notify(iqp);
+ 8000c3e:	4620      	mov	r0, r4
+ 8000c40:	4798      	blx	r3
+ 8000c42:	2300      	movs	r3, #0
+ 8000c44:	f383 8811 	msr	BASEPRI, r3
+  return (msg_t)b;
+ 8000c48:	4628      	mov	r0, r5
+}
+ 8000c4a:	bd70      	pop	{r4, r5, r6, pc}
+ 8000c4c:	f385 8811 	msr	BASEPRI, r5
+ 8000c50:	bd70      	pop	{r4, r5, r6, pc}
+ 8000c52:	bf00      	nop
+	...
+
+08000c60 <_gett.lto_priv.42>:
+  return iqGetTimeout(&((SerialDriver *)ip)->iqueue, timeout);
+ 8000c60:	300c      	adds	r0, #12
+ 8000c62:	f7ff bfcd 	b.w	8000c00 <iqGetTimeout>
+ 8000c66:	bf00      	nop
+	...
+
+08000c70 <_get.lto_priv.40>:
+  return iqGetTimeout(&((SerialDriver *)ip)->iqueue, TIME_INFINITE);
+ 8000c70:	300c      	adds	r0, #12
+ 8000c72:	f04f 31ff 	mov.w	r1, #4294967295
+ 8000c76:	f7ff bfc3 	b.w	8000c00 <iqGetTimeout>
+ 8000c7a:	bf00      	nop
+ 8000c7c:	0000      	movs	r0, r0
+	...
+
+08000c80 <chSchReadyI>:
+  tp->state = CH_STATE_READY;
+ 8000c80:	2200      	movs	r2, #0
+ 8000c82:	6881      	ldr	r1, [r0, #8]
+  cp = (thread_t *)&ch.rlist.queue;
+ 8000c84:	4b08      	ldr	r3, [pc, #32]	; (8000ca8 <chSchReadyI+0x28>)
+thread_t *chSchReadyI(thread_t *tp) {
+ 8000c86:	b410      	push	{r4}
+ 8000c88:	4604      	mov	r4, r0
+  tp->state = CH_STATE_READY;
+ 8000c8a:	f880 2020 	strb.w	r2, [r0, #32]
+    cp = cp->queue.next;
+ 8000c8e:	681b      	ldr	r3, [r3, #0]
+  } while (cp->prio >= tp->prio);
+ 8000c90:	689a      	ldr	r2, [r3, #8]
+ 8000c92:	428a      	cmp	r2, r1
+ 8000c94:	d2fb      	bcs.n	8000c8e <chSchReadyI+0xe>
+  tp->queue.prev             = cp->queue.prev;
+ 8000c96:	685a      	ldr	r2, [r3, #4]
+ 8000c98:	6062      	str	r2, [r4, #4]
+  tp->queue.next             = cp;
+ 8000c9a:	6023      	str	r3, [r4, #0]
+}
+ 8000c9c:	4620      	mov	r0, r4
+  tp->queue.prev->queue.next = tp;
+ 8000c9e:	6014      	str	r4, [r2, #0]
+  cp->queue.prev             = tp;
+ 8000ca0:	605c      	str	r4, [r3, #4]
+}
+ 8000ca2:	bc10      	pop	{r4}
+ 8000ca4:	4770      	bx	lr
+ 8000ca6:	bf00      	nop
+ 8000ca8:	20000848 	.word	0x20000848
+ 8000cac:	00000000 	.word	0x00000000
+
+08000cb0 <Vector88>:
+/**
+ * @brief   ADC interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
+ 8000cb0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+  uint32_t sr;
+
+  OSAL_IRQ_PROLOGUE();
+
+#if STM32_ADC_USE_ADC1
+  sr = ADC1->SR;
+ 8000cb2:	4b22      	ldr	r3, [pc, #136]	; (8000d3c <Vector88+0x8c>)
+ 8000cb4:	681a      	ldr	r2, [r3, #0]
+  ADC1->SR = 0;
+ 8000cb6:	2100      	movs	r1, #0
+ 8000cb8:	6019      	str	r1, [r3, #0]
+  /* Note, an overflow may occur after the conversion ended before the driver
+     is able to stop the ADC, this is why the DMA channel is checked too.*/
+  if ((sr & ADC_SR_OVR) && (dmaStreamGetTransactionSize(ADCD1.dmastp) > 0)) {
+ 8000cba:	0693      	lsls	r3, r2, #26
+ 8000cbc:	d536      	bpl.n	8000d2c <Vector88+0x7c>
+ 8000cbe:	4c20      	ldr	r4, [pc, #128]	; (8000d40 <Vector88+0x90>)
+ 8000cc0:	6ae1      	ldr	r1, [r4, #44]	; 0x2c
+ 8000cc2:	680a      	ldr	r2, [r1, #0]
+ 8000cc4:	6853      	ldr	r3, [r2, #4]
+ 8000cc6:	2b00      	cmp	r3, #0
+ 8000cc8:	d030      	beq.n	8000d2c <Vector88+0x7c>
+    /* ADC overflow condition, this could happen only if the DMA is unable
+       to read data fast enough.*/
+    if (ADCD1.grpp != NULL)
+ 8000cca:	6925      	ldr	r5, [r4, #16]
+ 8000ccc:	2d00      	cmp	r5, #0
+ 8000cce:	d02d      	beq.n	8000d2c <Vector88+0x7c>
+ *
+ * @notapi
+ */
+void adc_lld_stop_conversion(ADCDriver *adcp) {
+
+  dmaStreamDisable(adcp->dmastp);
+ 8000cd0:	6813      	ldr	r3, [r2, #0]
+ 8000cd2:	f023 031f 	bic.w	r3, r3, #31
+ 8000cd6:	6013      	str	r3, [r2, #0]
+ 8000cd8:	6813      	ldr	r3, [r2, #0]
+ 8000cda:	f013 0301 	ands.w	r3, r3, #1
+ 8000cde:	d1fb      	bne.n	8000cd8 <Vector88+0x28>
+ 8000ce0:	7a0f      	ldrb	r7, [r1, #8]
+ 8000ce2:	684e      	ldr	r6, [r1, #4]
+      _adc_isr_error_code(&ADCD1, ADC_ERR_OVERFLOW);
+ 8000ce4:	68ad      	ldr	r5, [r5, #8]
+  adcp->adc->CR1 = 0;
+ 8000ce6:	6aa2      	ldr	r2, [r4, #40]	; 0x28
+  dmaStreamDisable(adcp->dmastp);
+ 8000ce8:	203d      	movs	r0, #61	; 0x3d
+ 8000cea:	40b8      	lsls	r0, r7
+  adcp->adc->CR2 = 0;
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000cec:	2101      	movs	r1, #1
+  dmaStreamDisable(adcp->dmastp);
+ 8000cee:	6030      	str	r0, [r6, #0]
+  adcp->adc->CR1 = 0;
+ 8000cf0:	6053      	str	r3, [r2, #4]
+  adcp->adc->CR2 = 0;
+ 8000cf2:	6093      	str	r3, [r2, #8]
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000cf4:	6091      	str	r1, [r2, #8]
+      _adc_isr_error_code(&ADCD1, ADC_ERR_OVERFLOW);
+ 8000cf6:	b1ed      	cbz	r5, 8000d34 <Vector88+0x84>
+ 8000cf8:	2305      	movs	r3, #5
+ 8000cfa:	7023      	strb	r3, [r4, #0]
+ 8000cfc:	4810      	ldr	r0, [pc, #64]	; (8000d40 <Vector88+0x90>)
+ 8000cfe:	47a8      	blx	r5
+ 8000d00:	7823      	ldrb	r3, [r4, #0]
+ 8000d02:	2b05      	cmp	r3, #5
+ 8000d04:	bf04      	itt	eq
+ 8000d06:	2302      	moveq	r3, #2
+ 8000d08:	7023      	strbeq	r3, [r4, #0]
+ 8000d0a:	2300      	movs	r3, #0
+ 8000d0c:	6123      	str	r3, [r4, #16]
+ 8000d0e:	2320      	movs	r3, #32
+ 8000d10:	f383 8811 	msr	BASEPRI, r3
+  if (*trp != NULL) {
+ 8000d14:	6960      	ldr	r0, [r4, #20]
+ 8000d16:	b130      	cbz	r0, 8000d26 <Vector88+0x76>
+    tp->u.rdymsg = msg;
+ 8000d18:	f04f 33ff 	mov.w	r3, #4294967295
+ 8000d1c:	6243      	str	r3, [r0, #36]	; 0x24
+    *trp = NULL;
+ 8000d1e:	2300      	movs	r3, #0
+ 8000d20:	6163      	str	r3, [r4, #20]
+    (void) chSchReadyI(tp);
+ 8000d22:	f7ff ffad 	bl	8000c80 <chSchReadyI>
+ 8000d26:	2300      	movs	r3, #0
+ 8000d28:	f383 8811 	msr	BASEPRI, r3
+}
+ 8000d2c:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
+  OSAL_IRQ_EPILOGUE();
+ 8000d30:	f7ff bbb6 	b.w	80004a0 <_port_irq_epilogue>
+      _adc_isr_error_code(&ADCD1, ADC_ERR_OVERFLOW);
+ 8000d34:	2302      	movs	r3, #2
+ 8000d36:	6125      	str	r5, [r4, #16]
+ 8000d38:	7023      	strb	r3, [r4, #0]
+ 8000d3a:	e7e8      	b.n	8000d0e <Vector88+0x5e>
+ 8000d3c:	40012000 	.word	0x40012000
+ 8000d40:	20000800 	.word	0x20000800
+	...
+
+08000d50 <adc_lld_serve_rx_interrupt.lto_priv.36>:
+  if ((flags & (STM32_DMA_ISR_TEIF | STM32_DMA_ISR_DMEIF)) != 0) {
+ 8000d50:	f011 0f0c 	tst.w	r1, #12
+static void adc_lld_serve_rx_interrupt(ADCDriver *adcp, uint32_t flags) {
+ 8000d54:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
+ 8000d58:	4604      	mov	r4, r0
+  if ((flags & (STM32_DMA_ISR_TEIF | STM32_DMA_ISR_DMEIF)) != 0) {
+ 8000d5a:	d034      	beq.n	8000dc6 <adc_lld_serve_rx_interrupt.lto_priv.36+0x76>
+  dmaStreamDisable(adcp->dmastp);
+ 8000d5c:	6ac0      	ldr	r0, [r0, #44]	; 0x2c
+ 8000d5e:	6803      	ldr	r3, [r0, #0]
+ 8000d60:	681a      	ldr	r2, [r3, #0]
+ 8000d62:	f022 021f 	bic.w	r2, r2, #31
+ 8000d66:	601a      	str	r2, [r3, #0]
+ 8000d68:	6819      	ldr	r1, [r3, #0]
+ 8000d6a:	f011 0101 	ands.w	r1, r1, #1
+ 8000d6e:	d1fb      	bne.n	8000d68 <adc_lld_serve_rx_interrupt.lto_priv.36+0x18>
+    _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
+ 8000d70:	6922      	ldr	r2, [r4, #16]
+  dmaStreamDisable(adcp->dmastp);
+ 8000d72:	7a07      	ldrb	r7, [r0, #8]
+ 8000d74:	6846      	ldr	r6, [r0, #4]
+    _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
+ 8000d76:	6895      	ldr	r5, [r2, #8]
+  adcp->adc->CR1 = 0;
+ 8000d78:	6aa3      	ldr	r3, [r4, #40]	; 0x28
+  dmaStreamDisable(adcp->dmastp);
+ 8000d7a:	223d      	movs	r2, #61	; 0x3d
+ 8000d7c:	40ba      	lsls	r2, r7
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000d7e:	2001      	movs	r0, #1
+  dmaStreamDisable(adcp->dmastp);
+ 8000d80:	6032      	str	r2, [r6, #0]
+  adcp->adc->CR1 = 0;
+ 8000d82:	6059      	str	r1, [r3, #4]
+  adcp->adc->CR2 = 0;
+ 8000d84:	6099      	str	r1, [r3, #8]
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000d86:	6098      	str	r0, [r3, #8]
+    _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
+ 8000d88:	2d00      	cmp	r5, #0
+ 8000d8a:	d034      	beq.n	8000df6 <adc_lld_serve_rx_interrupt.lto_priv.36+0xa6>
+ 8000d8c:	2305      	movs	r3, #5
+ 8000d8e:	7023      	strb	r3, [r4, #0]
+ 8000d90:	4620      	mov	r0, r4
+ 8000d92:	47a8      	blx	r5
+ 8000d94:	7823      	ldrb	r3, [r4, #0]
+ 8000d96:	2b05      	cmp	r3, #5
+ 8000d98:	bf04      	itt	eq
+ 8000d9a:	2302      	moveq	r3, #2
+ 8000d9c:	7023      	strbeq	r3, [r4, #0]
+ 8000d9e:	2300      	movs	r3, #0
+ 8000da0:	6123      	str	r3, [r4, #16]
+ 8000da2:	2320      	movs	r3, #32
+ 8000da4:	f383 8811 	msr	BASEPRI, r3
+  if (*trp != NULL) {
+ 8000da8:	6963      	ldr	r3, [r4, #20]
+ 8000daa:	b13b      	cbz	r3, 8000dbc <adc_lld_serve_rx_interrupt.lto_priv.36+0x6c>
+    *trp = NULL;
+ 8000dac:	2100      	movs	r1, #0
+    tp->u.rdymsg = msg;
+ 8000dae:	f04f 32ff 	mov.w	r2, #4294967295
+    *trp = NULL;
+ 8000db2:	6161      	str	r1, [r4, #20]
+    (void) chSchReadyI(tp);
+ 8000db4:	4618      	mov	r0, r3
+    tp->u.rdymsg = msg;
+ 8000db6:	625a      	str	r2, [r3, #36]	; 0x24
+    (void) chSchReadyI(tp);
+ 8000db8:	f7ff ff62 	bl	8000c80 <chSchReadyI>
+ 8000dbc:	2300      	movs	r3, #0
+ 8000dbe:	f383 8811 	msr	BASEPRI, r3
+ 8000dc2:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+    if (adcp->grpp != NULL) {
+ 8000dc6:	6905      	ldr	r5, [r0, #16]
+ 8000dc8:	b19d      	cbz	r5, 8000df2 <adc_lld_serve_rx_interrupt.lto_priv.36+0xa2>
+      if ((flags & STM32_DMA_ISR_TCIF) != 0) {
+ 8000dca:	068a      	lsls	r2, r1, #26
+ 8000dcc:	d50f      	bpl.n	8000dee <adc_lld_serve_rx_interrupt.lto_priv.36+0x9e>
+        _adc_isr_full_code(adcp);
+ 8000dce:	782b      	ldrb	r3, [r5, #0]
+ 8000dd0:	b1f3      	cbz	r3, 8000e10 <adc_lld_serve_rx_interrupt.lto_priv.36+0xc0>
+ 8000dd2:	686b      	ldr	r3, [r5, #4]
+ 8000dd4:	b16b      	cbz	r3, 8000df2 <adc_lld_serve_rx_interrupt.lto_priv.36+0xa2>
+ 8000dd6:	68c2      	ldr	r2, [r0, #12]
+ 8000dd8:	2a01      	cmp	r2, #1
+ 8000dda:	d94a      	bls.n	8000e72 <adc_lld_serve_rx_interrupt.lto_priv.36+0x122>
+ 8000ddc:	886d      	ldrh	r5, [r5, #2]
+ 8000dde:	6884      	ldr	r4, [r0, #8]
+ 8000de0:	0852      	lsrs	r2, r2, #1
+ 8000de2:	0051      	lsls	r1, r2, #1
+ 8000de4:	fb05 4101 	mla	r1, r5, r1, r4
+}
+ 8000de8:	e8bd 41f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, lr}
+        _adc_isr_full_code(adcp);
+ 8000dec:	4718      	bx	r3
+      else if ((flags & STM32_DMA_ISR_HTIF) != 0) {
+ 8000dee:	06cb      	lsls	r3, r1, #27
+ 8000df0:	d405      	bmi.n	8000dfe <adc_lld_serve_rx_interrupt.lto_priv.36+0xae>
+ 8000df2:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+    _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
+ 8000df6:	2302      	movs	r3, #2
+ 8000df8:	6125      	str	r5, [r4, #16]
+ 8000dfa:	7023      	strb	r3, [r4, #0]
+ 8000dfc:	e7d1      	b.n	8000da2 <adc_lld_serve_rx_interrupt.lto_priv.36+0x52>
+        _adc_isr_half_code(adcp);
+ 8000dfe:	686b      	ldr	r3, [r5, #4]
+ 8000e00:	2b00      	cmp	r3, #0
+ 8000e02:	d0f6      	beq.n	8000df2 <adc_lld_serve_rx_interrupt.lto_priv.36+0xa2>
+ 8000e04:	68c2      	ldr	r2, [r0, #12]
+ 8000e06:	6881      	ldr	r1, [r0, #8]
+ 8000e08:	0852      	lsrs	r2, r2, #1
+}
+ 8000e0a:	e8bd 41f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, lr}
+        _adc_isr_half_code(adcp);
+ 8000e0e:	4718      	bx	r3
+  dmaStreamDisable(adcp->dmastp);
+ 8000e10:	6ac0      	ldr	r0, [r0, #44]	; 0x2c
+ 8000e12:	6802      	ldr	r2, [r0, #0]
+ 8000e14:	6813      	ldr	r3, [r2, #0]
+ 8000e16:	f023 031f 	bic.w	r3, r3, #31
+ 8000e1a:	6013      	str	r3, [r2, #0]
+ 8000e1c:	6813      	ldr	r3, [r2, #0]
+ 8000e1e:	f013 0301 	ands.w	r3, r3, #1
+ 8000e22:	d1fb      	bne.n	8000e1c <adc_lld_serve_rx_interrupt.lto_priv.36+0xcc>
+ 8000e24:	7a07      	ldrb	r7, [r0, #8]
+ 8000e26:	6846      	ldr	r6, [r0, #4]
+        _adc_isr_full_code(adcp);
+ 8000e28:	686d      	ldr	r5, [r5, #4]
+  adcp->adc->CR1 = 0;
+ 8000e2a:	6aa2      	ldr	r2, [r4, #40]	; 0x28
+  dmaStreamDisable(adcp->dmastp);
+ 8000e2c:	213d      	movs	r1, #61	; 0x3d
+ 8000e2e:	40b9      	lsls	r1, r7
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000e30:	2001      	movs	r0, #1
+  dmaStreamDisable(adcp->dmastp);
+ 8000e32:	6031      	str	r1, [r6, #0]
+  adcp->adc->CR1 = 0;
+ 8000e34:	6053      	str	r3, [r2, #4]
+  adcp->adc->CR2 = 0;
+ 8000e36:	6093      	str	r3, [r2, #8]
+  adcp->adc->CR2 = ADC_CR2_ADON;
+ 8000e38:	6090      	str	r0, [r2, #8]
+        _adc_isr_full_code(adcp);
+ 8000e3a:	b1ad      	cbz	r5, 8000e68 <adc_lld_serve_rx_interrupt.lto_priv.36+0x118>
+ 8000e3c:	2304      	movs	r3, #4
+ 8000e3e:	7023      	strb	r3, [r4, #0]
+ 8000e40:	68e2      	ldr	r2, [r4, #12]
+ 8000e42:	68a1      	ldr	r1, [r4, #8]
+ 8000e44:	4620      	mov	r0, r4
+ 8000e46:	47a8      	blx	r5
+ 8000e48:	7823      	ldrb	r3, [r4, #0]
+ 8000e4a:	2b04      	cmp	r3, #4
+ 8000e4c:	d00c      	beq.n	8000e68 <adc_lld_serve_rx_interrupt.lto_priv.36+0x118>
+ 8000e4e:	2320      	movs	r3, #32
+ 8000e50:	f383 8811 	msr	BASEPRI, r3
+  if (*trp != NULL) {
+ 8000e54:	6963      	ldr	r3, [r4, #20]
+ 8000e56:	2b00      	cmp	r3, #0
+ 8000e58:	d0b0      	beq.n	8000dbc <adc_lld_serve_rx_interrupt.lto_priv.36+0x6c>
+    *trp = NULL;
+ 8000e5a:	2200      	movs	r2, #0
+ 8000e5c:	6162      	str	r2, [r4, #20]
+    (void) chSchReadyI(tp);
+ 8000e5e:	4618      	mov	r0, r3
+    tp->u.rdymsg = msg;
+ 8000e60:	625a      	str	r2, [r3, #36]	; 0x24
+    (void) chSchReadyI(tp);
+ 8000e62:	f7ff ff0d 	bl	8000c80 <chSchReadyI>
+ 8000e66:	e7a9      	b.n	8000dbc <adc_lld_serve_rx_interrupt.lto_priv.36+0x6c>
+ 8000e68:	2202      	movs	r2, #2
+ 8000e6a:	2300      	movs	r3, #0
+ 8000e6c:	7022      	strb	r2, [r4, #0]
+ 8000e6e:	6123      	str	r3, [r4, #16]
+ 8000e70:	e7ed      	b.n	8000e4e <adc_lld_serve_rx_interrupt.lto_priv.36+0xfe>
+ 8000e72:	6881      	ldr	r1, [r0, #8]
+}
+ 8000e74:	e8bd 41f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, lr}
+        _adc_isr_full_code(adcp);
+ 8000e78:	4718      	bx	r3
+ 8000e7a:	bf00      	nop
+ 8000e7c:	0000      	movs	r0, r0
+	...
+
+08000e80 <chThdExit>:
+void chThdExit(msg_t msg) {
+ 8000e80:	b538      	push	{r3, r4, r5, lr}
+ 8000e82:	2220      	movs	r2, #32
+ 8000e84:	4603      	mov	r3, r0
+ 8000e86:	f382 8811 	msr	BASEPRI, r2
+  thread_t *tp = currp;
+ 8000e8a:	4a10      	ldr	r2, [pc, #64]	; (8000ecc <chThdExit+0x4c>)
+ 8000e8c:	6994      	ldr	r4, [r2, #24]
+  return (bool)(tlp->next != (thread_t *)tlp);
+ 8000e8e:	6aa0      	ldr	r0, [r4, #40]	; 0x28
+  tp->u.exitcode = msg;
+ 8000e90:	6263      	str	r3, [r4, #36]	; 0x24
+  while (list_notempty(&tp->waiting)) {
+ 8000e92:	f104 0528 	add.w	r5, r4, #40	; 0x28
+ 8000e96:	4285      	cmp	r5, r0
+ 8000e98:	d006      	beq.n	8000ea8 <chThdExit+0x28>
+  tlp->next = tp->queue.next;
+ 8000e9a:	6803      	ldr	r3, [r0, #0]
+ 8000e9c:	62a3      	str	r3, [r4, #40]	; 0x28
+    (void) chSchReadyI(list_remove(&tp->waiting));
+ 8000e9e:	f7ff feef 	bl	8000c80 <chSchReadyI>
+  return (bool)(tlp->next != (thread_t *)tlp);
+ 8000ea2:	6aa0      	ldr	r0, [r4, #40]	; 0x28
+  while (list_notempty(&tp->waiting)) {
+ 8000ea4:	42a8      	cmp	r0, r5
+ 8000ea6:	d1f8      	bne.n	8000e9a <chThdExit+0x1a>
+  if ((tp->refs == (trefs_t)0) &&
+ 8000ea8:	f894 3022 	ldrb.w	r3, [r4, #34]	; 0x22
+ 8000eac:	b943      	cbnz	r3, 8000ec0 <chThdExit+0x40>
+ 8000eae:	f894 3021 	ldrb.w	r3, [r4, #33]	; 0x21
+ 8000eb2:	079b      	lsls	r3, r3, #30
+ 8000eb4:	d104      	bne.n	8000ec0 <chThdExit+0x40>
+    REG_REMOVE(tp);
+ 8000eb6:	6963      	ldr	r3, [r4, #20]
+ 8000eb8:	6922      	ldr	r2, [r4, #16]
+ 8000eba:	611a      	str	r2, [r3, #16]
+ 8000ebc:	6922      	ldr	r2, [r4, #16]
+ 8000ebe:	6153      	str	r3, [r2, #20]
+  chSchGoSleepS(CH_STATE_FINAL);
+ 8000ec0:	200f      	movs	r0, #15
+}
+ 8000ec2:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
+  chSchGoSleepS(CH_STATE_FINAL);
+ 8000ec6:	f7ff ba6b 	b.w	80003a0 <chSchGoSleepS>
+ 8000eca:	bf00      	nop
+ 8000ecc:	20000848 	.word	0x20000848
+
+08000ed0 <BusFault_Handler>:
+ *
+ * @notapi
+ */
+/*lint -save -e9075 [8.4] All symbols are invoked from asm context.*/
+__attribute__((weak))
+void _unhandled_exception(void) {
+ 8000ed0:	e7fe      	b.n	8000ed0 <BusFault_Handler>
+ 8000ed2:	bf00      	nop
+	...
+
+08000ee0 <__init_ram_areas>:
+}
+
+/**
+ * @brief   Performs the initialization of the various RAM areas.
+ */
+void __init_ram_areas(void) {
+ 8000ee0:	b5f0      	push	{r4, r5, r6, r7, lr}
+#if CRT1_AREAS_NUMBER > 0
+  const ram_init_area_t *rap = ram_areas;
+ 8000ee2:	4f12      	ldr	r7, [pc, #72]	; (8000f2c <__init_ram_areas+0x4c>)
+void __init_ram_areas(void) {
+ 8000ee4:	4d12      	ldr	r5, [pc, #72]	; (8000f30 <__init_ram_areas+0x50>)
+ 8000ee6:	4c13      	ldr	r4, [pc, #76]	; (8000f34 <__init_ram_areas+0x54>)
+ 8000ee8:	4b13      	ldr	r3, [pc, #76]	; (8000f38 <__init_ram_areas+0x58>)
+ 8000eea:	4914      	ldr	r1, [pc, #80]	; (8000f3c <__init_ram_areas+0x5c>)
+ 8000eec:	f107 0e80 	add.w	lr, r7, #128	; 0x80
+      tp++;
+    }
+
+    /* Zeroing clear area.*/
+    while (p < rap->no_init_area) {
+      *p = 0;
+ 8000ef0:	2600      	movs	r6, #0
+    while (p < rap->clear_area) {
+ 8000ef2:	429c      	cmp	r4, r3
+ 8000ef4:	d911      	bls.n	8000f1a <__init_ram_areas+0x3a>
+ 8000ef6:	3904      	subs	r1, #4
+ 8000ef8:	461a      	mov	r2, r3
+      *p = *tp;
+ 8000efa:	f851 0f04 	ldr.w	r0, [r1, #4]!
+ 8000efe:	f842 0b04 	str.w	r0, [r2], #4
+    while (p < rap->clear_area) {
+ 8000f02:	4294      	cmp	r4, r2
+ 8000f04:	d8f9      	bhi.n	8000efa <__init_ram_areas+0x1a>
+ 8000f06:	43da      	mvns	r2, r3
+ 8000f08:	4414      	add	r4, r2
+ 8000f0a:	f024 0403 	bic.w	r4, r4, #3
+ 8000f0e:	3404      	adds	r4, #4
+ 8000f10:	4423      	add	r3, r4
+    while (p < rap->no_init_area) {
+ 8000f12:	429d      	cmp	r5, r3
+ 8000f14:	d903      	bls.n	8000f1e <__init_ram_areas+0x3e>
+      *p = 0;
+ 8000f16:	f843 6b04 	str.w	r6, [r3], #4
+    while (p < rap->no_init_area) {
+ 8000f1a:	429d      	cmp	r5, r3
+ 8000f1c:	d8fb      	bhi.n	8000f16 <__init_ram_areas+0x36>
+      p++;
+    }
+    rap++;
+ 8000f1e:	3710      	adds	r7, #16
+  }
+  while (rap < &ram_areas[CRT1_AREAS_NUMBER]);
+ 8000f20:	4577      	cmp	r7, lr
+ 8000f22:	d202      	bcs.n	8000f2a <__init_ram_areas+0x4a>
+ 8000f24:	e897 003a 	ldmia.w	r7, {r1, r3, r4, r5}
+ 8000f28:	e7e3      	b.n	8000ef2 <__init_ram_areas+0x12>
+ 8000f2a:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 8000f2c:	08001f70 	.word	0x08001f70
+ 8000f30:	20000ac0 	.word	0x20000ac0
+ 8000f34:	20000ac0 	.word	0x20000ac0
+ 8000f38:	20000ac0 	.word	0x20000ac0
+ 8000f3c:	0800213c 	.word	0x0800213c
+
+08000f40 <__default_exit>:
+void __default_exit(void) {
+ 8000f40:	e7fe      	b.n	8000f40 <__default_exit>
+ 8000f42:	bf00      	nop
+	...
+
+08000f50 <__late_init>:
+ 8000f50:	4770      	bx	lr
+ 8000f52:	bf00      	nop
+	...
+
+08000f60 <__core_init>:
+void __core_init(void) {
+ 8000f60:	4770      	bx	lr
+ 8000f62:	bf00      	nop
+	...
+
+08000f70 <notify2>:
+
+#if STM32_SERIAL_USE_USART2 || defined(__DOXYGEN__)
+static void notify2(io_queue_t *qp) {
+
+  (void)qp;
+  USART2->CR1 |= USART_CR1_TXEIE;
+ 8000f70:	4a02      	ldr	r2, [pc, #8]	; (8000f7c <notify2+0xc>)
+ 8000f72:	68d3      	ldr	r3, [r2, #12]
+ 8000f74:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+ 8000f78:	60d3      	str	r3, [r2, #12]
+ 8000f7a:	4770      	bx	lr
+ 8000f7c:	40004400 	.word	0x40004400
+
+08000f80 <adcerrorcallback>:
+
+
+}
+
+/* ADC errors callback, should never happen */
+static void adcerrorcallback(ADCDriver *adcp, adcerror_t err) {
+ 8000f80:	4770      	bx	lr
+ 8000f82:	bf00      	nop
+	...
+
+08000f90 <adccallback>:
+{
+ 8000f90:	4770      	bx	lr
+ 8000f92:	bf00      	nop
+	...
+
+08000fa0 <VectorB8>:
+/**
+ * @brief   TIM4 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(STM32_TIM4_HANDLER) {
+ 8000fa0:	b508      	push	{r3, lr}
+ *
+ * @notapi
+ */
+void gpt_lld_serve_interrupt(GPTDriver *gptp) {
+
+  gptp->tim->SR = 0;
+ 8000fa2:	4b0b      	ldr	r3, [pc, #44]	; (8000fd0 <VectorB8+0x30>)
+  if (gptp->state == GPT_ONESHOT) {
+ 8000fa4:	7818      	ldrb	r0, [r3, #0]
+  gptp->tim->SR = 0;
+ 8000fa6:	68da      	ldr	r2, [r3, #12]
+ 8000fa8:	2100      	movs	r1, #0
+  if (gptp->state == GPT_ONESHOT) {
+ 8000faa:	2804      	cmp	r0, #4
+  gptp->tim->SR = 0;
+ 8000fac:	6111      	str	r1, [r2, #16]
+  if (gptp->state == GPT_ONESHOT) {
+ 8000fae:	d107      	bne.n	8000fc0 <VectorB8+0x20>
+    gptp->state = GPT_READY;                /* Back in GPT_READY state.     */
+ 8000fb0:	2002      	movs	r0, #2
+ 8000fb2:	7018      	strb	r0, [r3, #0]
+  gptp->tim->CR1 = 0;                           /* Initially stopped.       */
+ 8000fb4:	6011      	str	r1, [r2, #0]
+  gptp->tim->SR = 0;                            /* Clear pending IRQs.      */
+ 8000fb6:	6111      	str	r1, [r2, #16]
+  gptp->tim->DIER &= ~STM32_TIM_DIER_IRQ_MASK;
+ 8000fb8:	68d1      	ldr	r1, [r2, #12]
+ 8000fba:	f021 01ff 	bic.w	r1, r1, #255	; 0xff
+ 8000fbe:	60d1      	str	r1, [r2, #12]
+    gpt_lld_stop_timer(gptp);               /* Timer automatically stopped. */
+  }
+  gptp->config->callback(gptp);
+ 8000fc0:	685b      	ldr	r3, [r3, #4]
+ 8000fc2:	4803      	ldr	r0, [pc, #12]	; (8000fd0 <VectorB8+0x30>)
+ 8000fc4:	685b      	ldr	r3, [r3, #4]
+ 8000fc6:	4798      	blx	r3
+}
+ 8000fc8:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+  OSAL_IRQ_EPILOGUE();
+ 8000fcc:	f7ff ba68 	b.w	80004a0 <_port_irq_epilogue>
+ 8000fd0:	20000834 	.word	0x20000834
+	...
+
+08000fe0 <VectorB0>:
+ * @brief   TIM2 interrupt handler.
+ * @details This interrupt is used for system tick in free running mode.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(ST_HANDLER) {
+ 8000fe0:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+  OSAL_IRQ_PROLOGUE();
+
+  /* Note, under rare circumstances an interrupt can remain latched even if
+     the timer SR register has been cleared, in those cases the interrupt
+     is simply ignored.*/
+  if ((STM32_ST_TIM->SR & TIM_SR_CC1IF) != 0U) {
+ 8000fe4:	f04f 4680 	mov.w	r6, #1073741824	; 0x40000000
+ 8000fe8:	6933      	ldr	r3, [r6, #16]
+ 8000fea:	079b      	lsls	r3, r3, #30
+ 8000fec:	d403      	bmi.n	8000ff6 <VectorB0+0x16>
+    osalOsTimerHandlerI();
+    osalSysUnlockFromISR();
+  }
+
+  OSAL_IRQ_EPILOGUE();
+}
+ 8000fee:	e8bd 43f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+  OSAL_IRQ_EPILOGUE();
+ 8000ff2:	f7ff ba55 	b.w	80004a0 <_port_irq_epilogue>
+    STM32_ST_TIM->SR = 0U;
+ 8000ff6:	2500      	movs	r5, #0
+ 8000ff8:	6135      	str	r5, [r6, #16]
+ 8000ffa:	2720      	movs	r7, #32
+ 8000ffc:	f387 8811 	msr	BASEPRI, r7
+#else /* CH_CFG_ST_TIMEDELTA > 0 */
+  virtual_timer_t *vtp;
+  systime_t now, delta;
+
+  /* First timer to be processed.*/
+  vtp = ch.vtlist.next;
+ 8001000:	4c1b      	ldr	r4, [pc, #108]	; (8001070 <VectorB0+0x90>)
+ 8001002:	6a71      	ldr	r1, [r6, #36]	; 0x24
+ 8001004:	69e3      	ldr	r3, [r4, #28]
+
+  /* All timers within the time window are triggered and removed,
+     note that the loop is stopped by the timers header having
+     "ch.vtlist.vt_delta == (systime_t)-1" which is greater than
+     all deltas.*/
+  while (vtp->delta <= (systime_t)(now - ch.vtlist.lasttime)) {
+ 8001006:	6aa2      	ldr	r2, [r4, #40]	; 0x28
+ 8001008:	f8d3 e008 	ldr.w	lr, [r3, #8]
+ 800100c:	1a88      	subs	r0, r1, r2
+ 800100e:	4570      	cmp	r0, lr
+ 8001010:	f104 081c 	add.w	r8, r4, #28
+ 8001014:	d319      	bcc.n	800104a <VectorB0+0x6a>
+    vtfunc_t fn;
+
+    /* The "last time" becomes this timer's expiration time.*/
+    ch.vtlist.lasttime += vtp->delta;
+
+    vtp->next->prev = (virtual_timer_t *)&ch.vtlist;
+ 8001016:	6819      	ldr	r1, [r3, #0]
+    ch.vtlist.next = vtp->next;
+    fn = vtp->func;
+ 8001018:	f8d3 900c 	ldr.w	r9, [r3, #12]
+    ch.vtlist.lasttime += vtp->delta;
+ 800101c:	4472      	add	r2, lr
+    vtp->func = NULL;
+
+    /* if the list becomes empty then the timer is stopped.*/
+    if (ch.vtlist.next == (virtual_timer_t *)&ch.vtlist) {
+ 800101e:	4541      	cmp	r1, r8
+    ch.vtlist.lasttime += vtp->delta;
+ 8001020:	62a2      	str	r2, [r4, #40]	; 0x28
+    vtp->next->prev = (virtual_timer_t *)&ch.vtlist;
+ 8001022:	f8c1 8004 	str.w	r8, [r1, #4]
+    ch.vtlist.next = vtp->next;
+ 8001026:	61e1      	str	r1, [r4, #28]
+    vtp->func = NULL;
+ 8001028:	60dd      	str	r5, [r3, #12]
+  STM32_ST_TIM->DIER = 0;
+ 800102a:	bf08      	it	eq
+ 800102c:	60f5      	streq	r5, [r6, #12]
+ 800102e:	f385 8811 	msr	BASEPRI, r5
+       and in order to give a preemption chance to higher priority
+       interrupts.*/
+    chSysUnlockFromISR();
+
+    /* The callback is invoked outside the kernel critical zone.*/
+    fn(vtp->par);
+ 8001032:	6918      	ldr	r0, [r3, #16]
+ 8001034:	47c8      	blx	r9
+ 8001036:	f387 8811 	msr	BASEPRI, r7
+       of the list.*/
+    chSysLockFromISR();
+
+    /* Next element in the list, the current time could have advanced so
+       recalculating the time window.*/
+    vtp = ch.vtlist.next;
+ 800103a:	69e3      	ldr	r3, [r4, #28]
+  return (systime_t)STM32_ST_TIM->CNT;
+ 800103c:	6a71      	ldr	r1, [r6, #36]	; 0x24
+  while (vtp->delta <= (systime_t)(now - ch.vtlist.lasttime)) {
+ 800103e:	6aa2      	ldr	r2, [r4, #40]	; 0x28
+ 8001040:	f8d3 e008 	ldr.w	lr, [r3, #8]
+ 8001044:	1a88      	subs	r0, r1, r2
+ 8001046:	4586      	cmp	lr, r0
+ 8001048:	d9e5      	bls.n	8001016 <VectorB0+0x36>
+    now = chVTGetSystemTimeX();
+  }
+
+  /* if the list is empty, nothing else to do.*/
+  if (ch.vtlist.next == (virtual_timer_t *)&ch.vtlist) {
+ 800104a:	4543      	cmp	r3, r8
+ 800104c:	d008      	beq.n	8001060 <VectorB0+0x80>
+    return;
+  }
+
+  /* Recalculating the next alarm time.*/
+  delta = ch.vtlist.lasttime + vtp->delta - now;
+ 800104e:	4472      	add	r2, lr
+ 8001050:	1a52      	subs	r2, r2, r1
+  STM32_ST_TIM->CCR[0] = (uint32_t)time;
+ 8001052:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
+  if (delta < (systime_t)CH_CFG_ST_TIMEDELTA) {
+    delta = (systime_t)CH_CFG_ST_TIMEDELTA;
+  }
+  port_timer_set_alarm(now + delta);
+ 8001056:	2a02      	cmp	r2, #2
+ 8001058:	bf2c      	ite	cs
+ 800105a:	188a      	addcs	r2, r1, r2
+ 800105c:	1c8a      	addcc	r2, r1, #2
+ 800105e:	635a      	str	r2, [r3, #52]	; 0x34
+ 8001060:	2300      	movs	r3, #0
+ 8001062:	f383 8811 	msr	BASEPRI, r3
+}
+ 8001066:	e8bd 43f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+  OSAL_IRQ_EPILOGUE();
+ 800106a:	f7ff ba19 	b.w	80004a0 <_port_irq_epilogue>
+ 800106e:	bf00      	nop
+ 8001070:	20000848 	.word	0x20000848
+	...
+
+08001080 <VectorD8>:
+/**
+ * @brief   USART2 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(STM32_USART2_HANDLER) {
+ 8001080:	e92d 43f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, lr}
+  USART_TypeDef *u = sdp->usart;
+ 8001084:	4d69      	ldr	r5, [pc, #420]	; (800122c <VectorD8+0x1ac>)
+ 8001086:	6f6e      	ldr	r6, [r5, #116]	; 0x74
+  uint16_t cr1 = u->CR1;
+ 8001088:	f8d6 900c 	ldr.w	r9, [r6, #12]
+  uint16_t sr = u->SR;
+ 800108c:	6833      	ldr	r3, [r6, #0]
+  if (sr & USART_SR_LBD) {
+ 800108e:	05da      	lsls	r2, r3, #23
+OSAL_IRQ_HANDLER(STM32_USART2_HANDLER) {
+ 8001090:	b083      	sub	sp, #12
+  uint16_t sr = u->SR;
+ 8001092:	b29c      	uxth	r4, r3
+  if (sr & USART_SR_LBD) {
+ 8001094:	f100 8082 	bmi.w	800119c <VectorD8+0x11c>
+ 8001098:	2320      	movs	r3, #32
+ 800109a:	f383 8811 	msr	BASEPRI, r3
+  while (sr & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE |
+ 800109e:	f014 0f2f 	tst.w	r4, #47	; 0x2f
+ 80010a2:	d049      	beq.n	8001138 <VectorD8+0xb8>
+ *
+ * @iclass
+ */
+void chThdDequeueNextI(threads_queue_t *tqp, msg_t msg) {
+
+  if (queue_notempty(tqp)) {
+ 80010a4:	4f62      	ldr	r7, [pc, #392]	; (8001230 <VectorD8+0x1b0>)
+
+  tp = queue_fifo_remove(tqp);
+
+  chDbgAssert(tp->state == CH_STATE_QUEUED, "invalid state");
+
+  tp->u.rdymsg = msg;
+ 80010a6:	f04f 0800 	mov.w	r8, #0
+ 80010aa:	e007      	b.n	80010bc <VectorD8+0x3c>
+    if (sr & USART_SR_RXNE)
+ 80010ac:	06a1      	lsls	r1, r4, #26
+    b = (uint8_t)u->DR & sdp->rxmask;
+ 80010ae:	6873      	ldr	r3, [r6, #4]
+    if (sr & USART_SR_RXNE)
+ 80010b0:	d41c      	bmi.n	80010ec <VectorD8+0x6c>
+    sr = u->SR;
+ 80010b2:	6834      	ldr	r4, [r6, #0]
+ 80010b4:	b2a4      	uxth	r4, r4
+  while (sr & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE |
+ 80010b6:	f014 0f2f 	tst.w	r4, #47	; 0x2f
+ 80010ba:	d03d      	beq.n	8001138 <VectorD8+0xb8>
+    if (sr & (USART_SR_ORE | USART_SR_NE | USART_SR_FE  | USART_SR_PE))
+ 80010bc:	0723      	lsls	r3, r4, #28
+ 80010be:	d0f5      	beq.n	80010ac <VectorD8+0x2c>
+    sts |= SD_OVERRUN_ERROR;
+ 80010c0:	f014 0f08 	tst.w	r4, #8
+ 80010c4:	bf0c      	ite	eq
+ 80010c6:	2000      	moveq	r0, #0
+ 80010c8:	2080      	movne	r0, #128	; 0x80
+  if (sr & USART_SR_PE)
+ 80010ca:	07e1      	lsls	r1, r4, #31
+    sts |= SD_PARITY_ERROR;
+ 80010cc:	bf48      	it	mi
+ 80010ce:	f040 0020 	orrmi.w	r0, r0, #32
+  if (sr & USART_SR_FE)
+ 80010d2:	07a2      	lsls	r2, r4, #30
+    sts |= SD_FRAMING_ERROR;
+ 80010d4:	bf48      	it	mi
+ 80010d6:	f040 0040 	orrmi.w	r0, r0, #64	; 0x40
+  if (sr & USART_SR_NE)
+ 80010da:	0763      	lsls	r3, r4, #29
+    sts |= SD_NOISE_ERROR;
+ 80010dc:	bf48      	it	mi
+ 80010de:	f440 7080 	orrmi.w	r0, r0, #256	; 0x100
+ * @iclass
+ */
+static inline void osalEventBroadcastFlagsI(event_source_t *esp,
+                                            eventflags_t flags) {
+
+  chEvtBroadcastFlagsI(esp, flags);
+ 80010e2:	f000 fcfd 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+    if (sr & USART_SR_RXNE)
+ 80010e6:	06a1      	lsls	r1, r4, #26
+    b = (uint8_t)u->DR & sdp->rxmask;
+ 80010e8:	6873      	ldr	r3, [r6, #4]
+    if (sr & USART_SR_RXNE)
+ 80010ea:	d5e2      	bpl.n	80010b2 <VectorD8+0x32>
+void sdIncomingDataI(SerialDriver *sdp, uint8_t b) {
+
+  osalDbgCheckClassI();
+  osalDbgCheck(sdp != NULL);
+
+  if (iqIsEmptyI(&sdp->iqueue))
+ 80010ec:	696a      	ldr	r2, [r5, #20]
+    b = (uint8_t)u->DR & sdp->rxmask;
+ 80010ee:	f895 4078 	ldrb.w	r4, [r5, #120]	; 0x78
+ 80010f2:	2a00      	cmp	r2, #0
+ 80010f4:	d041      	beq.n	800117a <VectorD8+0xfa>
+  if (iqIsFullI(iqp)) {
+ 80010f6:	6a2a      	ldr	r2, [r5, #32]
+ 80010f8:	6a69      	ldr	r1, [r5, #36]	; 0x24
+ 80010fa:	428a      	cmp	r2, r1
+ 80010fc:	d046      	beq.n	800118c <VectorD8+0x10c>
+  iqp->q_counter++;
+ 80010fe:	6969      	ldr	r1, [r5, #20]
+ 8001100:	4023      	ands	r3, r4
+  *iqp->q_wrptr++ = b;
+ 8001102:	1c50      	adds	r0, r2, #1
+  iqp->q_counter++;
+ 8001104:	3101      	adds	r1, #1
+  *iqp->q_wrptr++ = b;
+ 8001106:	6228      	str	r0, [r5, #32]
+  iqp->q_counter++;
+ 8001108:	6169      	str	r1, [r5, #20]
+  *iqp->q_wrptr++ = b;
+ 800110a:	7013      	strb	r3, [r2, #0]
+  if (iqp->q_wrptr >= iqp->q_top) {
+ 800110c:	6a2a      	ldr	r2, [r5, #32]
+ 800110e:	69eb      	ldr	r3, [r5, #28]
+ 8001110:	429a      	cmp	r2, r3
+ 8001112:	d301      	bcc.n	8001118 <VectorD8+0x98>
+    iqp->q_wrptr = iqp->q_buffer;
+ 8001114:	69ab      	ldr	r3, [r5, #24]
+ 8001116:	622b      	str	r3, [r5, #32]
+  return (bool)(tqp->next != (const thread_t *)tqp);
+ 8001118:	68eb      	ldr	r3, [r5, #12]
+ 800111a:	42bb      	cmp	r3, r7
+ 800111c:	d0c9      	beq.n	80010b2 <VectorD8+0x32>
+  tqp->next             = tp->queue.next;
+ 800111e:	681a      	ldr	r2, [r3, #0]
+ 8001120:	60ea      	str	r2, [r5, #12]
+  (void) chSchReadyI(tp);
+ 8001122:	4618      	mov	r0, r3
+  tqp->next->queue.prev = (thread_t *)tqp;
+ 8001124:	6057      	str	r7, [r2, #4]
+  tp->u.rdymsg = msg;
+ 8001126:	f8c3 8024 	str.w	r8, [r3, #36]	; 0x24
+  (void) chSchReadyI(tp);
+ 800112a:	f7ff fda9 	bl	8000c80 <chSchReadyI>
+    sr = u->SR;
+ 800112e:	6834      	ldr	r4, [r6, #0]
+ 8001130:	b2a4      	uxth	r4, r4
+  while (sr & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE |
+ 8001132:	f014 0f2f 	tst.w	r4, #47	; 0x2f
+ 8001136:	d1c1      	bne.n	80010bc <VectorD8+0x3c>
+ 8001138:	2300      	movs	r3, #0
+ 800113a:	f383 8811 	msr	BASEPRI, r3
+  if ((cr1 & USART_CR1_TXEIE) && (sr & USART_SR_TXE)) {
+ 800113e:	f019 0f80 	tst.w	r9, #128	; 0x80
+ 8001142:	d001      	beq.n	8001148 <VectorD8+0xc8>
+ 8001144:	0622      	lsls	r2, r4, #24
+ 8001146:	d437      	bmi.n	80011b8 <VectorD8+0x138>
+  if (sr & USART_SR_TC) {
+ 8001148:	0663      	lsls	r3, r4, #25
+ 800114a:	d511      	bpl.n	8001170 <VectorD8+0xf0>
+ 800114c:	2320      	movs	r3, #32
+ 800114e:	f383 8811 	msr	BASEPRI, r3
+    if (oqIsEmptyI(&sdp->oqueue))
+ 8001152:	6c6a      	ldr	r2, [r5, #68]	; 0x44
+ 8001154:	6cab      	ldr	r3, [r5, #72]	; 0x48
+ 8001156:	429a      	cmp	r2, r3
+ 8001158:	d053      	beq.n	8001202 <VectorD8+0x182>
+    u->CR1 = cr1 & ~USART_CR1_TCIE;
+ 800115a:	f64f 73bf 	movw	r3, #65471	; 0xffbf
+ 800115e:	ea09 0303 	and.w	r3, r9, r3
+    u->SR = ~USART_SR_TC;
+ 8001162:	f06f 0240 	mvn.w	r2, #64	; 0x40
+    u->CR1 = cr1 & ~USART_CR1_TCIE;
+ 8001166:	60f3      	str	r3, [r6, #12]
+ 8001168:	2300      	movs	r3, #0
+    u->SR = ~USART_SR_TC;
+ 800116a:	6032      	str	r2, [r6, #0]
+ 800116c:	f383 8811 	msr	BASEPRI, r3
+  OSAL_IRQ_PROLOGUE();
+
+  serve_interrupt(&SD2);
+
+  OSAL_IRQ_EPILOGUE();
+}
+ 8001170:	b003      	add	sp, #12
+ 8001172:	e8bd 43f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, lr}
+  OSAL_IRQ_EPILOGUE();
+ 8001176:	f7ff b993 	b.w	80004a0 <_port_irq_epilogue>
+ 800117a:	2004      	movs	r0, #4
+ 800117c:	9301      	str	r3, [sp, #4]
+ 800117e:	f000 fcaf 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+  if (iqIsFullI(iqp)) {
+ 8001182:	6a2a      	ldr	r2, [r5, #32]
+ 8001184:	6a69      	ldr	r1, [r5, #36]	; 0x24
+ 8001186:	9b01      	ldr	r3, [sp, #4]
+ 8001188:	428a      	cmp	r2, r1
+ 800118a:	d1b8      	bne.n	80010fe <VectorD8+0x7e>
+ 800118c:	6969      	ldr	r1, [r5, #20]
+ 800118e:	2900      	cmp	r1, #0
+ 8001190:	d0b5      	beq.n	80010fe <VectorD8+0x7e>
+ 8001192:	f44f 6080 	mov.w	r0, #1024	; 0x400
+ 8001196:	f000 fca3 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+ 800119a:	e78a      	b.n	80010b2 <VectorD8+0x32>
+ 800119c:	2320      	movs	r3, #32
+ 800119e:	f383 8811 	msr	BASEPRI, r3
+ 80011a2:	f44f 7000 	mov.w	r0, #512	; 0x200
+ 80011a6:	f000 fc9b 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+    u->SR = ~USART_SR_LBD;
+ 80011aa:	f46f 7380 	mvn.w	r3, #256	; 0x100
+ 80011ae:	6033      	str	r3, [r6, #0]
+ 80011b0:	2300      	movs	r3, #0
+ 80011b2:	f383 8811 	msr	BASEPRI, r3
+ 80011b6:	e76f      	b.n	8001098 <VectorD8+0x18>
+ 80011b8:	2320      	movs	r3, #32
+ 80011ba:	f383 8811 	msr	BASEPRI, r3
+  if (oqIsEmptyI(oqp)) {
+ 80011be:	6cab      	ldr	r3, [r5, #72]	; 0x48
+ 80011c0:	6c6a      	ldr	r2, [r5, #68]	; 0x44
+ 80011c2:	429a      	cmp	r2, r3
+ 80011c4:	d024      	beq.n	8001210 <VectorD8+0x190>
+  oqp->q_counter++;
+ 80011c6:	6baa      	ldr	r2, [r5, #56]	; 0x38
+  if (oqp->q_rdptr >= oqp->q_top) {
+ 80011c8:	6c29      	ldr	r1, [r5, #64]	; 0x40
+  b = *oqp->q_rdptr++;
+ 80011ca:	1c58      	adds	r0, r3, #1
+  oqp->q_counter++;
+ 80011cc:	3201      	adds	r2, #1
+ 80011ce:	63aa      	str	r2, [r5, #56]	; 0x38
+  b = *oqp->q_rdptr++;
+ 80011d0:	64a8      	str	r0, [r5, #72]	; 0x48
+  if (oqp->q_rdptr >= oqp->q_top) {
+ 80011d2:	4288      	cmp	r0, r1
+  b = *oqp->q_rdptr++;
+ 80011d4:	781f      	ldrb	r7, [r3, #0]
+  if (oqp->q_rdptr >= oqp->q_top) {
+ 80011d6:	d301      	bcc.n	80011dc <VectorD8+0x15c>
+    oqp->q_rdptr = oqp->q_buffer;
+ 80011d8:	6beb      	ldr	r3, [r5, #60]	; 0x3c
+ 80011da:	64ab      	str	r3, [r5, #72]	; 0x48
+  return (bool)(tqp->next != (const thread_t *)tqp);
+ 80011dc:	6b2b      	ldr	r3, [r5, #48]	; 0x30
+ 80011de:	4a15      	ldr	r2, [pc, #84]	; (8001234 <VectorD8+0x1b4>)
+ 80011e0:	4293      	cmp	r3, r2
+ 80011e2:	d009      	beq.n	80011f8 <VectorD8+0x178>
+  tqp->next             = tp->queue.next;
+ 80011e4:	6819      	ldr	r1, [r3, #0]
+ 80011e6:	6329      	str	r1, [r5, #48]	; 0x30
+  tp->u.rdymsg = msg;
+ 80011e8:	f04f 0e00 	mov.w	lr, #0
+  tqp->next->queue.prev = (thread_t *)tqp;
+ 80011ec:	604a      	str	r2, [r1, #4]
+  (void) chSchReadyI(tp);
+ 80011ee:	4618      	mov	r0, r3
+  tp->u.rdymsg = msg;
+ 80011f0:	f8c3 e024 	str.w	lr, [r3, #36]	; 0x24
+  (void) chSchReadyI(tp);
+ 80011f4:	f7ff fd44 	bl	8000c80 <chSchReadyI>
+      u->DR = b;
+ 80011f8:	6077      	str	r7, [r6, #4]
+ 80011fa:	2300      	movs	r3, #0
+ 80011fc:	f383 8811 	msr	BASEPRI, r3
+ 8001200:	e7a2      	b.n	8001148 <VectorD8+0xc8>
+    if (oqIsEmptyI(&sdp->oqueue))
+ 8001202:	6bab      	ldr	r3, [r5, #56]	; 0x38
+ 8001204:	2b00      	cmp	r3, #0
+ 8001206:	d0a8      	beq.n	800115a <VectorD8+0xda>
+ 8001208:	2010      	movs	r0, #16
+ 800120a:	f000 fc69 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+ 800120e:	e7a4      	b.n	800115a <VectorD8+0xda>
+  if (oqIsEmptyI(oqp)) {
+ 8001210:	6baa      	ldr	r2, [r5, #56]	; 0x38
+ 8001212:	2a00      	cmp	r2, #0
+ 8001214:	d0d7      	beq.n	80011c6 <VectorD8+0x146>
+ 8001216:	2008      	movs	r0, #8
+ 8001218:	f000 fc62 	bl	8001ae0 <chEvtBroadcastFlagsI.constprop.27>
+      u->CR1 = (cr1 & ~USART_CR1_TXEIE) | USART_CR1_TCIE;
+ 800121c:	f64f 733f 	movw	r3, #65343	; 0xff3f
+ 8001220:	ea09 0303 	and.w	r3, r9, r3
+ 8001224:	f043 0340 	orr.w	r3, r3, #64	; 0x40
+ 8001228:	60f3      	str	r3, [r6, #12]
+ 800122a:	e7e6      	b.n	80011fa <VectorD8+0x17a>
+ 800122c:	20000a44 	.word	0x20000a44
+ 8001230:	20000a50 	.word	0x20000a50
+ 8001234:	20000a74 	.word	0x20000a74
+	...
+
+08001240 <main>:
+  .sqr3         = ADC_SQR3_SQ1_N(ADC_CHANNEL_IN4)
+  /* If we can macro ADC_SQR2_SQ... we need to write to .sqr2 */
+};
+
+int main(void)
+{
+ 8001240:	e92d 4880 	stmdb	sp!, {r7, fp, lr}
+  tqp->next = (thread_t *)tqp;
+ 8001244:	4c73      	ldr	r4, [pc, #460]	; (8001414 <main+0x1d4>)
+ 8001246:	b087      	sub	sp, #28
+  ch.rlist.prio = NOPRIO;
+ 8001248:	2500      	movs	r5, #0
+  ch.vtlist.next = (virtual_timer_t *)&ch.vtlist;
+ 800124a:	f104 021c 	add.w	r2, r4, #28
+  ch.vtlist.delta = (systime_t)-1;
+ 800124e:	f04f 33ff 	mov.w	r3, #4294967295
+  chTMStartMeasurementX(&tm);
+ 8001252:	4668      	mov	r0, sp
+  tmp->cumulative = (rttime_t)0;
+ 8001254:	2600      	movs	r6, #0
+ 8001256:	2700      	movs	r7, #0
+ 8001258:	6024      	str	r4, [r4, #0]
+  tqp->prev = (thread_t *)tqp;
+ 800125a:	6064      	str	r4, [r4, #4]
+  ch.vtlist.next = (virtual_timer_t *)&ch.vtlist;
+ 800125c:	61e2      	str	r2, [r4, #28]
+  ch.vtlist.prev = (virtual_timer_t *)&ch.vtlist;
+ 800125e:	6222      	str	r2, [r4, #32]
+  ch.vtlist.delta = (systime_t)-1;
+ 8001260:	6263      	str	r3, [r4, #36]	; 0x24
+  tmp->best       = (rtcnt_t)-1;
+ 8001262:	9300      	str	r3, [sp, #0]
+  tmp->cumulative = (rttime_t)0;
+ 8001264:	e9cd 6704 	strd	r6, r7, [sp, #16]
+  ch.rlist.newer = (thread_t *)&ch.rlist;
+ 8001268:	6124      	str	r4, [r4, #16]
+  ch.rlist.older = (thread_t *)&ch.rlist;
+ 800126a:	6164      	str	r4, [r4, #20]
+  ch.rlist.prio = NOPRIO;
+ 800126c:	60a5      	str	r5, [r4, #8]
+  ch.vtlist.lasttime = (systime_t)0;
+ 800126e:	62a5      	str	r5, [r4, #40]	; 0x28
+  ch.tm.offset = (rtcnt_t)0;
+ 8001270:	6765      	str	r5, [r4, #116]	; 0x74
+  tmp->worst      = (rtcnt_t)0;
+ 8001272:	9501      	str	r5, [sp, #4]
+  tmp->last       = (rtcnt_t)0;
+ 8001274:	9502      	str	r5, [sp, #8]
+  tmp->n          = (ucnt_t)0;
+ 8001276:	9503      	str	r5, [sp, #12]
+  chTMStartMeasurementX(&tm);
+ 8001278:	f000 fc2a 	bl	8001ad0 <chTMStartMeasurementX.constprop.31>
+  chTMStopMeasurementX(&tm);
+ 800127c:	4668      	mov	r0, sp
+ 800127e:	f7ff fabf 	bl	8000800 <chTMStopMeasurementX>
+ *
+ * @notapi
+ */
+void _heap_init(void) {
+
+  default_heap.provider = chCoreAllocAligned;
+ 8001282:	4b65      	ldr	r3, [pc, #404]	; (8001418 <main+0x1d8>)
+  nextmem = __heap_base__;
+ 8001284:	4965      	ldr	r1, [pc, #404]	; (800141c <main+0x1dc>)
+ 8001286:	4866      	ldr	r0, [pc, #408]	; (8001420 <main+0x1e0>)
+ 8001288:	6018      	str	r0, [r3, #0]
+  endmem  = __heap_end__;
+ 800128a:	4a66      	ldr	r2, [pc, #408]	; (8001424 <main+0x1e4>)
+  nextmem = __heap_base__;
+ 800128c:	4866      	ldr	r0, [pc, #408]	; (8001428 <main+0x1e8>)
+ 800128e:	6008      	str	r0, [r1, #0]
+  endmem  = __heap_end__;
+ 8001290:	4966      	ldr	r1, [pc, #408]	; (800142c <main+0x1ec>)
+ 8001292:	6011      	str	r1, [r2, #0]
+__STATIC_INLINE void NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
+{
+  uint32_t reg_value;
+  uint32_t PriorityGroupTmp = (PriorityGroup & (uint32_t)0x07UL);             /* only values 0..7 are used          */
+
+  reg_value  =  SCB->AIRCR;                                                   /* read old register configuration    */
+ 8001294:	4966      	ldr	r1, [pc, #408]	; (8001430 <main+0x1f0>)
+  reg_value &= ~((uint32_t)(SCB_AIRCR_VECTKEY_Msk | SCB_AIRCR_PRIGROUP_Msk)); /* clear bits to change               */
+  reg_value  =  (reg_value                                   |
+ 8001296:	4e67      	ldr	r6, [pc, #412]	; (8001434 <main+0x1f4>)
+  reg_value  =  SCB->AIRCR;                                                   /* read old register configuration    */
+ 8001298:	68ca      	ldr	r2, [r1, #12]
+  REG_INSERT(tp);
+ 800129a:	6967      	ldr	r7, [r4, #20]
+  ch.tm.offset = tm.last;
+ 800129c:	9802      	ldr	r0, [sp, #8]
+  tp->name      = name;
+ 800129e:	f8df e1c4 	ldr.w	lr, [pc, #452]	; 8001464 <main+0x224>
+ 80012a2:	6760      	str	r0, [r4, #116]	; 0x74
+  reg_value &= ~((uint32_t)(SCB_AIRCR_VECTKEY_Msk | SCB_AIRCR_PRIGROUP_Msk)); /* clear bits to change               */
+ 80012a4:	f64f 0cff 	movw	ip, #63743	; 0xf8ff
+ 80012a8:	ea02 020c 	and.w	r2, r2, ip
+  reg_value  =  (reg_value                                   |
+ 80012ac:	4316      	orrs	r6, r2
+  tp->prio      = prio;
+ 80012ae:	2280      	movs	r2, #128	; 0x80
+ 80012b0:	63a2      	str	r2, [r4, #56]	; 0x38
+  tp->realprio  = prio;
+ 80012b2:	66e2      	str	r2, [r4, #108]	; 0x6c
+  tp->name      = name;
+ 80012b4:	f8c4 e048 	str.w	lr, [r4, #72]	; 0x48
+  REG_INSERT(tp);
+ 80012b8:	f104 0030 	add.w	r0, r4, #48	; 0x30
+  tqp->next = (thread_t *)tqp;
+ 80012bc:	f103 0e10 	add.w	lr, r3, #16
+  tp->refs      = (trefs_t)1;
+ 80012c0:	2201      	movs	r2, #1
+  tp->flags     = CH_FLAG_MODE_STATIC;
+ 80012c2:	f884 5051 	strb.w	r5, [r4, #81]	; 0x51
+  tp->epending  = (eventmask_t)0;
+ 80012c6:	6665      	str	r5, [r4, #100]	; 0x64
+void chMtxObjectInit(mutex_t *mp) {
+
+  chDbgCheck(mp != NULL);
+
+  queue_init(&mp->queue);
+  mp->owner = NULL;
+ 80012c8:	619d      	str	r5, [r3, #24]
+  REG_INSERT(tp);
+ 80012ca:	6467      	str	r7, [r4, #68]	; 0x44
+ 80012cc:	f8c3 e010 	str.w	lr, [r3, #16]
+  tqp->prev = (thread_t *)tqp;
+ 80012d0:	f8c3 e014 	str.w	lr, [r3, #20]
+  tp->refs      = (trefs_t)1;
+ 80012d4:	f884 2052 	strb.w	r2, [r4, #82]	; 0x52
+  tp->mtxlist   = NULL;
+ 80012d8:	66a5      	str	r5, [r4, #104]	; 0x68
+  REG_INSERT(tp);
+ 80012da:	6424      	str	r4, [r4, #64]	; 0x40
+ 80012dc:	6138      	str	r0, [r7, #16]
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+ 80012de:	4f56      	ldr	r7, [pc, #344]	; (8001438 <main+0x1f8>)
+                ((uint32_t)0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
+                (PriorityGroupTmp << 8U)                      );              /* Insert write key and priorty group */
+  SCB->AIRCR =  reg_value;
+ 80012e0:	60ce      	str	r6, [r1, #12]
+ 80012e2:	68fe      	ldr	r6, [r7, #12]
+  H_NEXT(&default_heap.header) = NULL;
+ 80012e4:	609d      	str	r5, [r3, #8]
+ 80012e6:	f046 7680 	orr.w	r6, r6, #16777216	; 0x1000000
+ 80012ea:	60fe      	str	r6, [r7, #12]
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+ 80012ec:	4e53      	ldr	r6, [pc, #332]	; (800143c <main+0x1fc>)
+  H_PAGES(&default_heap.header) = 0;
+ 80012ee:	60dd      	str	r5, [r3, #12]
+  tlp->next = (thread_t *)tlp;
+ 80012f0:	f104 0758 	add.w	r7, r4, #88	; 0x58
+  tqp->next = (thread_t *)tqp;
+ 80012f4:	f104 035c 	add.w	r3, r4, #92	; 0x5c
+#elif CH_CFG_USE_DYNAMIC == TRUE
+  currp->wabase = NULL;
+#endif
+
+  /* Setting up the caller as current thread.*/
+  currp->state = CH_STATE_CURRENT;
+ 80012f8:	f884 2050 	strb.w	r2, [r4, #80]	; 0x50
+ 80012fc:	6160      	str	r0, [r4, #20]
+  currp = _thread_init(&ch.mainthread, (const char *)&ch_debug, NORMALPRIO);
+ 80012fe:	61a0      	str	r0, [r4, #24]
+  tlp->next = (thread_t *)tlp;
+ 8001300:	65a7      	str	r7, [r4, #88]	; 0x58
+  currp->wabase = NULL;
+ 8001302:	64e5      	str	r5, [r4, #76]	; 0x4c
+  tqp->next = (thread_t *)tqp;
+ 8001304:	65e3      	str	r3, [r4, #92]	; 0x5c
+  tqp->prev = (thread_t *)tqp;
+ 8001306:	6623      	str	r3, [r4, #96]	; 0x60
+ 8001308:	6833      	ldr	r3, [r6, #0]
+ */
+__STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+{
+  if ((int32_t)(IRQn) < 0)
+  {
+    SCB->SHP[(((uint32_t)(int32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 800130a:	2710      	movs	r7, #16
+ 800130c:	4313      	orrs	r3, r2
+ 800130e:	2020      	movs	r0, #32
+ 8001310:	6033      	str	r3, [r6, #0]
+ 8001312:	77cf      	strb	r7, [r1, #31]
+ 8001314:	f881 0022 	strb.w	r0, [r1, #34]	; 0x22
+ 8001318:	f385 8811 	msr	BASEPRI, r5
+  __ASM volatile ("cpsie i" : : : "memory");
+ 800131c:	b662      	cpsie	i
+  __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
+ 800131e:	f380 8811 	msr	BASEPRI, r0
+  tp->wabase = tdp->wbase;
+ 8001322:	4b47      	ldr	r3, [pc, #284]	; (8001440 <main+0x200>)
+  REG_INSERT(tp);
+ 8001324:	6960      	ldr	r0, [r4, #20]
+  tp->prio      = prio;
+ 8001326:	f8c3 2098 	str.w	r2, [r3, #152]	; 0x98
+  tp->realprio  = prio;
+ 800132a:	f8c3 20cc 	str.w	r2, [r3, #204]	; 0xcc
+  tp->refs      = (trefs_t)1;
+ 800132e:	f883 20b2 	strb.w	r2, [r3, #178]	; 0xb2
+  PORT_SETUP_CONTEXT(tp, tdp->wbase, tp, tdp->funcp, tdp->arg);
+ 8001332:	4944      	ldr	r1, [pc, #272]	; (8001444 <main+0x204>)
+ 8001334:	4f44      	ldr	r7, [pc, #272]	; (8001448 <main+0x208>)
+  tp->name      = name;
+ 8001336:	4e45      	ldr	r6, [pc, #276]	; (800144c <main+0x20c>)
+  PORT_SETUP_CONTEXT(tp, tdp->wbase, tp, tdp->funcp, tdp->arg);
+ 8001338:	66d9      	str	r1, [r3, #108]	; 0x6c
+ 800133a:	f103 026c 	add.w	r2, r3, #108	; 0x6c
+ 800133e:	f8c3 209c 	str.w	r2, [r3, #156]	; 0x9c
+  REG_INSERT(tp);
+ 8001342:	f103 0190 	add.w	r1, r3, #144	; 0x90
+  tp->state     = CH_STATE_WTSTART;
+ 8001346:	2202      	movs	r2, #2
+ 8001348:	f883 20b0 	strb.w	r2, [r3, #176]	; 0xb0
+  REG_INSERT(tp);
+ 800134c:	f8c3 00a4 	str.w	r0, [r3, #164]	; 0xa4
+  tp->flags     = CH_FLAG_MODE_STATIC;
+ 8001350:	f883 50b1 	strb.w	r5, [r3, #177]	; 0xb1
+  tp->epending  = (eventmask_t)0;
+ 8001354:	f8c3 50c4 	str.w	r5, [r3, #196]	; 0xc4
+  PORT_SETUP_CONTEXT(tp, tdp->wbase, tp, tdp->funcp, tdp->arg);
+ 8001358:	f8c3 708c 	str.w	r7, [r3, #140]	; 0x8c
+  tp->name      = name;
+ 800135c:	f8c3 60a8 	str.w	r6, [r3, #168]	; 0xa8
+  PORT_SETUP_CONTEXT(tp, tdp->wbase, tp, tdp->funcp, tdp->arg);
+ 8001360:	671d      	str	r5, [r3, #112]	; 0x70
+  tp->mtxlist   = NULL;
+ 8001362:	f8c3 50c8 	str.w	r5, [r3, #200]	; 0xc8
+  REG_INSERT(tp);
+ 8001366:	f8c3 40a0 	str.w	r4, [r3, #160]	; 0xa0
+  tp->wabase = tdp->wbase;
+ 800136a:	f8c3 30ac 	str.w	r3, [r3, #172]	; 0xac
+  REG_INSERT(tp);
+ 800136e:	6101      	str	r1, [r0, #16]
+  thread_t *otp = currp;
+ 8001370:	69a2      	ldr	r2, [r4, #24]
+  ntp->u.rdymsg = msg;
+ 8001372:	f8c3 50b4 	str.w	r5, [r3, #180]	; 0xb4
+  if (ntp->prio <= otp->prio) {
+ 8001376:	6890      	ldr	r0, [r2, #8]
+ 8001378:	6161      	str	r1, [r4, #20]
+  tqp->next = (thread_t *)tqp;
+ 800137a:	f103 06bc 	add.w	r6, r3, #188	; 0xbc
+  tlp->next = (thread_t *)tlp;
+ 800137e:	f103 07b8 	add.w	r7, r3, #184	; 0xb8
+ 8001382:	f8c3 70b8 	str.w	r7, [r3, #184]	; 0xb8
+  tqp->next = (thread_t *)tqp;
+ 8001386:	f8c3 60bc 	str.w	r6, [r3, #188]	; 0xbc
+  tqp->prev = (thread_t *)tqp;
+ 800138a:	f8c3 60c0 	str.w	r6, [r3, #192]	; 0xc0
+ 800138e:	2800      	cmp	r0, #0
+ 8001390:	f000 8310 	beq.w	80019b4 <main+0x774>
+  tp->state = CH_STATE_READY;
+ 8001394:	f883 50b0 	strb.w	r5, [r3, #176]	; 0xb0
+    cp = cp->queue.next;
+ 8001398:	6824      	ldr	r4, [r4, #0]
+  } while (cp->prio >= tp->prio);
+ 800139a:	68a2      	ldr	r2, [r4, #8]
+ 800139c:	2a00      	cmp	r2, #0
+ 800139e:	d1fb      	bne.n	8001398 <main+0x158>
+  tp->queue.next             = cp;
+ 80013a0:	f8c3 4090 	str.w	r4, [r3, #144]	; 0x90
+  tp->queue.prev             = cp->queue.prev;
+ 80013a4:	6860      	ldr	r0, [r4, #4]
+ 80013a6:	f8c3 0094 	str.w	r0, [r3, #148]	; 0x94
+  tp->queue.prev->queue.next = tp;
+ 80013aa:	6001      	str	r1, [r0, #0]
+  cp->queue.prev             = tp;
+ 80013ac:	6061      	str	r1, [r4, #4]
+ 80013ae:	f382 8811 	msr	BASEPRI, r2
+void hal_lld_init(void) {
+
+  /* Reset of all peripherals. AHB3 is not reseted because it could have
+     been initialized in the board initialization file (board.c) and AHB2 is not
+     present in STM32F410. */
+  rccResetAHB1(~0);
+ 80013b2:	4b27      	ldr	r3, [pc, #156]	; (8001450 <main+0x210>)
+  PWR->CR |= PWR_CR_DBP;
+ 80013b4:	4c27      	ldr	r4, [pc, #156]	; (8001454 <main+0x214>)
+  rccResetAHB1(~0);
+ 80013b6:	6919      	ldr	r1, [r3, #16]
+ 80013b8:	f04f 31ff 	mov.w	r1, #4294967295
+ 80013bc:	6119      	str	r1, [r3, #16]
+ 80013be:	611a      	str	r2, [r3, #16]
+#if !defined(STM32F410xx)
+  rccResetAHB2(~0);
+ 80013c0:	6958      	ldr	r0, [r3, #20]
+ 80013c2:	6159      	str	r1, [r3, #20]
+ 80013c4:	615a      	str	r2, [r3, #20]
+#endif
+  rccResetAPB1(~RCC_APB1RSTR_PWRRST);
+ 80013c6:	6a18      	ldr	r0, [r3, #32]
+ 80013c8:	f060 5080 	orn	r0, r0, #268435456	; 0x10000000
+ 80013cc:	6218      	str	r0, [r3, #32]
+ 80013ce:	621a      	str	r2, [r3, #32]
+  rccResetAPB2(~0);
+ 80013d0:	6a58      	ldr	r0, [r3, #36]	; 0x24
+ 80013d2:	6259      	str	r1, [r3, #36]	; 0x24
+ 80013d4:	625a      	str	r2, [r3, #36]	; 0x24
+
+  /* PWR clock enabled.*/
+  rccEnablePWRInterface(FALSE);
+ 80013d6:	6c19      	ldr	r1, [r3, #64]	; 0x40
+ 80013d8:	f041 5180 	orr.w	r1, r1, #268435456	; 0x10000000
+ 80013dc:	6419      	str	r1, [r3, #64]	; 0x40
+  PWR->CR |= PWR_CR_DBP;
+ 80013de:	6821      	ldr	r1, [r4, #0]
+ 80013e0:	f441 7180 	orr.w	r1, r1, #256	; 0x100
+ 80013e4:	6021      	str	r1, [r4, #0]
+  if ((RCC->BDCR & STM32_RTCSEL_MASK) != STM32_RTCSEL) {
+ 80013e6:	6f19      	ldr	r1, [r3, #112]	; 0x70
+ 80013e8:	f401 7140 	and.w	r1, r1, #768	; 0x300
+ 80013ec:	f5b1 7f00 	cmp.w	r1, #512	; 0x200
+ 80013f0:	d003      	beq.n	80013fa <main+0x1ba>
+    RCC->BDCR = RCC_BDCR_BDRST;
+ 80013f2:	f44f 3180 	mov.w	r1, #65536	; 0x10000
+ 80013f6:	6719      	str	r1, [r3, #112]	; 0x70
+    RCC->BDCR = 0;
+ 80013f8:	671a      	str	r2, [r3, #112]	; 0x70
+  PWR->CSR &= ~PWR_CSR_BRE;
+ 80013fa:	4c16      	ldr	r4, [pc, #88]	; (8001454 <main+0x214>)
+ 80013fc:	4916      	ldr	r1, [pc, #88]	; (8001458 <main+0x218>)
+ 80013fe:	6863      	ldr	r3, [r4, #4]
+ * @init
+ */
+void dmaInit(void) {
+  unsigned i;
+
+  dma_streams_mask = 0U;
+ 8001400:	4d16      	ldr	r5, [pc, #88]	; (800145c <main+0x21c>)
+ 8001402:	f423 7300 	bic.w	r3, r3, #512	; 0x200
+ 8001406:	6063      	str	r3, [r4, #4]
+ 8001408:	4c15      	ldr	r4, [pc, #84]	; (8001460 <main+0x220>)
+ 800140a:	2000      	movs	r0, #0
+  for (i = 0U; i < STM32_DMA_STREAMS; i++) {
+    _stm32_dma_streams[i].stream->CR = 0U;
+ 800140c:	4603      	mov	r3, r0
+  dma_streams_mask = 0U;
+ 800140e:	6020      	str	r0, [r4, #0]
+ 8001410:	e02c      	b.n	800146c <main+0x22c>
+ 8001412:	bf00      	nop
+ 8001414:	20000848 	.word	0x20000848
+ 8001418:	20000998 	.word	0x20000998
+ 800141c:	20000a40 	.word	0x20000a40
+ 8001420:	080002e1 	.word	0x080002e1
+ 8001424:	20000a3c 	.word	0x20000a3c
+ 8001428:	20000ac0 	.word	0x20000ac0
+ 800142c:	20018000 	.word	0x20018000
+ 8001430:	e000ed00 	.word	0xe000ed00
+ 8001434:	05fa0300 	.word	0x05fa0300
+ 8001438:	e000edf0 	.word	0xe000edf0
+ 800143c:	e0001000 	.word	0xe0001000
+ 8001440:	200008c0 	.word	0x200008c0
+ 8001444:	08000391 	.word	0x08000391
+ 8001448:	080002a5 	.word	0x080002a5
+ 800144c:	08002100 	.word	0x08002100
+ 8001450:	40023800 	.word	0x40023800
+ 8001454:	40007000 	.word	0x40007000
+ 8001458:	08001ffc 	.word	0x08001ffc
+ 800145c:	40026010 	.word	0x40026010
+ 8001460:	20000a38 	.word	0x20000a38
+ 8001464:	080020d8 	.word	0x080020d8
+ 8001468:	f851 5c0c 	ldr.w	r5, [r1, #-12]
+    dma_isr_redir[i].dma_func = NULL;
+ 800146c:	48cd      	ldr	r0, [pc, #820]	; (80017a4 <main+0x564>)
+    _stm32_dma_streams[i].stream->CR = 0U;
+ 800146e:	602b      	str	r3, [r5, #0]
+    dma_isr_redir[i].dma_func = NULL;
+ 8001470:	f840 3032 	str.w	r3, [r0, r2, lsl #3]
+  for (i = 0U; i < STM32_DMA_STREAMS; i++) {
+ 8001474:	3201      	adds	r2, #1
+ 8001476:	2a10      	cmp	r2, #16
+ 8001478:	f101 010c 	add.w	r1, r1, #12
+ 800147c:	d1f4      	bne.n	8001468 <main+0x228>
+  }
+  DMA1->LIFCR = 0xFFFFFFFFU;
+ 800147e:	4fca      	ldr	r7, [pc, #808]	; (80017a8 <main+0x568>)
+  DMA1->HIFCR = 0xFFFFFFFFU;
+  DMA2->LIFCR = 0xFFFFFFFFU;
+ 8001480:	4eca      	ldr	r6, [pc, #808]	; (80017ac <main+0x56c>)
+  RCC->AHB1ENR   |= AHB1_EN_MASK;
+ 8001482:	49cb      	ldr	r1, [pc, #812]	; (80017b0 <main+0x570>)
+  gpiop->OTYPER  = config->otyper;
+ 8001484:	f8df 9348 	ldr.w	r9, [pc, #840]	; 80017d0 <main+0x590>
+ 8001488:	f8df 8358 	ldr.w	r8, [pc, #856]	; 80017e4 <main+0x5a4>
+ *
+ * @init
+ */
+void adcObjectInit(ADCDriver *adcp) {
+
+  adcp->state    = ADC_STOP;
+ 800148c:	4dc9      	ldr	r5, [pc, #804]	; (80017b4 <main+0x574>)
+ 800148e:	4cca      	ldr	r4, [pc, #808]	; (80017b8 <main+0x578>)
+ 8001490:	f8df c354 	ldr.w	ip, [pc, #852]	; 80017e8 <main+0x5a8>
+ 8001494:	f8df e354 	ldr.w	lr, [pc, #852]	; 80017ec <main+0x5ac>
+ 8001498:	f8df b354 	ldr.w	fp, [pc, #852]	; 80017f0 <main+0x5b0>
+  DMA1->LIFCR = 0xFFFFFFFFU;
+ 800149c:	f04f 30ff 	mov.w	r0, #4294967295
+ 80014a0:	60b8      	str	r0, [r7, #8]
+  DMA1->HIFCR = 0xFFFFFFFFU;
+ 80014a2:	60f8      	str	r0, [r7, #12]
+  DMA2->LIFCR = 0xFFFFFFFFU;
+ 80014a4:	60b0      	str	r0, [r6, #8]
+  DMA2->HIFCR = 0xFFFFFFFFU;
+ 80014a6:	60f0      	str	r0, [r6, #12]
+  RCC->AHB1ENR   |= AHB1_EN_MASK;
+ 80014a8:	6b0e      	ldr	r6, [r1, #48]	; 0x30
+
+#if defined(__CORE_CM0_H_GENERIC)
+  NVIC->IP[_IP_IDX(n)] = (NVIC->IP[_IP_IDX(n)] & ~(0xFFU << _BIT_SHIFT(n))) |
+                         (NVIC_PRIORITY_MASK(prio) << _BIT_SHIFT(n));
+#else
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 80014aa:	4fc4      	ldr	r7, [pc, #784]	; (80017bc <main+0x57c>)
+ 80014ac:	f046 061f 	orr.w	r6, r6, #31
+ 80014b0:	630e      	str	r6, [r1, #48]	; 0x30
+  RCC->AHB1LPENR |= AHB1_LPEN_MASK;
+ 80014b2:	f8d1 a050 	ldr.w	sl, [r1, #80]	; 0x50
+  gpiop->PUPDR   = config->pupdr;
+ 80014b6:	4ec2      	ldr	r6, [pc, #776]	; (80017c0 <main+0x580>)
+  RCC->AHB1LPENR |= AHB1_LPEN_MASK;
+ 80014b8:	f04a 0a1f 	orr.w	sl, sl, #31
+ 80014bc:	f8c1 a050 	str.w	sl, [r1, #80]	; 0x50
+  gpiop->OSPEEDR = config->ospeedr;
+ 80014c0:	f46f 6a8a 	mvn.w	sl, #1104	; 0x450
+  gpiop->OTYPER  = config->otyper;
+ 80014c4:	f8c9 3004 	str.w	r3, [r9, #4]
+  gpiop->OSPEEDR = config->ospeedr;
+ 80014c8:	f8c9 a008 	str.w	sl, [r9, #8]
+  gpiop->PUPDR   = config->pupdr;
+ 80014cc:	f8c9 600c 	str.w	r6, [r9, #12]
+  gpiop->AFRL    = config->afrl;
+ 80014d0:	f44f 4aee 	mov.w	sl, #30464	; 0x7700
+  gpiop->ODR     = config->odr;
+ 80014d4:	f64f 76df 	movw	r6, #65503	; 0xffdf
+ 80014d8:	f8c9 6014 	str.w	r6, [r9, #20]
+  gpiop->AFRL    = config->afrl;
+ 80014dc:	f8c9 a020 	str.w	sl, [r9, #32]
+  gpiop->AFRH    = config->afrh;
+ 80014e0:	f44f 262a 	mov.w	r6, #696320	; 0xaa000
+  gpiop->MODER   = config->moder;
+ 80014e4:	f8df a30c 	ldr.w	sl, [pc, #780]	; 80017f4 <main+0x5b4>
+  gpiop->AFRH    = config->afrh;
+ 80014e8:	f8c9 6024 	str.w	r6, [r9, #36]	; 0x24
+  gpiop->MODER   = config->moder;
+ 80014ec:	f8c9 a000 	str.w	sl, [r9]
+  gpiop->PUPDR   = config->pupdr;
+ 80014f0:	f04f 3655 	mov.w	r6, #1431655765	; 0x55555555
+  gpiop->ODR     = config->odr;
+ 80014f4:	f64f 79ff 	movw	r9, #65535	; 0xffff
+  gpiop->MODER   = config->moder;
+ 80014f8:	f04f 0a80 	mov.w	sl, #128	; 0x80
+  gpiop->OTYPER  = config->otyper;
+ 80014fc:	f8c8 3004 	str.w	r3, [r8, #4]
+  gpiop->OSPEEDR = config->ospeedr;
+ 8001500:	f8c8 0008 	str.w	r0, [r8, #8]
+  gpiop->PUPDR   = config->pupdr;
+ 8001504:	f8c8 600c 	str.w	r6, [r8, #12]
+  gpiop->ODR     = config->odr;
+ 8001508:	f8c8 9014 	str.w	r9, [r8, #20]
+  gpiop->AFRL    = config->afrl;
+ 800150c:	f8c8 3020 	str.w	r3, [r8, #32]
+  gpiop->AFRH    = config->afrh;
+ 8001510:	f8c8 3024 	str.w	r3, [r8, #36]	; 0x24
+  gpiop->MODER   = config->moder;
+ 8001514:	f8c8 a000 	str.w	sl, [r8]
+  gpiop->PUPDR   = config->pupdr;
+ 8001518:	f8df 82dc 	ldr.w	r8, [pc, #732]	; 80017f8 <main+0x5b8>
+  gpiop->OTYPER  = config->otyper;
+ 800151c:	6063      	str	r3, [r4, #4]
+  gpiop->OSPEEDR = config->ospeedr;
+ 800151e:	60a0      	str	r0, [r4, #8]
+  gpiop->PUPDR   = config->pupdr;
+ 8001520:	f8c4 800c 	str.w	r8, [r4, #12]
+  gpiop->ODR     = config->odr;
+ 8001524:	f8c4 9014 	str.w	r9, [r4, #20]
+  gpiop->AFRL    = config->afrl;
+ 8001528:	6223      	str	r3, [r4, #32]
+  gpiop->AFRH    = config->afrh;
+ 800152a:	6263      	str	r3, [r4, #36]	; 0x24
+  gpiop->MODER   = config->moder;
+ 800152c:	6023      	str	r3, [r4, #0]
+  gpiop->OTYPER  = config->otyper;
+ 800152e:	f8cc 3004 	str.w	r3, [ip, #4]
+  gpiop->OSPEEDR = config->ospeedr;
+ 8001532:	f8cc 0008 	str.w	r0, [ip, #8]
+  gpiop->PUPDR   = config->pupdr;
+ 8001536:	f8cc 600c 	str.w	r6, [ip, #12]
+  gpiop->ODR     = config->odr;
+ 800153a:	f8cc 9014 	str.w	r9, [ip, #20]
+  gpiop->AFRL    = config->afrl;
+ 800153e:	f8cc 3020 	str.w	r3, [ip, #32]
+  adcp->config   = NULL;
+ 8001542:	606b      	str	r3, [r5, #4]
+  gpiop->AFRH    = config->afrh;
+ 8001544:	f8cc 3024 	str.w	r3, [ip, #36]	; 0x24
+  adcp->samples  = NULL;
+ 8001548:	60ab      	str	r3, [r5, #8]
+  gpiop->MODER   = config->moder;
+ 800154a:	f8cc 3000 	str.w	r3, [ip]
+  adcp->depth    = 0;
+ 800154e:	60eb      	str	r3, [r5, #12]
+  gpiop->OTYPER  = config->otyper;
+ 8001550:	f8ce 3004 	str.w	r3, [lr, #4]
+  adcp->grpp     = NULL;
+ 8001554:	612b      	str	r3, [r5, #16]
+  gpiop->OSPEEDR = config->ospeedr;
+ 8001556:	f8ce 0008 	str.w	r0, [lr, #8]
+#if ADC_USE_WAIT == TRUE
+  adcp->thread   = NULL;
+ 800155a:	616b      	str	r3, [r5, #20]
+  gpiop->PUPDR   = config->pupdr;
+ 800155c:	f8ce 600c 	str.w	r6, [lr, #12]
+  gpiop->ODR     = config->odr;
+ 8001560:	f8ce 9014 	str.w	r9, [lr, #20]
+ 8001564:	622b      	str	r3, [r5, #32]
+  gpiop->AFRL    = config->afrl;
+ 8001566:	f8ce 3020 	str.w	r3, [lr, #32]
+  gpiop->AFRH    = config->afrh;
+ 800156a:	f8ce 3024 	str.w	r3, [lr, #36]	; 0x24
+  gpiop->MODER   = config->moder;
+ 800156e:	f8ce 3000 	str.w	r3, [lr]
+  ADCD1.adc = ADC1;
+ 8001572:	f5ae 4e70 	sub.w	lr, lr, #61440	; 0xf000
+  gpiop->OTYPER  = config->otyper;
+ 8001576:	f8cb 3004 	str.w	r3, [fp, #4]
+  gpiop->PUPDR   = config->pupdr;
+ 800157a:	f8df 8280 	ldr.w	r8, [pc, #640]	; 80017fc <main+0x5bc>
+ 800157e:	f8c5 e028 	str.w	lr, [r5, #40]	; 0x28
+  ADCD1.dmamode = STM32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
+ 8001582:	f8df c27c 	ldr.w	ip, [pc, #636]	; 8001800 <main+0x5c0>
+  ADCD1.dmastp  = STM32_DMA_STREAM(STM32_ADC_ADC1_DMA_STREAM);
+ 8001586:	f8df e27c 	ldr.w	lr, [pc, #636]	; 8001804 <main+0x5c4>
+  sdp->vmt = &vmt;
+ 800158a:	4c8e      	ldr	r4, [pc, #568]	; (80017c4 <main+0x584>)
+  gpiop->OSPEEDR = config->ospeedr;
+ 800158c:	f8cb 0008 	str.w	r0, [fp, #8]
+  GPTD4.tim = STM32_TIM4;
+ 8001590:	4e8d      	ldr	r6, [pc, #564]	; (80017c8 <main+0x588>)
+ 8001592:	f8c5 e02c 	str.w	lr, [r5, #44]	; 0x2c
+  gpiop->PUPDR   = config->pupdr;
+ 8001596:	f8cb 800c 	str.w	r8, [fp, #12]
+  gpiop->ODR     = config->odr;
+ 800159a:	f8cb 9014 	str.w	r9, [fp, #20]
+  gpiop->AFRL    = config->afrl;
+ 800159e:	f8cb 3020 	str.w	r3, [fp, #32]
+  ADCD1.dmamode = STM32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
+ 80015a2:	f8c5 c030 	str.w	ip, [r5, #48]	; 0x30
+  tqp->next = (thread_t *)tqp;
+ 80015a6:	f105 0c18 	add.w	ip, r5, #24
+  gpiop->AFRH    = config->afrh;
+ 80015aa:	f8cb 3024 	str.w	r3, [fp, #36]	; 0x24
+  adcp->state    = ADC_STOP;
+ 80015ae:	f04f 0e01 	mov.w	lr, #1
+ 80015b2:	f8c5 c018 	str.w	ip, [r5, #24]
+#endif
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 80015b6:	f44f 2980 	mov.w	r9, #262144	; 0x40000
+  gpiop->MODER   = config->moder;
+ 80015ba:	f8cb 3000 	str.w	r3, [fp]
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 80015be:	f04f 0860 	mov.w	r8, #96	; 0x60
+  tqp->prev = (thread_t *)tqp;
+ 80015c2:	f8c5 c01c 	str.w	ip, [r5, #28]
+ 80015c6:	f8df c240 	ldr.w	ip, [pc, #576]	; 8001808 <main+0x5c8>
+ 80015ca:	f885 e000 	strb.w	lr, [r5]
+ 80015ce:	f887 8312 	strb.w	r8, [r7, #786]	; 0x312
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 80015d2:	f8c7 9180 	str.w	r9, [r7, #384]	; 0x180
+  NVIC->ISER[n >> 5U] = 1U << (n & 0x1FU);
+ 80015d6:	f8c7 9000 	str.w	r9, [r7]
+ 80015da:	f8c6 c00c 	str.w	ip, [r6, #12]
+  iqp->q_counter = 0;
+ 80015de:	6163      	str	r3, [r4, #20]
+ *
+ * @init
+ */
+void gptObjectInit(GPTDriver *gptp) {
+
+  gptp->state  = GPT_STOP;
+ 80015e0:	f886 e000 	strb.w	lr, [r6]
+  oqp->q_counter = size;
+ 80015e4:	63a2      	str	r2, [r4, #56]	; 0x38
+
+#if OSAL_ST_MODE == OSAL_ST_MODE_FREERUNNING
+  /* Free running counter mode.*/
+
+  /* Enabling timer clock.*/
+  ST_ENABLE_CLOCK();
+ 80015e6:	f8d1 c040 	ldr.w	ip, [r1, #64]	; 0x40
+
+  /* Enabling the stop mode during debug for this timer.*/
+  ST_ENABLE_STOP();
+ 80015ea:	f8df 8220 	ldr.w	r8, [pc, #544]	; 800180c <main+0x5cc>
+ 80015ee:	f8df 9220 	ldr.w	r9, [pc, #544]	; 8001810 <main+0x5d0>
+  gptp->config = NULL;
+ 80015f2:	6073      	str	r3, [r6, #4]
+ 80015f4:	4622      	mov	r2, r4
+  ST_ENABLE_CLOCK();
+ 80015f6:	ea4c 0c0e 	orr.w	ip, ip, lr
+ 80015fa:	f842 9b04 	str.w	r9, [r2], #4
+ 80015fe:	f8c1 c040 	str.w	ip, [r1, #64]	; 0x40
+  ST_ENABLE_STOP();
+ 8001602:	f8d8 c008 	ldr.w	ip, [r8, #8]
+ *
+ * @init
+ */
+static inline void chEvtObjectInit(event_source_t *esp) {
+
+  esp->next = (event_listener_t *)esp;
+ 8001606:	6062      	str	r2, [r4, #4]
+ 8001608:	ea4c 0c0e 	orr.w	ip, ip, lr
+
+  /* Initializing the counter in free running mode.*/
+  STM32_ST_TIM->PSC    = (ST_CLOCK_SRC / OSAL_ST_FREQUENCY) - 1;
+ 800160c:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+  sdp->state = SD_STOP;
+ 8001610:	f884 e008 	strb.w	lr, [r4, #8]
+  iqp->q_notify  = infy;
+ 8001614:	62a3      	str	r3, [r4, #40]	; 0x28
+  iqp->q_link    = link;
+ 8001616:	62e4      	str	r4, [r4, #44]	; 0x2c
+  oqp->q_link    = link;
+ 8001618:	6524      	str	r4, [r4, #80]	; 0x50
+  ST_ENABLE_STOP();
+ 800161a:	f8c8 c008 	str.w	ip, [r8, #8]
+  STM32_ST_TIM->PSC    = (ST_CLOCK_SRC / OSAL_ST_FREQUENCY) - 1;
+ 800161e:	f242 08cf 	movw	r8, #8399	; 0x20cf
+ 8001622:	f8c2 8028 	str.w	r8, [r2, #40]	; 0x28
+  tqp->next = (thread_t *)tqp;
+ 8001626:	f104 090c 	add.w	r9, r4, #12
+  oqp->q_top     = bp + size;
+ 800162a:	f104 0c74 	add.w	ip, r4, #116	; 0x74
+  SD1.usart = USART1;
+#endif
+
+#if STM32_SERIAL_USE_USART2
+  sdObjectInit(&SD2, NULL, notify2);
+  SD2.usart = USART2;
+ 800162e:	f8df 81e4 	ldr.w	r8, [pc, #484]	; 8001814 <main+0x5d4>
+  STM32_ST_TIM->ARR    = ST_ARR_INIT;
+ 8001632:	62d0      	str	r0, [r2, #44]	; 0x2c
+  oqp->q_notify  = onfy;
+ 8001634:	f8df b1e0 	ldr.w	fp, [pc, #480]	; 8001818 <main+0x5d8>
+  STM32_ST_TIM->CCMR1  = 0;
+ 8001638:	6193      	str	r3, [r2, #24]
+  iqp->q_top     = bp + size;
+ 800163a:	f104 0064 	add.w	r0, r4, #100	; 0x64
+  oqp->q_top     = bp + size;
+ 800163e:	f8c4 c040 	str.w	ip, [r4, #64]	; 0x40
+  STM32_ST_TIM->CCR[0] = 0;
+ 8001642:	6353      	str	r3, [r2, #52]	; 0x34
+  iqp->q_buffer  = bp;
+ 8001644:	f104 0c54 	add.w	ip, r4, #84	; 0x54
+ 8001648:	f8c4 8074 	str.w	r8, [r4, #116]	; 0x74
+ 800164c:	f8c4 900c 	str.w	r9, [r4, #12]
+ 8001650:	f104 0830 	add.w	r8, r4, #48	; 0x30
+  tqp->prev = (thread_t *)tqp;
+ 8001654:	f8c4 9010 	str.w	r9, [r4, #16]
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 8001658:	f04f 5980 	mov.w	r9, #268435456	; 0x10000000
+  iqp->q_top     = bp + size;
+ 800165c:	61e0      	str	r0, [r4, #28]
+  oqp->q_buffer  = bp;
+ 800165e:	63e0      	str	r0, [r4, #60]	; 0x3c
+  oqp->q_rdptr   = bp;
+ 8001660:	64a0      	str	r0, [r4, #72]	; 0x48
+  oqp->q_wrptr   = bp;
+ 8001662:	6460      	str	r0, [r4, #68]	; 0x44
+  oqp->q_notify  = onfy;
+ 8001664:	f8c4 b04c 	str.w	fp, [r4, #76]	; 0x4c
+  iqp->q_buffer  = bp;
+ 8001668:	f8c4 c018 	str.w	ip, [r4, #24]
+  iqp->q_rdptr   = bp;
+ 800166c:	f8c4 c024 	str.w	ip, [r4, #36]	; 0x24
+  iqp->q_wrptr   = bp;
+ 8001670:	f8c4 c020 	str.w	ip, [r4, #32]
+  tqp->next = (thread_t *)tqp;
+ 8001674:	f8c4 8030 	str.w	r8, [r4, #48]	; 0x30
+  tqp->prev = (thread_t *)tqp;
+ 8001678:	f8c4 8034 	str.w	r8, [r4, #52]	; 0x34
+ 800167c:	2020      	movs	r0, #32
+  STM32_ST_TIM->DIER   = 0;
+ 800167e:	60d3      	str	r3, [r2, #12]
+  STM32_ST_TIM->CR2    = 0;
+ 8001680:	6053      	str	r3, [r2, #4]
+  STM32_ST_TIM->EGR    = TIM_EGR_UG;
+ 8001682:	f8c2 e014 	str.w	lr, [r2, #20]
+  STM32_ST_TIM->CR1    = TIM_CR1_CEN;
+ 8001686:	f8c2 e000 	str.w	lr, [r2]
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 800168a:	f887 a31c 	strb.w	sl, [r7, #796]	; 0x31c
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 800168e:	f8c7 9180 	str.w	r9, [r7, #384]	; 0x180
+  NVIC->ISER[n >> 5U] = 1U << (n & 0x1FU);
+ 8001692:	f8c7 9000 	str.w	r9, [r7]
+ 8001696:	f380 8811 	msr	BASEPRI, r0
+  if (gptp->state == GPT_STOP) {
+ 800169a:	7830      	ldrb	r0, [r6, #0]
+  osalDbgCheck((gptp != NULL) && (config != NULL));
+
+  osalSysLock();
+  osalDbgAssert((gptp->state == GPT_STOP) || (gptp->state == GPT_READY),
+              "invalid state");
+  gptp->config = config;
+ 800169c:	f8df e17c 	ldr.w	lr, [pc, #380]	; 800181c <main+0x5dc>
+ 80016a0:	f8c6 e004 	str.w	lr, [r6, #4]
+ 80016a4:	2801      	cmp	r0, #1
+ 80016a6:	f000 816d 	beq.w	8001984 <main+0x744>
+ 80016aa:	68b3      	ldr	r3, [r6, #8]
+ 80016ac:	4a47      	ldr	r2, [pc, #284]	; (80017cc <main+0x58c>)
+ 80016ae:	095b      	lsrs	r3, r3, #5
+ 80016b0:	fba2 2303 	umull	r2, r3, r2, r3
+ 80016b4:	09db      	lsrs	r3, r3, #7
+ 80016b6:	3b01      	subs	r3, #1
+ 80016b8:	b29b      	uxth	r3, r3
+  gptp->tim->CR1 = 0;                           /* Initially stopped.       */
+ 80016ba:	4a43      	ldr	r2, [pc, #268]	; (80017c8 <main+0x588>)
+  gpt_lld_start(gptp);
+  gptp->state = GPT_READY;
+ 80016bc:	4e42      	ldr	r6, [pc, #264]	; (80017c8 <main+0x588>)
+ 80016be:	68d1      	ldr	r1, [r2, #12]
+  gptp->tim->CR2 = gptp->config->cr2;
+ 80016c0:	2020      	movs	r0, #32
+  gptp->tim->CR1 = 0;                           /* Initially stopped.       */
+ 80016c2:	2200      	movs	r2, #0
+ 80016c4:	2702      	movs	r7, #2
+ 80016c6:	600a      	str	r2, [r1, #0]
+  gptp->tim->CR2 = gptp->config->cr2;
+ 80016c8:	6048      	str	r0, [r1, #4]
+ 80016ca:	7037      	strb	r7, [r6, #0]
+  gptp->tim->PSC = psc;                         /* Prescaler value.         */
+ 80016cc:	628b      	str	r3, [r1, #40]	; 0x28
+  gptp->tim->SR = 0;                            /* Clear pending IRQs.      */
+ 80016ce:	610a      	str	r2, [r1, #16]
+  gptp->tim->DIER = gptp->config->dier &        /* DMA-related DIER bits.   */
+ 80016d0:	60ca      	str	r2, [r1, #12]
+ 80016d2:	f382 8811 	msr	BASEPRI, r2
+ 80016d6:	f380 8811 	msr	BASEPRI, r0
+  if (adcp->state == ADC_STOP) {
+ 80016da:	782b      	ldrb	r3, [r5, #0]
+  osalDbgCheck(adcp != NULL);
+
+  osalSysLock();
+  osalDbgAssert((adcp->state == ADC_STOP) || (adcp->state == ADC_READY),
+                "invalid state");
+  adcp->config = config;
+ 80016dc:	606a      	str	r2, [r5, #4]
+ 80016de:	2b01      	cmp	r3, #1
+ 80016e0:	f000 80db 	beq.w	800189a <main+0x65a>
+  adc_lld_start(adcp);
+  adcp->state = ADC_READY;
+ 80016e4:	2302      	movs	r3, #2
+ 80016e6:	702b      	strb	r3, [r5, #0]
+ 80016e8:	f04f 0800 	mov.w	r8, #0
+ 80016ec:	f388 8811 	msr	BASEPRI, r8
+    halInit();
+
+    gptStart(&GPTD4, &gpt4cfg1);
+    // ADC driver
+    adcStart(&ADCD1, NULL);
+    palSetLineMode( LINE_ADC1_IN4, PAL_MODE_INPUT_ANALOG );  // PA4
+ 80016f0:	2203      	movs	r2, #3
+ 80016f2:	2110      	movs	r1, #16
+ 80016f4:	4836      	ldr	r0, [pc, #216]	; (80017d0 <main+0x590>)
+ 80016f6:	f7fe fe6b 	bl	80003d0 <_pal_lld_setgroupmode>
+ 80016fa:	f04f 0c20 	mov.w	ip, #32
+ 80016fe:	f38c 8811 	msr	BASEPRI, ip
+                "not ready");
+
+  adcp->samples  = samples;
+  adcp->depth    = depth;
+  adcp->grpp     = grpp;
+  adcp->state    = ADC_ACTIVE;
+ 8001702:	f04f 0e03 	mov.w	lr, #3
+  dmaStreamSetMemory0(adcp->dmastp, adcp->samples);
+ 8001706:	6aea      	ldr	r2, [r5, #44]	; 0x2c
+  mode = adcp->dmamode;
+ 8001708:	6b2b      	ldr	r3, [r5, #48]	; 0x30
+ 800170a:	f885 e000 	strb.w	lr, [r5]
+  dmaStreamSetMemory0(adcp->dmastp, adcp->samples);
+ 800170e:	6812      	ldr	r2, [r2, #0]
+  adcp->grpp     = grpp;
+ 8001710:	4930      	ldr	r1, [pc, #192]	; (80017d4 <main+0x594>)
+ 8001712:	6129      	str	r1, [r5, #16]
+  adcp->samples  = samples;
+ 8001714:	4f30      	ldr	r7, [pc, #192]	; (80017d8 <main+0x598>)
+ 8001716:	60af      	str	r7, [r5, #8]
+  adcp->depth    = depth;
+ 8001718:	2101      	movs	r1, #1
+    mode |= STM32_DMA_CR_CIRC;
+ 800171a:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 800171e:	60e9      	str	r1, [r5, #12]
+  dmaStreamSetMemory0(adcp->dmastp, adcp->samples);
+ 8001720:	60d7      	str	r7, [r2, #12]
+  dmaStreamSetTransactionSize(adcp->dmastp, (uint32_t)grpp->num_channels *
+ 8001722:	6051      	str	r1, [r2, #4]
+  dmaStreamSetMode(adcp->dmastp, mode);
+ 8001724:	6013      	str	r3, [r2, #0]
+  dmaStreamEnable(adcp->dmastp);
+ 8001726:	6810      	ldr	r0, [r2, #0]
+  adcp->adc->SR    = 0;
+ 8001728:	6aab      	ldr	r3, [r5, #40]	; 0x28
+  adcp->adc->CR1   = grpp->cr1 | ADC_CR1_OVRIE | ADC_CR1_SCAN;
+ 800172a:	f8df 90f4 	ldr.w	r9, [pc, #244]	; 8001820 <main+0x5e0>
+    adcp->adc->CR2 = cr2;
+ 800172e:	4d2b      	ldr	r5, [pc, #172]	; (80017dc <main+0x59c>)
+  dmaStreamEnable(adcp->dmastp);
+ 8001730:	4308      	orrs	r0, r1
+ 8001732:	6010      	str	r0, [r2, #0]
+  adcp->adc->SMPR2 = grpp->smpr2;
+ 8001734:	f44f 42c0 	mov.w	r2, #24576	; 0x6000
+  adcp->adc->SR    = 0;
+ 8001738:	f8c3 8000 	str.w	r8, [r3]
+  adcp->adc->SMPR1 = grpp->smpr1;
+ 800173c:	f8c3 800c 	str.w	r8, [r3, #12]
+  adcp->adc->SMPR2 = grpp->smpr2;
+ 8001740:	611a      	str	r2, [r3, #16]
+  adcp->adc->SQR3  = grpp->sqr3;
+ 8001742:	2204      	movs	r2, #4
+  adcp->adc->SQR1  = grpp->sqr1 | ADC_SQR1_NUM_CH(grpp->num_channels);
+ 8001744:	f8c3 802c 	str.w	r8, [r3, #44]	; 0x2c
+  adcp->adc->SQR2  = grpp->sqr2;
+ 8001748:	f8c3 8030 	str.w	r8, [r3, #48]	; 0x30
+  adcp->adc->SQR3  = grpp->sqr3;
+ 800174c:	635a      	str	r2, [r3, #52]	; 0x34
+  adcp->adc->CR1   = grpp->cr1 | ADC_CR1_OVRIE | ADC_CR1_SCAN;
+ 800174e:	f8c3 9004 	str.w	r9, [r3, #4]
+    adcp->adc->CR2 = cr2;
+ 8001752:	609d      	str	r5, [r3, #8]
+ 8001754:	f388 8811 	msr	BASEPRI, r8
+ 8001758:	f38c 8811 	msr	BASEPRI, ip
+  if (NULL != gptp->config->callback)
+ 800175c:	4b1a      	ldr	r3, [pc, #104]	; (80017c8 <main+0x588>)
+  osalDbgCheckClassI();
+  osalDbgCheck(gptp != NULL);
+  osalDbgAssert(gptp->state == GPT_READY,
+                "invalid state");
+
+  gptp->state = GPT_CONTINUOUS;
+ 800175e:	481a      	ldr	r0, [pc, #104]	; (80017c8 <main+0x588>)
+ 8001760:	685a      	ldr	r2, [r3, #4]
+  gptp->tim->ARR = (uint32_t)(interval);        /* Time constant.           */
+ 8001762:	68db      	ldr	r3, [r3, #12]
+  if (NULL != gptp->config->callback)
+ 8001764:	6852      	ldr	r2, [r2, #4]
+ 8001766:	f880 e000 	strb.w	lr, [r0]
+  gptp->tim->ARR = (uint32_t)(interval);        /* Time constant.           */
+ 800176a:	2064      	movs	r0, #100	; 0x64
+ 800176c:	62d8      	str	r0, [r3, #44]	; 0x2c
+  gptp->tim->EGR = STM32_TIM_EGR_UG;            /* Update event.            */
+ 800176e:	6159      	str	r1, [r3, #20]
+  gptp->tim->CNT = 0;                           /* Reset counter.           */
+ 8001770:	f8c3 8024 	str.w	r8, [r3, #36]	; 0x24
+  gptp->tim->SR = 0;                            /* Clear pending IRQs.      */
+ 8001774:	f8c3 8010 	str.w	r8, [r3, #16]
+  if (NULL != gptp->config->callback)
+ 8001778:	b112      	cbz	r2, 8001780 <main+0x540>
+    gptp->tim->DIER |= STM32_TIM_DIER_UIE;      /* Update Event IRQ enabled.*/
+ 800177a:	68da      	ldr	r2, [r3, #12]
+ 800177c:	430a      	orrs	r2, r1
+ 800177e:	60da      	str	r2, [r3, #12]
+  gptp->tim->CR1 = STM32_TIM_CR1_ARPE | STM32_TIM_CR1_URS | STM32_TIM_CR1_CEN;
+ 8001780:	2285      	movs	r2, #133	; 0x85
+ 8001782:	601a      	str	r2, [r3, #0]
+ 8001784:	2300      	movs	r3, #0
+ 8001786:	f383 8811 	msr	BASEPRI, r3
+ 800178a:	2320      	movs	r3, #32
+ 800178c:	f383 8811 	msr	BASEPRI, r3
+void sd_lld_start(SerialDriver *sdp, const SerialConfig *config) {
+
+  if (config == NULL)
+    config = &default_config;
+
+  if (sdp->state == SD_STOP) {
+ 8001790:	7a23      	ldrb	r3, [r4, #8]
+ 8001792:	2b01      	cmp	r3, #1
+ 8001794:	f000 80e8 	beq.w	8001968 <main+0x728>
+  USART_TypeDef *u = sdp->usart;
+ 8001798:	6f63      	ldr	r3, [r4, #116]	; 0x74
+  if ((sdp->usart == USART1) || (sdp->usart == USART6))
+ 800179a:	4a11      	ldr	r2, [pc, #68]	; (80017e0 <main+0x5a0>)
+ 800179c:	4293      	cmp	r3, r2
+ 800179e:	f000 80df 	beq.w	8001960 <main+0x720>
+ 80017a2:	e03f      	b.n	8001824 <main+0x5e4>
+ 80017a4:	200009b8 	.word	0x200009b8
+ 80017a8:	40026000 	.word	0x40026000
+ 80017ac:	40026400 	.word	0x40026400
+ 80017b0:	40023800 	.word	0x40023800
+ 80017b4:	20000800 	.word	0x20000800
+ 80017b8:	40020800 	.word	0x40020800
+ 80017bc:	e000e100 	.word	0xe000e100
+ 80017c0:	64155105 	.word	0x64155105
+ 80017c4:	20000a44 	.word	0x20000a44
+ 80017c8:	20000834 	.word	0x20000834
+ 80017cc:	0a7c5ac5 	.word	0x0a7c5ac5
+ 80017d0:	40020000 	.word	0x40020000
+ 80017d4:	080020b0 	.word	0x080020b0
+ 80017d8:	20000844 	.word	0x20000844
+ 80017dc:	1c000301 	.word	0x1c000301
+ 80017e0:	40011000 	.word	0x40011000
+ 80017e4:	40020400 	.word	0x40020400
+ 80017e8:	40020c00 	.word	0x40020c00
+ 80017ec:	40021000 	.word	0x40021000
+ 80017f0:	40021c00 	.word	0x40021c00
+ 80017f4:	2a8004a0 	.word	0x2a8004a0
+ 80017f8:	01555555 	.word	0x01555555
+ 80017fc:	55555550 	.word	0x55555550
+ 8001800:	00022c16 	.word	0x00022c16
+ 8001804:	08002080 	.word	0x08002080
+ 8001808:	40000800 	.word	0x40000800
+ 800180c:	e0042000 	.word	0xe0042000
+ 8001810:	08002114 	.word	0x08002114
+ 8001814:	40004400 	.word	0x40004400
+ 8001818:	08000f71 	.word	0x08000f71
+ 800181c:	080020f0 	.word	0x080020f0
+ 8001820:	04000100 	.word	0x04000100
+ 8001824:	f502 6280 	add.w	r2, r2, #1024	; 0x400
+ 8001828:	4293      	cmp	r3, r2
+ 800182a:	f000 8099 	beq.w	8001960 <main+0x720>
+    u->BRR = STM32_PCLK1 / config->speed;
+ 800182e:	f241 1217 	movw	r2, #4375	; 0x1117
+ 8001832:	609a      	str	r2, [r3, #8]
+  u->CR2 = config->cr2 | USART_CR2_LBDIE;
+ 8001834:	f04f 0840 	mov.w	r8, #64	; 0x40
+  u->CR3 = config->cr3 | USART_CR3_EIE;
+ 8001838:	2001      	movs	r0, #1
+  u->CR1 = config->cr1 | USART_CR1_UE | USART_CR1_PEIE |
+ 800183a:	f242 112c 	movw	r1, #8492	; 0x212c
+  u->SR = 0;
+ 800183e:	2200      	movs	r2, #0
+  u->CR2 = config->cr2 | USART_CR2_LBDIE;
+ 8001840:	f8c3 8010 	str.w	r8, [r3, #16]
+  u->CR3 = config->cr3 | USART_CR3_EIE;
+ 8001844:	6158      	str	r0, [r3, #20]
+  u->CR1 = config->cr1 | USART_CR1_UE | USART_CR1_PEIE |
+ 8001846:	60d9      	str	r1, [r3, #12]
+    sdp->rxmask = 0xFF;
+ 8001848:	20ff      	movs	r0, #255	; 0xff
+  u->SR = 0;
+ 800184a:	601a      	str	r2, [r3, #0]
+  sdp->state = SD_READY;
+ 800184c:	2102      	movs	r1, #2
+  (void)u->SR;  /* SR reset step 1.*/
+ 800184e:	681d      	ldr	r5, [r3, #0]
+  (void)u->DR;  /* SR reset step 2.*/
+ 8001850:	685b      	ldr	r3, [r3, #4]
+    sdp->rxmask = 0xFF;
+ 8001852:	f884 0078 	strb.w	r0, [r4, #120]	; 0x78
+ 8001856:	7221      	strb	r1, [r4, #8]
+ 8001858:	f382 8811 	msr	BASEPRI, r2
+    /* Just set the limit (interval) of timer counter, you can use this function
+       not only for ADC triggering, but start infinite counting of timer for callback processing */
+
+    sdStart( &SD2, &sdcfg );
+
+        palSetPadMode( GPIOD, 5, PAL_MODE_ALTERNATE(8) );    // TX
+ 800185c:	f240 4202 	movw	r2, #1026	; 0x402
+ 8001860:	2120      	movs	r1, #32
+ 8001862:	4856      	ldr	r0, [pc, #344]	; (80019bc <main+0x77c>)
+    {
+
+    adcsample_t result = adc_buffer[1];
+    //result = 65529;
+    //int znach = (int16_t) result;
+    chprintf(((BaseSequentialStream *)&SD2), "Znach: %d\n\r", result );
+ 8001864:	4e56      	ldr	r6, [pc, #344]	; (80019c0 <main+0x780>)
+ 8001866:	4d57      	ldr	r5, [pc, #348]	; (80019c4 <main+0x784>)
+        palSetPadMode( GPIOD, 5, PAL_MODE_ALTERNATE(8) );    // TX
+ 8001868:	f7fe fdb2 	bl	80003d0 <_pal_lld_setgroupmode>
+        palSetPadMode( GPIOD, 6, PAL_MODE_ALTERNATE(8) );    // RX
+ 800186c:	4641      	mov	r1, r8
+ 800186e:	f240 4202 	movw	r2, #1026	; 0x402
+ 8001872:	4852      	ldr	r0, [pc, #328]	; (80019bc <main+0x77c>)
+ 8001874:	f7fe fdac 	bl	80003d0 <_pal_lld_setgroupmode>
+ 8001878:	2420      	movs	r4, #32
+    chprintf(((BaseSequentialStream *)&SD2), "Znach: %d\n\r", result );
+ 800187a:	887a      	ldrh	r2, [r7, #2]
+ 800187c:	4631      	mov	r1, r6
+ 800187e:	4628      	mov	r0, r5
+ 8001880:	f000 f966 	bl	8001b50 <chprintf.constprop.0>
+ 8001884:	f384 8811 	msr	BASEPRI, r4
+  (void) chSchGoSleepTimeoutS(CH_STATE_SLEEPING, time);
+ 8001888:	f44f 717a 	mov.w	r1, #1000	; 0x3e8
+ 800188c:	2008      	movs	r0, #8
+ 800188e:	f7fe ffff 	bl	8000890 <chSchGoSleepTimeoutS>
+ 8001892:	2300      	movs	r3, #0
+ 8001894:	f383 8811 	msr	BASEPRI, r3
+ 8001898:	e7ef      	b.n	800187a <main+0x63a>
+                       void *param) {
+
+  osalDbgCheck(dmastp != NULL);
+
+  /* Checks if the stream is already taken.*/
+  if ((dma_streams_mask & (1U << dmastp->selfindex)) != 0U)
+ 800189a:	4a4b      	ldr	r2, [pc, #300]	; (80019c8 <main+0x788>)
+      b = dmaStreamAllocate(adcp->dmastp,
+ 800189c:	6ae9      	ldr	r1, [r5, #44]	; 0x2c
+ 800189e:	6810      	ldr	r0, [r2, #0]
+ 80018a0:	7a4a      	ldrb	r2, [r1, #9]
+ 80018a2:	4093      	lsls	r3, r2
+ 80018a4:	4203      	tst	r3, r0
+ 80018a6:	d145      	bne.n	8001934 <main+0x6f4>
+    return true;
+
+  /* Marks the stream as allocated.*/
+  dma_isr_redir[dmastp->selfindex].dma_func  = func;
+  dma_isr_redir[dmastp->selfindex].dma_param = param;
+ 80018a8:	4e48      	ldr	r6, [pc, #288]	; (80019cc <main+0x78c>)
+ 80018aa:	eb06 07c2 	add.w	r7, r6, r2, lsl #3
+  dma_streams_mask |= (1U << dmastp->selfindex);
+ 80018ae:	4e46      	ldr	r6, [pc, #280]	; (80019c8 <main+0x788>)
+  dma_isr_redir[dmastp->selfindex].dma_param = param;
+ 80018b0:	607d      	str	r5, [r7, #4]
+  dma_streams_mask |= (1U << dmastp->selfindex);
+ 80018b2:	4303      	orrs	r3, r0
+ 80018b4:	6033      	str	r3, [r6, #0]
+  dma_isr_redir[dmastp->selfindex].dma_func  = func;
+ 80018b6:	4e45      	ldr	r6, [pc, #276]	; (80019cc <main+0x78c>)
+ 80018b8:	4845      	ldr	r0, [pc, #276]	; (80019d0 <main+0x790>)
+ 80018ba:	f846 0032 	str.w	r0, [r6, r2, lsl #3]
+
+  /* Enabling DMA clocks required by the current streams set.*/
+  if ((dma_streams_mask & STM32_DMA1_STREAMS_MASK) != 0U) {
+ 80018be:	f013 0fff 	tst.w	r3, #255	; 0xff
+ 80018c2:	d004      	beq.n	80018ce <main+0x68e>
+    rccEnableDMA1(false);
+ 80018c4:	4843      	ldr	r0, [pc, #268]	; (80019d4 <main+0x794>)
+ 80018c6:	6b02      	ldr	r2, [r0, #48]	; 0x30
+ 80018c8:	f442 1200 	orr.w	r2, r2, #2097152	; 0x200000
+ 80018cc:	6302      	str	r2, [r0, #48]	; 0x30
+  }
+  if ((dma_streams_mask & STM32_DMA2_STREAMS_MASK) != 0U) {
+ 80018ce:	f413 4f7f 	tst.w	r3, #65280	; 0xff00
+ 80018d2:	d004      	beq.n	80018de <main+0x69e>
+    rccEnableDMA2(false);
+ 80018d4:	4a3f      	ldr	r2, [pc, #252]	; (80019d4 <main+0x794>)
+ 80018d6:	6b13      	ldr	r3, [r2, #48]	; 0x30
+ 80018d8:	f443 0380 	orr.w	r3, r3, #4194304	; 0x400000
+ 80018dc:	6313      	str	r3, [r2, #48]	; 0x30
+  }
+
+  /* Putting the stream in a safe state.*/
+  dmaStreamDisable(dmastp);
+ 80018de:	680a      	ldr	r2, [r1, #0]
+ 80018e0:	6813      	ldr	r3, [r2, #0]
+ 80018e2:	f023 031f 	bic.w	r3, r3, #31
+ 80018e6:	6013      	str	r3, [r2, #0]
+ 80018e8:	6813      	ldr	r3, [r2, #0]
+ 80018ea:	f013 0301 	ands.w	r3, r3, #1
+ 80018ee:	d1fb      	bne.n	80018e8 <main+0x6a8>
+ 80018f0:	f891 e008 	ldrb.w	lr, [r1, #8]
+ 80018f4:	684e      	ldr	r6, [r1, #4]
+ 80018f6:	203d      	movs	r0, #61	; 0x3d
+ 80018f8:	fa00 f00e 	lsl.w	r0, r0, lr
+  dmastp->stream->CR = STM32_DMA_CR_RESET_VALUE;
+  dmastp->stream->FCR = STM32_DMA_FCR_RESET_VALUE;
+ 80018fc:	2721      	movs	r7, #33	; 0x21
+  dmaStreamDisable(dmastp);
+ 80018fe:	6030      	str	r0, [r6, #0]
+  dmastp->stream->CR = STM32_DMA_CR_RESET_VALUE;
+ 8001900:	6013      	str	r3, [r2, #0]
+  dmastp->stream->FCR = STM32_DMA_FCR_RESET_VALUE;
+ 8001902:	6157      	str	r7, [r2, #20]
+
+  /* Enables the associated IRQ vector if a callback is defined.*/
+  if (func != NULL) {
+    nvicEnableVector(dmastp->vector, priority);
+ 8001904:	7a89      	ldrb	r1, [r1, #10]
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 8001906:	094b      	lsrs	r3, r1, #5
+ 8001908:	009b      	lsls	r3, r3, #2
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 800190a:	f101 4760 	add.w	r7, r1, #3758096384	; 0xe0000000
+ 800190e:	f103 4360 	add.w	r3, r3, #3758096384	; 0xe0000000
+ 8001912:	f503 4361 	add.w	r3, r3, #57600	; 0xe100
+ 8001916:	f507 4761 	add.w	r7, r7, #57600	; 0xe100
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 800191a:	f001 011f 	and.w	r1, r1, #31
+ 800191e:	2001      	movs	r0, #1
+ 8001920:	fa00 f101 	lsl.w	r1, r0, r1
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 8001924:	f04f 0e60 	mov.w	lr, #96	; 0x60
+ 8001928:	f887 e300 	strb.w	lr, [r7, #768]	; 0x300
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 800192c:	f8c3 1180 	str.w	r1, [r3, #384]	; 0x180
+  NVIC->ISER[n >> 5U] = 1U << (n & 0x1FU);
+ 8001930:	6019      	str	r1, [r3, #0]
+ 8001932:	e000      	b.n	8001936 <main+0x6f6>
+ 8001934:	680a      	ldr	r2, [r1, #0]
+      rccEnableADC1(FALSE);
+ 8001936:	4927      	ldr	r1, [pc, #156]	; (80019d4 <main+0x794>)
+      dmaStreamSetPeripheral(adcp->dmastp, &ADC1->DR);
+ 8001938:	4b27      	ldr	r3, [pc, #156]	; (80019d8 <main+0x798>)
+ 800193a:	6093      	str	r3, [r2, #8]
+      rccEnableADC1(FALSE);
+ 800193c:	6c4b      	ldr	r3, [r1, #68]	; 0x44
+    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
+ 800193e:	4827      	ldr	r0, [pc, #156]	; (80019dc <main+0x79c>)
+    adcp->adc->CR1 = 0;
+ 8001940:	6aaa      	ldr	r2, [r5, #40]	; 0x28
+      rccEnableADC1(FALSE);
+ 8001942:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 8001946:	644b      	str	r3, [r1, #68]	; 0x44
+    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
+ 8001948:	6843      	ldr	r3, [r0, #4]
+ 800194a:	f403 0340 	and.w	r3, r3, #12582912	; 0xc00000
+    adcp->adc->CR1 = 0;
+ 800194e:	2100      	movs	r1, #0
+    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
+ 8001950:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+    adcp->adc->CR2 = ADC_CR2_ADON;
+ 8001954:	2701      	movs	r7, #1
+    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
+ 8001956:	6043      	str	r3, [r0, #4]
+    adcp->adc->CR1 = 0;
+ 8001958:	6051      	str	r1, [r2, #4]
+    adcp->adc->CR2 = 0;
+ 800195a:	6091      	str	r1, [r2, #8]
+    adcp->adc->CR2 = ADC_CR2_ADON;
+ 800195c:	6097      	str	r7, [r2, #8]
+ 800195e:	e6c1      	b.n	80016e4 <main+0x4a4>
+    u->BRR = STM32_PCLK2 / config->speed;
+ 8001960:	f242 222e 	movw	r2, #8750	; 0x222e
+ 8001964:	609a      	str	r2, [r3, #8]
+ 8001966:	e765      	b.n	8001834 <main+0x5f4>
+      nvicEnableVector(STM32_USART1_NUMBER, STM32_SERIAL_USART1_PRIORITY);
+    }
+#endif
+#if STM32_SERIAL_USE_USART2
+    if (&SD2 == sdp) {
+      rccEnableUSART2(FALSE);
+ 8001968:	481a      	ldr	r0, [pc, #104]	; (80019d4 <main+0x794>)
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 800196a:	4b1d      	ldr	r3, [pc, #116]	; (80019e0 <main+0x7a0>)
+ 800196c:	6c02      	ldr	r2, [r0, #64]	; 0x40
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 800196e:	2140      	movs	r1, #64	; 0x40
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 8001970:	25c0      	movs	r5, #192	; 0xc0
+ 8001972:	f442 3200 	orr.w	r2, r2, #131072	; 0x20000
+ 8001976:	6402      	str	r2, [r0, #64]	; 0x40
+ 8001978:	f883 5326 	strb.w	r5, [r3, #806]	; 0x326
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 800197c:	f8c3 1184 	str.w	r1, [r3, #388]	; 0x184
+  NVIC->ISER[n >> 5U] = 1U << (n & 0x1FU);
+ 8001980:	6059      	str	r1, [r3, #4]
+ 8001982:	e709      	b.n	8001798 <main+0x558>
+      rccEnableTIM4(FALSE);
+ 8001984:	6c08      	ldr	r0, [r1, #64]	; 0x40
+      gptp->clock = STM32_TIMCLK1;
+ 8001986:	4e17      	ldr	r6, [pc, #92]	; (80019e4 <main+0x7a4>)
+ 8001988:	f8df e05c 	ldr.w	lr, [pc, #92]	; 80019e8 <main+0x7a8>
+ 800198c:	f8c6 e008 	str.w	lr, [r6, #8]
+      rccEnableTIM4(FALSE);
+ 8001990:	f040 0004 	orr.w	r0, r0, #4
+ 8001994:	6408      	str	r0, [r1, #64]	; 0x40
+      rccResetTIM4();
+ 8001996:	6a08      	ldr	r0, [r1, #32]
+  NVIC->IP[n] = NVIC_PRIORITY_MASK(prio);
+ 8001998:	f04f 0e70 	mov.w	lr, #112	; 0x70
+ 800199c:	f040 0004 	orr.w	r0, r0, #4
+ 80019a0:	6208      	str	r0, [r1, #32]
+ 80019a2:	620b      	str	r3, [r1, #32]
+ 80019a4:	f887 e31e 	strb.w	lr, [r7, #798]	; 0x31e
+      gptp->clock = STM32_TIMCLK1;
+ 80019a8:	f240 3347 	movw	r3, #839	; 0x347
+  NVIC->ICPR[n >> 5U] = 1U << (n & 0x1FU);
+ 80019ac:	f8c7 2180 	str.w	r2, [r7, #384]	; 0x180
+  NVIC->ISER[n >> 5U] = 1U << (n & 0x1FU);
+ 80019b0:	603a      	str	r2, [r7, #0]
+ 80019b2:	e682      	b.n	80016ba <main+0x47a>
+  tp->state = CH_STATE_READY;
+ 80019b4:	f882 0020 	strb.w	r0, [r2, #32]
+ 80019b8:	e7fe      	b.n	80019b8 <main+0x778>
+ 80019ba:	bf00      	nop
+ 80019bc:	40020c00 	.word	0x40020c00
+ 80019c0:	08002108 	.word	0x08002108
+ 80019c4:	20000a44 	.word	0x20000a44
+ 80019c8:	20000a38 	.word	0x20000a38
+ 80019cc:	200009b8 	.word	0x200009b8
+ 80019d0:	08000d51 	.word	0x08000d51
+ 80019d4:	40023800 	.word	0x40023800
+ 80019d8:	4001204c 	.word	0x4001204c
+ 80019dc:	40012300 	.word	0x40012300
+ 80019e0:	e000e100 	.word	0xe000e100
+ 80019e4:	20000834 	.word	0x20000834
+ 80019e8:	0501bd00 	.word	0x0501bd00
+ 80019ec:	00000000 	.word	0x00000000
+
+080019f0 <__early_init>:
+#if !STM32_NO_INIT
+  /* PWR clock enable.*/
+#if defined(HAL_USE_RTC) && defined(RCC_APB1ENR_RTCAPBEN)
+  RCC->APB1ENR = RCC_APB1ENR_PWREN | RCC_APB1ENR_RTCAPBEN;
+#else
+  RCC->APB1ENR = RCC_APB1ENR_PWREN;
+ 80019f0:	4a2e      	ldr	r2, [pc, #184]	; (8001aac <__early_init+0xbc>)
+#endif
+
+  /* PWR initialization.*/
+#if defined(STM32F4XX) || defined(__DOXYGEN__)
+  PWR->CR = STM32_VOS;
+ 80019f2:	4b2f      	ldr	r3, [pc, #188]	; (8001ab0 <__early_init+0xc0>)
+  RCC->APB1ENR = RCC_APB1ENR_PWREN;
+ 80019f4:	f04f 5080 	mov.w	r0, #268435456	; 0x10000000
+  PWR->CR = STM32_VOS;
+ 80019f8:	f44f 4100 	mov.w	r1, #32768	; 0x8000
+  RCC->APB1ENR = RCC_APB1ENR_PWREN;
+ 80019fc:	6410      	str	r0, [r2, #64]	; 0x40
+  PWR->CR = STM32_VOS;
+ 80019fe:	6019      	str	r1, [r3, #0]
+  PWR->CR = 0;
+#endif
+
+  /* HSI setup, it enforces the reset situation in order to handle possible
+     problems with JTAG probes and re-initializations.*/
+  RCC->CR |= RCC_CR_HSION;                  /* Make sure HSI is ON.         */
+ 8001a00:	6813      	ldr	r3, [r2, #0]
+ 8001a02:	f043 0301 	orr.w	r3, r3, #1
+ 8001a06:	6013      	str	r3, [r2, #0]
+  while (!(RCC->CR & RCC_CR_HSIRDY))
+ 8001a08:	6813      	ldr	r3, [r2, #0]
+ 8001a0a:	0798      	lsls	r0, r3, #30
+ 8001a0c:	d5fc      	bpl.n	8001a08 <__early_init+0x18>
+    ;                                       /* Wait until HSI is stable.    */
+
+  /* HSI is selected as new source without touching the other fields in
+     CFGR. Clearing the register has to be postponed after HSI is the
+     new source.*/
+  RCC->CFGR &= ~RCC_CFGR_SW;                /* Reset SW */
+ 8001a0e:	6893      	ldr	r3, [r2, #8]
+  RCC->CFGR |= RCC_CFGR_SWS_HSI;            /* Select HSI as internal*/
+  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI)
+ 8001a10:	4926      	ldr	r1, [pc, #152]	; (8001aac <__early_init+0xbc>)
+  RCC->CFGR &= ~RCC_CFGR_SW;                /* Reset SW */
+ 8001a12:	f023 0303 	bic.w	r3, r3, #3
+ 8001a16:	6093      	str	r3, [r2, #8]
+  RCC->CFGR |= RCC_CFGR_SWS_HSI;            /* Select HSI as internal*/
+ 8001a18:	6893      	ldr	r3, [r2, #8]
+ 8001a1a:	6093      	str	r3, [r2, #8]
+  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI)
+ 8001a1c:	688b      	ldr	r3, [r1, #8]
+ 8001a1e:	f013 030c 	ands.w	r3, r3, #12
+ 8001a22:	d1fb      	bne.n	8001a1c <__early_init+0x2c>
+    ;                                       /* Wait until HSI is selected.  */
+
+  /* Registers finally cleared to reset values.*/
+  RCC->CR &= RCC_CR_HSITRIM | RCC_CR_HSION; /* CR Reset value.              */
+ 8001a24:	6808      	ldr	r0, [r1, #0]
+#endif
+
+#if STM32_LSI_ENABLED
+  /* LSI activation.*/
+  RCC->CSR |= RCC_CSR_LSION;
+  while ((RCC->CSR & RCC_CSR_LSIRDY) == 0)
+ 8001a26:	4a21      	ldr	r2, [pc, #132]	; (8001aac <__early_init+0xbc>)
+  RCC->CR &= RCC_CR_HSITRIM | RCC_CR_HSION; /* CR Reset value.              */
+ 8001a28:	f000 00f9 	and.w	r0, r0, #249	; 0xf9
+ 8001a2c:	6008      	str	r0, [r1, #0]
+  RCC->CFGR = 0;                            /* CFGR reset value.            */
+ 8001a2e:	608b      	str	r3, [r1, #8]
+  RCC->CSR |= RCC_CSR_LSION;
+ 8001a30:	6f4b      	ldr	r3, [r1, #116]	; 0x74
+ 8001a32:	f043 0301 	orr.w	r3, r3, #1
+ 8001a36:	674b      	str	r3, [r1, #116]	; 0x74
+  while ((RCC->CSR & RCC_CSR_LSIRDY) == 0)
+ 8001a38:	6f53      	ldr	r3, [r2, #116]	; 0x74
+ 8001a3a:	0799      	lsls	r1, r3, #30
+ 8001a3c:	d5fc      	bpl.n	8001a38 <__early_init+0x48>
+    ;                           /* Waits until LSI is stable.               */
+#endif
+
+#if STM32_ACTIVATE_PLL
+  /* PLL activation.*/
+  RCC->PLLCFGR = STM32_PLLQ | STM32_PLLSRC | STM32_PLLP | STM32_PLLN |
+ 8001a3e:	4b1d      	ldr	r3, [pc, #116]	; (8001ab4 <__early_init+0xc4>)
+ 8001a40:	6053      	str	r3, [r2, #4]
+                 STM32_PLLM;
+  RCC->CR |= RCC_CR_PLLON;
+ 8001a42:	6813      	ldr	r3, [r2, #0]
+
+  /* Synchronization with voltage regulator stabilization.*/
+#if defined(STM32F4XX)
+  while ((PWR->CSR & PWR_CSR_VOSRDY) == 0)
+ 8001a44:	491a      	ldr	r1, [pc, #104]	; (8001ab0 <__early_init+0xc0>)
+  RCC->CR |= RCC_CR_PLLON;
+ 8001a46:	f043 7380 	orr.w	r3, r3, #16777216	; 0x1000000
+ 8001a4a:	6013      	str	r3, [r2, #0]
+  while ((PWR->CSR & PWR_CSR_VOSRDY) == 0)
+ 8001a4c:	684b      	ldr	r3, [r1, #4]
+ 8001a4e:	045a      	lsls	r2, r3, #17
+ 8001a50:	d5fc      	bpl.n	8001a4c <__early_init+0x5c>
+      ;
+#endif /* STM32_OVERDRIVE_REQUIRED */
+#endif /* defined(STM32F4XX) */
+
+  /* Waiting for PLL lock.*/
+  while (!(RCC->CR & RCC_CR_PLLRDY))
+ 8001a52:	4a16      	ldr	r2, [pc, #88]	; (8001aac <__early_init+0xbc>)
+ 8001a54:	6813      	ldr	r3, [r2, #0]
+ 8001a56:	019b      	lsls	r3, r3, #6
+ 8001a58:	d5fc      	bpl.n	8001a54 <__early_init+0x64>
+
+  /* Flash setup.*/
+#if !defined(STM32_REMOVE_REVISION_A_FIX)
+  /* Some old revisions of F4x MCUs randomly crashes with compiler
+     optimizations enabled AND flash caches enabled. */
+  if ((DBGMCU->IDCODE == 0x20006411) && (SCB->CPUID == 0x410FC241))
+ 8001a5a:	4b17      	ldr	r3, [pc, #92]	; (8001ab8 <__early_init+0xc8>)
+  RCC->CFGR = STM32_MCO2PRE | STM32_MCO2SEL | STM32_MCO1PRE | STM32_MCO1SEL |
+ 8001a5c:	4917      	ldr	r1, [pc, #92]	; (8001abc <__early_init+0xcc>)
+ 8001a5e:	6091      	str	r1, [r2, #8]
+  if ((DBGMCU->IDCODE == 0x20006411) && (SCB->CPUID == 0x410FC241))
+ 8001a60:	681a      	ldr	r2, [r3, #0]
+ 8001a62:	4b17      	ldr	r3, [pc, #92]	; (8001ac0 <__early_init+0xd0>)
+ 8001a64:	429a      	cmp	r2, r3
+ 8001a66:	d016      	beq.n	8001a96 <__early_init+0xa6>
+    FLASH->ACR = FLASH_ACR_PRFTEN | STM32_FLASHBITS;
+  else
+    FLASH->ACR = FLASH_ACR_PRFTEN | FLASH_ACR_ICEN |
+ 8001a68:	4b16      	ldr	r3, [pc, #88]	; (8001ac4 <__early_init+0xd4>)
+ 8001a6a:	f240 7202 	movw	r2, #1794	; 0x702
+ 8001a6e:	601a      	str	r2, [r3, #0]
+               FLASH_ACR_DCEN | STM32_FLASHBITS;
+#endif
+
+  /* Switching to the configured clock source if it is different from HSI.*/
+#if (STM32_SW != STM32_SW_HSI)
+  RCC->CFGR |= STM32_SW;        /* Switches on the selected clock source.   */
+ 8001a70:	4a0e      	ldr	r2, [pc, #56]	; (8001aac <__early_init+0xbc>)
+ 8001a72:	6893      	ldr	r3, [r2, #8]
+ 8001a74:	f043 0302 	orr.w	r3, r3, #2
+ 8001a78:	6093      	str	r3, [r2, #8]
+  while ((RCC->CFGR & RCC_CFGR_SWS) != (STM32_SW << 2))
+ 8001a7a:	6893      	ldr	r3, [r2, #8]
+ 8001a7c:	f003 030c 	and.w	r3, r3, #12
+ 8001a80:	2b08      	cmp	r3, #8
+ 8001a82:	d1fa      	bne.n	8001a7a <__early_init+0x8a>
+#endif
+#endif /* STM32_NO_INIT */
+
+  /* SYSCFG clock enabled here because it is a multi-functional unit shared
+     among multiple drivers.*/
+  rccEnableAPB2(RCC_APB2ENR_SYSCFGEN, TRUE);
+ 8001a84:	6c53      	ldr	r3, [r2, #68]	; 0x44
+ 8001a86:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 8001a8a:	6453      	str	r3, [r2, #68]	; 0x44
+ 8001a8c:	6e53      	ldr	r3, [r2, #100]	; 0x64
+ 8001a8e:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 8001a92:	6653      	str	r3, [r2, #100]	; 0x64
+ 8001a94:	4770      	bx	lr
+  if ((DBGMCU->IDCODE == 0x20006411) && (SCB->CPUID == 0x410FC241))
+ 8001a96:	4a0c      	ldr	r2, [pc, #48]	; (8001ac8 <__early_init+0xd8>)
+ 8001a98:	4b0c      	ldr	r3, [pc, #48]	; (8001acc <__early_init+0xdc>)
+ 8001a9a:	6812      	ldr	r2, [r2, #0]
+ 8001a9c:	429a      	cmp	r2, r3
+ 8001a9e:	d1e3      	bne.n	8001a68 <__early_init+0x78>
+    FLASH->ACR = FLASH_ACR_PRFTEN | STM32_FLASHBITS;
+ 8001aa0:	4b08      	ldr	r3, [pc, #32]	; (8001ac4 <__early_init+0xd4>)
+ 8001aa2:	f44f 7281 	mov.w	r2, #258	; 0x102
+ 8001aa6:	601a      	str	r2, [r3, #0]
+ 8001aa8:	e7e2      	b.n	8001a70 <__early_init+0x80>
+ 8001aaa:	bf00      	nop
+ 8001aac:	40023800 	.word	0x40023800
+ 8001ab0:	40007000 	.word	0x40007000
+ 8001ab4:	07015410 	.word	0x07015410
+ 8001ab8:	e0042000 	.word	0xe0042000
+ 8001abc:	38881000 	.word	0x38881000
+ 8001ac0:	20006411 	.word	0x20006411
+ 8001ac4:	40023c00 	.word	0x40023c00
+ 8001ac8:	e000ed00 	.word	0xe000ed00
+ 8001acc:	410fc241 	.word	0x410fc241
+
+08001ad0 <chTMStartMeasurementX.constprop.31>:
+  return DWT->CYCCNT;
+ 8001ad0:	4b01      	ldr	r3, [pc, #4]	; (8001ad8 <chTMStartMeasurementX.constprop.31+0x8>)
+ 8001ad2:	685b      	ldr	r3, [r3, #4]
+  tmp->last = chSysGetRealtimeCounterX();
+ 8001ad4:	6083      	str	r3, [r0, #8]
+ 8001ad6:	4770      	bx	lr
+ 8001ad8:	e0001000 	.word	0xe0001000
+ 8001adc:	00000000 	.word	0x00000000
+
+08001ae0 <chEvtBroadcastFlagsI.constprop.27>:
+ * @param[in] esp       pointer to the @p event_source_t structure
+ * @param[in] flags     the flags set to be added to the listener flags mask
+ *
+ * @iclass
+ */
+void chEvtBroadcastFlagsI(event_source_t *esp, eventflags_t flags) {
+ 8001ae0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+  event_listener_t *elp;
+
+  chDbgCheckClassI();
+  chDbgCheck(esp != NULL);
+
+  elp = esp->next;
+ 8001ae2:	4f17      	ldr	r7, [pc, #92]	; (8001b40 <chEvtBroadcastFlagsI.constprop.27+0x60>)
+ 8001ae4:	f857 4f04 	ldr.w	r4, [r7, #4]!
+  /*lint -save -e9087 -e740 [11.3, 1.3] Cast required by list handling.*/
+  while (elp != (event_listener_t *)esp) {
+ 8001ae8:	42bc      	cmp	r4, r7
+ 8001aea:	d021      	beq.n	8001b30 <chEvtBroadcastFlagsI.constprop.27+0x50>
+ 8001aec:	4605      	mov	r5, r0
+  /* Test on the AND/OR conditions wait states.*/
+  if (((tp->state == CH_STATE_WTOREVT) &&
+       ((tp->epending & tp->u.ewmask) != (eventmask_t)0)) ||
+      ((tp->state == CH_STATE_WTANDEVT) &&
+       ((tp->epending & tp->u.ewmask) == tp->u.ewmask))) {
+    tp->u.rdymsg = MSG_OK;
+ 8001aee:	2600      	movs	r6, #0
+ 8001af0:	e002      	b.n	8001af8 <chEvtBroadcastFlagsI.constprop.27+0x18>
+    elp = elp->next;
+ 8001af2:	6824      	ldr	r4, [r4, #0]
+  while (elp != (event_listener_t *)esp) {
+ 8001af4:	42bc      	cmp	r4, r7
+ 8001af6:	d01b      	beq.n	8001b30 <chEvtBroadcastFlagsI.constprop.27+0x50>
+    elp->flags |= flags;
+ 8001af8:	68e3      	ldr	r3, [r4, #12]
+ 8001afa:	432b      	orrs	r3, r5
+ 8001afc:	60e3      	str	r3, [r4, #12]
+    if ((flags == (eventflags_t)0) ||
+ 8001afe:	b115      	cbz	r5, 8001b06 <chEvtBroadcastFlagsI.constprop.27+0x26>
+        ((elp->flags & elp->wflags) != (eventflags_t)0)) {
+ 8001b00:	6922      	ldr	r2, [r4, #16]
+    if ((flags == (eventflags_t)0) ||
+ 8001b02:	4213      	tst	r3, r2
+ 8001b04:	d0f5      	beq.n	8001af2 <chEvtBroadcastFlagsI.constprop.27+0x12>
+      chEvtSignalI(elp->listener, elp->events);
+ 8001b06:	6860      	ldr	r0, [r4, #4]
+  tp->epending |= events;
+ 8001b08:	68a3      	ldr	r3, [r4, #8]
+ 8001b0a:	6b41      	ldr	r1, [r0, #52]	; 0x34
+  if (((tp->state == CH_STATE_WTOREVT) &&
+ 8001b0c:	f890 2020 	ldrb.w	r2, [r0, #32]
+  tp->epending |= events;
+ 8001b10:	430b      	orrs	r3, r1
+  if (((tp->state == CH_STATE_WTOREVT) &&
+ 8001b12:	2a0a      	cmp	r2, #10
+  tp->epending |= events;
+ 8001b14:	6343      	str	r3, [r0, #52]	; 0x34
+  if (((tp->state == CH_STATE_WTOREVT) &&
+ 8001b16:	d00c      	beq.n	8001b32 <chEvtBroadcastFlagsI.constprop.27+0x52>
+       ((tp->epending & tp->u.ewmask) != (eventmask_t)0)) ||
+ 8001b18:	2a0b      	cmp	r2, #11
+ 8001b1a:	d1ea      	bne.n	8001af2 <chEvtBroadcastFlagsI.constprop.27+0x12>
+       ((tp->epending & tp->u.ewmask) == tp->u.ewmask))) {
+ 8001b1c:	6a42      	ldr	r2, [r0, #36]	; 0x24
+      ((tp->state == CH_STATE_WTANDEVT) &&
+ 8001b1e:	ea32 0303 	bics.w	r3, r2, r3
+ 8001b22:	d1e6      	bne.n	8001af2 <chEvtBroadcastFlagsI.constprop.27+0x12>
+    tp->u.rdymsg = MSG_OK;
+ 8001b24:	6246      	str	r6, [r0, #36]	; 0x24
+    (void) chSchReadyI(tp);
+ 8001b26:	f7ff f8ab 	bl	8000c80 <chSchReadyI>
+    elp = elp->next;
+ 8001b2a:	6824      	ldr	r4, [r4, #0]
+  while (elp != (event_listener_t *)esp) {
+ 8001b2c:	42bc      	cmp	r4, r7
+ 8001b2e:	d1e3      	bne.n	8001af8 <chEvtBroadcastFlagsI.constprop.27+0x18>
+ 8001b30:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+       ((tp->epending & tp->u.ewmask) != (eventmask_t)0)) ||
+ 8001b32:	6a42      	ldr	r2, [r0, #36]	; 0x24
+  if (((tp->state == CH_STATE_WTOREVT) &&
+ 8001b34:	4213      	tst	r3, r2
+ 8001b36:	d0dc      	beq.n	8001af2 <chEvtBroadcastFlagsI.constprop.27+0x12>
+    tp->u.rdymsg = MSG_OK;
+ 8001b38:	6246      	str	r6, [r0, #36]	; 0x24
+    (void) chSchReadyI(tp);
+ 8001b3a:	f7ff f8a1 	bl	8000c80 <chSchReadyI>
+ 8001b3e:	e7f4      	b.n	8001b2a <chEvtBroadcastFlagsI.constprop.27+0x4a>
+ 8001b40:	20000a44 	.word	0x20000a44
+	...
+
+08001b50 <chprintf.constprop.0>:
+ * @param[in] chp       pointer to a @p BaseSequentialStream implementing object
+ * @param[in] fmt       formatting string
+ *
+ * @api
+ */
+int chprintf(BaseSequentialStream *chp, const char *fmt, ...) {
+ 8001b50:	b40e      	push	{r1, r2, r3}
+ 8001b52:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 8001b56:	b086      	sub	sp, #24
+  va_list ap;
+  int formatted_bytes;
+
+  va_start(ap, fmt);
+ 8001b58:	ae10      	add	r6, sp, #64	; 0x40
+  int n = 0;
+ 8001b5a:	2300      	movs	r3, #0
+ 8001b5c:	4d77      	ldr	r5, [pc, #476]	; (8001d3c <chprintf.constprop.0+0x1ec>)
+    c = *fmt++;
+ 8001b5e:	4c78      	ldr	r4, [pc, #480]	; (8001d40 <chprintf.constprop.0+0x1f0>)
+  va_start(ap, fmt);
+ 8001b60:	9602      	str	r6, [sp, #8]
+  int n = 0;
+ 8001b62:	9300      	str	r3, [sp, #0]
+    c = *fmt++;
+ 8001b64:	f04f 0a5a 	mov.w	sl, #90	; 0x5a
+      n++;
+ 8001b68:	9a00      	ldr	r2, [sp, #0]
+      streamPut(chp, (uint8_t)c);
+ 8001b6a:	682b      	ldr	r3, [r5, #0]
+ 8001b6c:	4873      	ldr	r0, [pc, #460]	; (8001d3c <chprintf.constprop.0+0x1ec>)
+ 8001b6e:	689b      	ldr	r3, [r3, #8]
+ 8001b70:	4651      	mov	r1, sl
+      n++;
+ 8001b72:	3201      	adds	r2, #1
+ 8001b74:	9200      	str	r2, [sp, #0]
+      streamPut(chp, (uint8_t)c);
+ 8001b76:	4798      	blx	r3
+ 8001b78:	f894 a000 	ldrb.w	sl, [r4]
+      n++;
+ 8001b7c:	4627      	mov	r7, r4
+    c = *fmt++;
+ 8001b7e:	1c7c      	adds	r4, r7, #1
+    if (c == 0)
+ 8001b80:	f1ba 0f00 	cmp.w	sl, #0
+ 8001b84:	f000 8131 	beq.w	8001dea <chprintf.constprop.0+0x29a>
+    if (c != '%') {
+ 8001b88:	f1ba 0f25 	cmp.w	sl, #37	; 0x25
+ 8001b8c:	d1ec      	bne.n	8001b68 <chprintf.constprop.0+0x18>
+    if (*fmt == '-') {
+ 8001b8e:	787a      	ldrb	r2, [r7, #1]
+ 8001b90:	2a2d      	cmp	r2, #45	; 0x2d
+ 8001b92:	bf03      	ittte	eq
+ 8001b94:	78ba      	ldrbeq	r2, [r7, #2]
+      fmt++;
+ 8001b96:	1cbc      	addeq	r4, r7, #2
+      left_align = TRUE;
+ 8001b98:	f04f 0c01 	moveq.w	ip, #1
+    left_align = FALSE;
+ 8001b9c:	f04f 0c00 	movne.w	ip, #0
+    if (*fmt == '0') {
+ 8001ba0:	2a30      	cmp	r2, #48	; 0x30
+ 8001ba2:	bf04      	itt	eq
+ 8001ba4:	7862      	ldrbeq	r2, [r4, #1]
+      fmt++;
+ 8001ba6:	3401      	addeq	r4, #1
+ 8001ba8:	f104 0101 	add.w	r1, r4, #1
+      filler = '0';
+ 8001bac:	bf0c      	ite	eq
+ 8001bae:	f04f 0930 	moveq.w	r9, #48	; 0x30
+    filler = ' ';
+ 8001bb2:	f04f 0920 	movne.w	r9, #32
+    width = 0;
+ 8001bb6:	2400      	movs	r4, #0
+ 8001bb8:	e005      	b.n	8001bc6 <chprintf.constprop.0+0x76>
+        c = va_arg(ap, int);
+ 8001bba:	7833      	ldrb	r3, [r6, #0]
+ 8001bbc:	3604      	adds	r6, #4
+ 8001bbe:	f811 2b01 	ldrb.w	r2, [r1], #1
+      width = width * 10 + c;
+ 8001bc2:	eb03 0440 	add.w	r4, r3, r0, lsl #1
+      if (c >= '0' && c <= '9')
+ 8001bc6:	f1a2 0330 	sub.w	r3, r2, #48	; 0x30
+ 8001bca:	b2db      	uxtb	r3, r3
+ 8001bcc:	2b09      	cmp	r3, #9
+      c = *fmt++;
+ 8001bce:	460f      	mov	r7, r1
+      width = width * 10 + c;
+ 8001bd0:	eb04 0084 	add.w	r0, r4, r4, lsl #2
+      if (c >= '0' && c <= '9')
+ 8001bd4:	d9f3      	bls.n	8001bbe <chprintf.constprop.0+0x6e>
+      else if (c == '*')
+ 8001bd6:	2a2a      	cmp	r2, #42	; 0x2a
+ 8001bd8:	d0ef      	beq.n	8001bba <chprintf.constprop.0+0x6a>
+    if (c == '.') {
+ 8001bda:	2a2e      	cmp	r2, #46	; 0x2e
+ 8001bdc:	f04f 0100 	mov.w	r1, #0
+ 8001be0:	d043      	beq.n	8001c6a <chprintf.constprop.0+0x11a>
+    if (c == 'l' || c == 'L') {
+ 8001be2:	f002 03df 	and.w	r3, r2, #223	; 0xdf
+ 8001be6:	2b4c      	cmp	r3, #76	; 0x4c
+ 8001be8:	d04e      	beq.n	8001c88 <chprintf.constprop.0+0x138>
+    switch (c) {
+ 8001bea:	f1a2 0044 	sub.w	r0, r2, #68	; 0x44
+ 8001bee:	2834      	cmp	r0, #52	; 0x34
+ 8001bf0:	f200 8144 	bhi.w	8001e7c <chprintf.constprop.0+0x32c>
+ 8001bf4:	e8df f010 	tbh	[pc, r0, lsl #1]
+ 8001bf8:	01420114 	.word	0x01420114
+ 8001bfc:	01420142 	.word	0x01420142
+ 8001c00:	01140142 	.word	0x01140142
+ 8001c04:	01420142 	.word	0x01420142
+ 8001c08:	01420142 	.word	0x01420142
+ 8001c0c:	017d0142 	.word	0x017d0142
+ 8001c10:	01420142 	.word	0x01420142
+ 8001c14:	01420142 	.word	0x01420142
+ 8001c18:	01510142 	.word	0x01510142
+ 8001c1c:	01420142 	.word	0x01420142
+ 8001c20:	01420180 	.word	0x01420180
+ 8001c24:	01420142 	.word	0x01420142
+ 8001c28:	01420142 	.word	0x01420142
+ 8001c2c:	01420142 	.word	0x01420142
+ 8001c30:	01420142 	.word	0x01420142
+ 8001c34:	00ff0142 	.word	0x00ff0142
+ 8001c38:	01420114 	.word	0x01420114
+ 8001c3c:	01420142 	.word	0x01420142
+ 8001c40:	01140142 	.word	0x01140142
+ 8001c44:	01420142 	.word	0x01420142
+ 8001c48:	01420142 	.word	0x01420142
+ 8001c4c:	017d0142 	.word	0x017d0142
+ 8001c50:	01420142 	.word	0x01420142
+ 8001c54:	008d0142 	.word	0x008d0142
+ 8001c58:	01510142 	.word	0x01510142
+ 8001c5c:	01420142 	.word	0x01420142
+ 8001c60:	0180      	.short	0x0180
+          c = va_arg(ap, int);
+ 8001c62:	7833      	ldrb	r3, [r6, #0]
+ 8001c64:	3604      	adds	r6, #4
+        precision += c;
+ 8001c66:	eb03 0140 	add.w	r1, r3, r0, lsl #1
+        c = *fmt++;
+ 8001c6a:	f817 2b01 	ldrb.w	r2, [r7], #1
+        if (c >= '0' && c <= '9')
+ 8001c6e:	f1a2 0330 	sub.w	r3, r2, #48	; 0x30
+ 8001c72:	b2db      	uxtb	r3, r3
+ 8001c74:	2b09      	cmp	r3, #9
+        precision *= 10;
+ 8001c76:	eb01 0081 	add.w	r0, r1, r1, lsl #2
+        if (c >= '0' && c <= '9')
+ 8001c7a:	d9f4      	bls.n	8001c66 <chprintf.constprop.0+0x116>
+        else if (c == '*')
+ 8001c7c:	2a2a      	cmp	r2, #42	; 0x2a
+ 8001c7e:	d0f0      	beq.n	8001c62 <chprintf.constprop.0+0x112>
+    if (c == 'l' || c == 'L') {
+ 8001c80:	f002 03df 	and.w	r3, r2, #223	; 0xdf
+ 8001c84:	2b4c      	cmp	r3, #76	; 0x4c
+ 8001c86:	d1b0      	bne.n	8001bea <chprintf.constprop.0+0x9a>
+      if (*fmt)
+ 8001c88:	f897 a000 	ldrb.w	sl, [r7]
+ 8001c8c:	f1ba 0f00 	cmp.w	sl, #0
+ 8001c90:	d003      	beq.n	8001c9a <chprintf.constprop.0+0x14a>
+        c = *fmt++;
+ 8001c92:	4652      	mov	r2, sl
+ 8001c94:	3701      	adds	r7, #1
+ 8001c96:	f897 a000 	ldrb.w	sl, [r7]
+    switch (c) {
+ 8001c9a:	f1a2 0344 	sub.w	r3, r2, #68	; 0x44
+ 8001c9e:	2b34      	cmp	r3, #52	; 0x34
+ 8001ca0:	f200 80ee 	bhi.w	8001e80 <chprintf.constprop.0+0x330>
+ 8001ca4:	e8df f013 	tbh	[pc, r3, lsl #1]
+ 8001ca8:	00ec00be 	.word	0x00ec00be
+ 8001cac:	00ec00ec 	.word	0x00ec00ec
+ 8001cb0:	00be00ec 	.word	0x00be00ec
+ 8001cb4:	00ec00ec 	.word	0x00ec00ec
+ 8001cb8:	00ec00ec 	.word	0x00ec00ec
+ 8001cbc:	012b00ec 	.word	0x012b00ec
+ 8001cc0:	00ec00ec 	.word	0x00ec00ec
+ 8001cc4:	00ec00ec 	.word	0x00ec00ec
+ 8001cc8:	013100ec 	.word	0x013100ec
+ 8001ccc:	00ec00ec 	.word	0x00ec00ec
+ 8001cd0:	00ec012e 	.word	0x00ec012e
+ 8001cd4:	00ec00ec 	.word	0x00ec00ec
+ 8001cd8:	00ec00ec 	.word	0x00ec00ec
+ 8001cdc:	00ec00ec 	.word	0x00ec00ec
+ 8001ce0:	00ec00ec 	.word	0x00ec00ec
+ 8001ce4:	00a900ec 	.word	0x00a900ec
+ 8001ce8:	00ec00be 	.word	0x00ec00be
+ 8001cec:	00ec00ec 	.word	0x00ec00ec
+ 8001cf0:	00be00ec 	.word	0x00be00ec
+ 8001cf4:	00ec00ec 	.word	0x00ec00ec
+ 8001cf8:	00ec00ec 	.word	0x00ec00ec
+ 8001cfc:	012b00ec 	.word	0x012b00ec
+ 8001d00:	00ec00ec 	.word	0x00ec00ec
+ 8001d04:	003700ec 	.word	0x003700ec
+ 8001d08:	013100ec 	.word	0x013100ec
+ 8001d0c:	00ec00ec 	.word	0x00ec00ec
+ 8001d10:	012e      	.short	0x012e
+ 8001d12:	f897 a000 	ldrb.w	sl, [r7]
+      if ((s = va_arg(ap, char *)) == 0)
+ 8001d16:	f8d6 8000 	ldr.w	r8, [r6]
+ 8001d1a:	3604      	adds	r6, #4
+ 8001d1c:	f1b8 0f00 	cmp.w	r8, #0
+ 8001d20:	f000 811c 	beq.w	8001f5c <chprintf.constprop.0+0x40c>
+      for (p = s; *p && (--precision >= 0); p++)
+ 8001d24:	f898 3000 	ldrb.w	r3, [r8]
+      if (precision == 0)
+ 8001d28:	2900      	cmp	r1, #0
+ 8001d2a:	f040 80f1 	bne.w	8001f10 <chprintf.constprop.0+0x3c0>
+      for (p = s; *p && (--precision >= 0); p++)
+ 8001d2e:	2b00      	cmp	r3, #0
+ 8001d30:	f000 80f3 	beq.w	8001f1a <chprintf.constprop.0+0x3ca>
+ 8001d34:	f647 73fe 	movw	r3, #32766	; 0x7ffe
+ 8001d38:	4642      	mov	r2, r8
+ 8001d3a:	e005      	b.n	8001d48 <chprintf.constprop.0+0x1f8>
+ 8001d3c:	20000a44 	.word	0x20000a44
+ 8001d40:	08002109 	.word	0x08002109
+ 8001d44:	3b01      	subs	r3, #1
+ 8001d46:	d403      	bmi.n	8001d50 <chprintf.constprop.0+0x200>
+ 8001d48:	f812 1f01 	ldrb.w	r1, [r2, #1]!
+ 8001d4c:	2900      	cmp	r1, #0
+ 8001d4e:	d1f9      	bne.n	8001d44 <chprintf.constprop.0+0x1f4>
+ 8001d50:	eba2 0208 	sub.w	r2, r2, r8
+ 8001d54:	1e53      	subs	r3, r2, #1
+    if ((width -= i) < 0)
+ 8001d56:	1aa4      	subs	r4, r4, r2
+ 8001d58:	9301      	str	r3, [sp, #4]
+      filler = ' ';
+ 8001d5a:	f04f 0920 	mov.w	r9, #32
+    if ((width -= i) < 0)
+ 8001d5e:	d459      	bmi.n	8001e14 <chprintf.constprop.0+0x2c4>
+    if (left_align == FALSE)
+ 8001d60:	f1bc 0f00 	cmp.w	ip, #0
+ 8001d64:	f040 8095 	bne.w	8001e92 <chprintf.constprop.0+0x342>
+ 8001d68:	f1c4 0b00 	rsb	fp, r4, #0
+    if (width < 0) {
+ 8001d6c:	2c00      	cmp	r4, #0
+ 8001d6e:	f000 808f 	beq.w	8001e90 <chprintf.constprop.0+0x340>
+      if (*s == '-' && filler == '0') {
+ 8001d72:	f898 1000 	ldrb.w	r1, [r8]
+ 8001d76:	292d      	cmp	r1, #45	; 0x2d
+ 8001d78:	f000 80d5 	beq.w	8001f26 <chprintf.constprop.0+0x3d6>
+        streamPut(chp, (uint8_t)filler);
+ 8001d7c:	682b      	ldr	r3, [r5, #0]
+ 8001d7e:	4649      	mov	r1, r9
+ 8001d80:	689b      	ldr	r3, [r3, #8]
+ 8001d82:	4628      	mov	r0, r5
+ 8001d84:	4798      	blx	r3
+      } while (++width != 0);
+ 8001d86:	f11b 0b01 	adds.w	fp, fp, #1
+ 8001d8a:	d1f7      	bne.n	8001d7c <chprintf.constprop.0+0x22c>
+ 8001d8c:	9b00      	ldr	r3, [sp, #0]
+ 8001d8e:	4423      	add	r3, r4
+ 8001d90:	9300      	str	r3, [sp, #0]
+    while (--i >= 0) {
+ 8001d92:	9b01      	ldr	r3, [sp, #4]
+ 8001d94:	2b00      	cmp	r3, #0
+ 8001d96:	bfa8      	it	ge
+ 8001d98:	465c      	movge	r4, fp
+ 8001d9a:	f6ff aef0 	blt.w	8001b7e <chprintf.constprop.0+0x2e>
+ 8001d9e:	f8dd b004 	ldr.w	fp, [sp, #4]
+      streamPut(chp, (uint8_t)*s++);
+ 8001da2:	682b      	ldr	r3, [r5, #0]
+ 8001da4:	f818 1b01 	ldrb.w	r1, [r8], #1
+ 8001da8:	689b      	ldr	r3, [r3, #8]
+    while (--i >= 0) {
+ 8001daa:	f10b 3bff 	add.w	fp, fp, #4294967295
+      streamPut(chp, (uint8_t)*s++);
+ 8001dae:	4628      	mov	r0, r5
+ 8001db0:	4798      	blx	r3
+    while (--i >= 0) {
+ 8001db2:	f1bb 3fff 	cmp.w	fp, #4294967295
+ 8001db6:	d1f4      	bne.n	8001da2 <chprintf.constprop.0+0x252>
+ 8001db8:	9b00      	ldr	r3, [sp, #0]
+ 8001dba:	9a01      	ldr	r2, [sp, #4]
+ 8001dbc:	3301      	adds	r3, #1
+ 8001dbe:	441a      	add	r2, r3
+ 8001dc0:	9200      	str	r2, [sp, #0]
+    while (width) {
+ 8001dc2:	2c00      	cmp	r4, #0
+ 8001dc4:	f43f aedb 	beq.w	8001b7e <chprintf.constprop.0+0x2e>
+ 8001dc8:	46a0      	mov	r8, r4
+      streamPut(chp, (uint8_t)filler);
+ 8001dca:	682b      	ldr	r3, [r5, #0]
+ 8001dcc:	4649      	mov	r1, r9
+ 8001dce:	689b      	ldr	r3, [r3, #8]
+ 8001dd0:	4628      	mov	r0, r5
+ 8001dd2:	4798      	blx	r3
+    while (width) {
+ 8001dd4:	f1b8 0801 	subs.w	r8, r8, #1
+ 8001dd8:	d1f7      	bne.n	8001dca <chprintf.constprop.0+0x27a>
+ 8001dda:	9b00      	ldr	r3, [sp, #0]
+ 8001ddc:	4423      	add	r3, r4
+ 8001dde:	9300      	str	r3, [sp, #0]
+    c = *fmt++;
+ 8001de0:	1c7c      	adds	r4, r7, #1
+    if (c == 0)
+ 8001de2:	f1ba 0f00 	cmp.w	sl, #0
+ 8001de6:	f47f aecf 	bne.w	8001b88 <chprintf.constprop.0+0x38>
+  formatted_bytes = chvprintf(chp, fmt, ap);
+  va_end(ap);
+
+  return formatted_bytes;
+}
+ 8001dea:	9800      	ldr	r0, [sp, #0]
+ 8001dec:	b006      	add	sp, #24
+ 8001dee:	e8bd 4ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 8001df2:	b003      	add	sp, #12
+ 8001df4:	4770      	bx	lr
+ 8001df6:	f897 a000 	ldrb.w	sl, [r7]
+      *p++ = va_arg(ap, int);
+ 8001dfa:	6833      	ldr	r3, [r6, #0]
+ 8001dfc:	f10d 0818 	add.w	r8, sp, #24
+ 8001e00:	3604      	adds	r6, #4
+ 8001e02:	f808 3d0c 	strb.w	r3, [r8, #-12]!
+ 8001e06:	2300      	movs	r3, #0
+ 8001e08:	9301      	str	r3, [sp, #4]
+ 8001e0a:	2201      	movs	r2, #1
+      filler = ' ';
+ 8001e0c:	f04f 0920 	mov.w	r9, #32
+    if ((width -= i) < 0)
+ 8001e10:	1aa4      	subs	r4, r4, r2
+ 8001e12:	d5a5      	bpl.n	8001d60 <chprintf.constprop.0+0x210>
+    while (--i >= 0) {
+ 8001e14:	9b01      	ldr	r3, [sp, #4]
+ 8001e16:	2b00      	cmp	r3, #0
+      width = 0;
+ 8001e18:	bfa8      	it	ge
+ 8001e1a:	2400      	movge	r4, #0
+    while (--i >= 0) {
+ 8001e1c:	dabf      	bge.n	8001d9e <chprintf.constprop.0+0x24e>
+ 8001e1e:	e6ae      	b.n	8001b7e <chprintf.constprop.0+0x2e>
+ 8001e20:	f897 a000 	ldrb.w	sl, [r7]
+        l = va_arg(ap, int);
+ 8001e24:	6831      	ldr	r1, [r6, #0]
+      if (l < 0) {
+ 8001e26:	2900      	cmp	r1, #0
+        l = va_arg(ap, int);
+ 8001e28:	f106 0604 	add.w	r6, r6, #4
+      if (l < 0) {
+ 8001e2c:	f2c0 808c 	blt.w	8001f48 <chprintf.constprop.0+0x3f8>
+    p = tmpbuf;
+ 8001e30:	f10d 080c 	add.w	r8, sp, #12
+ 8001e34:	4642      	mov	r2, r8
+  q = p + MAX_FILLER;
+ 8001e36:	f102 030b 	add.w	r3, r2, #11
+ 8001e3a:	9301      	str	r3, [sp, #4]
+ 8001e3c:	4618      	mov	r0, r3
+    i = (int)(l % radix);
+ 8001e3e:	4b4a      	ldr	r3, [pc, #296]	; (8001f68 <chprintf.constprop.0+0x418>)
+ 8001e40:	fba3 e301 	umull	lr, r3, r3, r1
+ 8001e44:	08db      	lsrs	r3, r3, #3
+ 8001e46:	eb03 0b83 	add.w	fp, r3, r3, lsl #2
+ 8001e4a:	469e      	mov	lr, r3
+ 8001e4c:	eba1 034b 	sub.w	r3, r1, fp, lsl #1
+    i += '0';
+ 8001e50:	3330      	adds	r3, #48	; 0x30
+    *--q = i;
+ 8001e52:	b2db      	uxtb	r3, r3
+  } while ((ll /= radix) != 0);
+ 8001e54:	4671      	mov	r1, lr
+    *--q = i;
+ 8001e56:	f800 3d01 	strb.w	r3, [r0, #-1]!
+  } while ((ll /= radix) != 0);
+ 8001e5a:	2900      	cmp	r1, #0
+ 8001e5c:	d1ef      	bne.n	8001e3e <chprintf.constprop.0+0x2ee>
+  i = (int)(p + MAX_FILLER - q);
+ 8001e5e:	9901      	ldr	r1, [sp, #4]
+ 8001e60:	1a09      	subs	r1, r1, r0
+ 8001e62:	4411      	add	r1, r2
+ 8001e64:	e001      	b.n	8001e6a <chprintf.constprop.0+0x31a>
+ 8001e66:	f810 3f01 	ldrb.w	r3, [r0, #1]!
+    *p++ = *q++;
+ 8001e6a:	f802 3b01 	strb.w	r3, [r2], #1
+  while (--i);
+ 8001e6e:	428a      	cmp	r2, r1
+ 8001e70:	d1f9      	bne.n	8001e66 <chprintf.constprop.0+0x316>
+ 8001e72:	eba2 0208 	sub.w	r2, r2, r8
+ 8001e76:	1e53      	subs	r3, r2, #1
+ 8001e78:	9301      	str	r3, [sp, #4]
+ 8001e7a:	e7c9      	b.n	8001e10 <chprintf.constprop.0+0x2c0>
+ 8001e7c:	f897 a000 	ldrb.w	sl, [r7]
+      *p++ = c;
+ 8001e80:	f10d 0818 	add.w	r8, sp, #24
+ 8001e84:	2300      	movs	r3, #0
+ 8001e86:	f808 2d0c 	strb.w	r2, [r8, #-12]!
+ 8001e8a:	9301      	str	r3, [sp, #4]
+ 8001e8c:	2201      	movs	r2, #1
+ 8001e8e:	e7bf      	b.n	8001e10 <chprintf.constprop.0+0x2c0>
+    if (width < 0) {
+ 8001e90:	465c      	mov	r4, fp
+    while (--i >= 0) {
+ 8001e92:	9b01      	ldr	r3, [sp, #4]
+ 8001e94:	2b00      	cmp	r3, #0
+ 8001e96:	da82      	bge.n	8001d9e <chprintf.constprop.0+0x24e>
+ 8001e98:	e793      	b.n	8001dc2 <chprintf.constprop.0+0x272>
+    switch (c) {
+ 8001e9a:	f04f 080a 	mov.w	r8, #10
+ 8001e9e:	f897 a000 	ldrb.w	sl, [r7]
+        l = va_arg(ap, unsigned int);
+ 8001ea2:	6832      	ldr	r2, [r6, #0]
+  q = p + MAX_FILLER;
+ 8001ea4:	f10d 0117 	add.w	r1, sp, #23
+        l = va_arg(ap, unsigned int);
+ 8001ea8:	3604      	adds	r6, #4
+ 8001eaa:	e000      	b.n	8001eae <chprintf.constprop.0+0x35e>
+  } while ((ll /= radix) != 0);
+ 8001eac:	4601      	mov	r1, r0
+    i = (int)(l % radix);
+ 8001eae:	fbb2 fef8 	udiv	lr, r2, r8
+ 8001eb2:	fb08 221e 	mls	r2, r8, lr, r2
+    i += '0';
+ 8001eb6:	f102 0330 	add.w	r3, r2, #48	; 0x30
+    if (i > '9')
+ 8001eba:	2b39      	cmp	r3, #57	; 0x39
+      i += 'A' - '0' - 10;
+ 8001ebc:	bfc8      	it	gt
+ 8001ebe:	f102 0337 	addgt.w	r3, r2, #55	; 0x37
+    *--q = i;
+ 8001ec2:	b2db      	uxtb	r3, r3
+    l /= radix;
+ 8001ec4:	4672      	mov	r2, lr
+    *--q = i;
+ 8001ec6:	f801 3c01 	strb.w	r3, [r1, #-1]
+ 8001eca:	1e48      	subs	r0, r1, #1
+  } while ((ll /= radix) != 0);
+ 8001ecc:	2a00      	cmp	r2, #0
+ 8001ece:	d1ed      	bne.n	8001eac <chprintf.constprop.0+0x35c>
+  i = (int)(p + MAX_FILLER - q);
+ 8001ed0:	f10d 0217 	add.w	r2, sp, #23
+ 8001ed4:	f10d 080c 	add.w	r8, sp, #12
+ 8001ed8:	1a12      	subs	r2, r2, r0
+ 8001eda:	46c6      	mov	lr, r8
+ 8001edc:	4410      	add	r0, r2
+ 8001ede:	e001      	b.n	8001ee4 <chprintf.constprop.0+0x394>
+ 8001ee0:	f811 3b01 	ldrb.w	r3, [r1], #1
+    *p++ = *q++;
+ 8001ee4:	f80e 3b01 	strb.w	r3, [lr], #1
+  while (--i);
+ 8001ee8:	4288      	cmp	r0, r1
+ 8001eea:	d1f9      	bne.n	8001ee0 <chprintf.constprop.0+0x390>
+ 8001eec:	1e53      	subs	r3, r2, #1
+ 8001eee:	9301      	str	r3, [sp, #4]
+ 8001ef0:	e78e      	b.n	8001e10 <chprintf.constprop.0+0x2c0>
+    switch (c) {
+ 8001ef2:	f04f 0808 	mov.w	r8, #8
+ 8001ef6:	e7d2      	b.n	8001e9e <chprintf.constprop.0+0x34e>
+ 8001ef8:	f04f 0810 	mov.w	r8, #16
+ 8001efc:	e7cf      	b.n	8001e9e <chprintf.constprop.0+0x34e>
+ 8001efe:	f04f 0808 	mov.w	r8, #8
+ 8001f02:	e7ce      	b.n	8001ea2 <chprintf.constprop.0+0x352>
+ 8001f04:	f04f 0810 	mov.w	r8, #16
+ 8001f08:	e7cb      	b.n	8001ea2 <chprintf.constprop.0+0x352>
+ 8001f0a:	f04f 080a 	mov.w	r8, #10
+ 8001f0e:	e7c8      	b.n	8001ea2 <chprintf.constprop.0+0x352>
+      for (p = s; *p && (--precision >= 0); p++)
+ 8001f10:	b11b      	cbz	r3, 8001f1a <chprintf.constprop.0+0x3ca>
+ 8001f12:	1e4b      	subs	r3, r1, #1
+ 8001f14:	2900      	cmp	r1, #0
+ 8001f16:	f47f af0f 	bne.w	8001d38 <chprintf.constprop.0+0x1e8>
+    s = tmpbuf;
+ 8001f1a:	f04f 33ff 	mov.w	r3, #4294967295
+ 8001f1e:	9301      	str	r3, [sp, #4]
+ 8001f20:	f04f 0920 	mov.w	r9, #32
+ 8001f24:	e71c      	b.n	8001d60 <chprintf.constprop.0+0x210>
+      if (*s == '-' && filler == '0') {
+ 8001f26:	f1b9 0f30 	cmp.w	r9, #48	; 0x30
+ 8001f2a:	f47f af27 	bne.w	8001d7c <chprintf.constprop.0+0x22c>
+        streamPut(chp, (uint8_t)*s++);
+ 8001f2e:	682a      	ldr	r2, [r5, #0]
+ 8001f30:	4628      	mov	r0, r5
+ 8001f32:	6892      	ldr	r2, [r2, #8]
+ 8001f34:	4790      	blx	r2
+        n++;
+ 8001f36:	9b00      	ldr	r3, [sp, #0]
+ 8001f38:	3301      	adds	r3, #1
+ 8001f3a:	9300      	str	r3, [sp, #0]
+ 8001f3c:	9b01      	ldr	r3, [sp, #4]
+ 8001f3e:	3b01      	subs	r3, #1
+        streamPut(chp, (uint8_t)*s++);
+ 8001f40:	f108 0801 	add.w	r8, r8, #1
+ 8001f44:	9301      	str	r3, [sp, #4]
+ 8001f46:	e719      	b.n	8001d7c <chprintf.constprop.0+0x22c>
+        *p++ = '-';
+ 8001f48:	f04f 032d 	mov.w	r3, #45	; 0x2d
+ 8001f4c:	f88d 300c 	strb.w	r3, [sp, #12]
+        l = -l;
+ 8001f50:	4249      	negs	r1, r1
+        *p++ = '-';
+ 8001f52:	f10d 020d 	add.w	r2, sp, #13
+ 8001f56:	f10d 080c 	add.w	r8, sp, #12
+ 8001f5a:	e76c      	b.n	8001e36 <chprintf.constprop.0+0x2e6>
+      if (precision == 0)
+ 8001f5c:	f8df 800c 	ldr.w	r8, [pc, #12]	; 8001f6c <chprintf.constprop.0+0x41c>
+ 8001f60:	2900      	cmp	r1, #0
+ 8001f62:	f43f aee7 	beq.w	8001d34 <chprintf.constprop.0+0x1e4>
+ 8001f66:	e7d4      	b.n	8001f12 <chprintf.constprop.0+0x3c2>
+ 8001f68:	cccccccd 	.word	0xcccccccd
+ 8001f6c:	08002134 	.word	0x08002134
